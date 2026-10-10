@@ -69,7 +69,7 @@
       "tally": {},
       "reason": "Registry language hint for a seller based in Jaipur, Rajasthan (Hindi). Not yet confirmed on a call.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -79,7 +79,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "voiceGender": {
       "value": "female",
@@ -89,7 +89,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "tone": {
       "value": "warm",
@@ -99,7 +99,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "formality": {
       "value": "formal",
@@ -113,11 +113,11 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_005_1",
-          "at": "2026-09-16T12:19:35.551Z",
+          "at": "2026-09-16T13:45:01.985Z",
           "note": "Seller used respectful 'aap' throughout."
         }
       ],
-      "updatedAt": "2026-09-16T12:19:35.551Z"
+      "updatedAt": "2026-09-16T13:45:01.985Z"
     },
     "pace": {
       "value": "normal",
@@ -127,7 +127,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -137,7 +137,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "explanationDetail": {
       "value": "high",
@@ -151,12 +151,12 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_005_1",
-          "at": "2026-09-16T12:19:35.551Z",
+          "at": "2026-09-16T13:45:01.985Z",
           "note": "New to IndiaMART; asked for step-by-step help in the app.",
           "quote": "Thoda detail mein samjhaiye, main naya hoon."
         }
       ],
-      "updatedAt": "2026-09-16T12:19:35.551Z"
+      "updatedAt": "2026-09-16T13:45:01.985Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -166,7 +166,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -176,7 +176,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -186,7 +186,7 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.551Z"
+      "updatedAt": "2026-09-10T13:45:01.985Z"
     }
   },
   "behaviour": {
@@ -199,8 +199,8 @@
   },
   "memory": [
     {
-      "id": "MEM_MV2D34E7JR2ZT",
-      "at": "2026-09-16T12:19:35.551Z",
+      "id": "MEM_MV2G4ZZ5XVI6Z",
+      "at": "2026-09-16T13:45:01.985Z",
       "category": "business",
       "fact": "Small family workshop; wants more hotel and gift-shop buyers.",
       "source": "learned",
@@ -209,13 +209,13 @@
   ],
   "status": "Provisional",
   "interactionCount": 1,
-  "lastInteractionAt": "2026-09-16T12:19:35.551Z",
-  "createdAt": "2026-09-10T12:19:35.551Z",
-  "updatedAt": "2026-09-16T12:19:35.551Z",
+  "lastInteractionAt": "2026-09-16T13:45:01.985Z",
+  "createdAt": "2026-09-10T13:45:01.985Z",
+  "updatedAt": "2026-09-16T13:45:01.985Z",
   "history": [
     {
       "interactionId": "SEED_INT_005_1",
-      "at": "2026-09-16T12:19:35.551Z",
+      "at": "2026-09-16T13:45:01.985Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -226,7 +226,7 @@
   ],
   "changeLog": [
     {
-      "at": "2026-09-10T12:19:35.551Z",
+      "at": "2026-09-10T13:45:01.985Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -234,7 +234,7 @@
       "source": "metadata"
     },
     {
-      "at": "2026-09-16T12:19:35.551Z",
+      "at": "2026-09-16T13:45:01.985Z",
       "interactionId": "SEED_INT_005_1",
       "field": "explanationDetail",
       "from": "medium",

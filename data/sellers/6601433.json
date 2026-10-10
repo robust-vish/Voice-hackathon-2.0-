@@ -69,10 +69,12 @@
       "source": "metadata",
       "confidence": 0.5,
       "observations": 0,
-      "tally": {},
+      "tally": {
+        "en-IN": 1
+      },
       "reason": "Registry language hint for a seller based in Bangalore, Karnataka (Hindi). Not yet confirmed on a call.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -82,17 +84,26 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "voiceGender": {
-      "value": "female",
-      "source": "default",
-      "confidence": 0.3,
-      "observations": 0,
-      "tally": {},
-      "reason": "Default agent voice; no stated preference yet.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "value": "male",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "male": 1
+      },
+      "reason": "Seller asked for a male voice during call INT_MV2G94UFNUFOJ.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV2G94UFNUFOJ",
+          "at": "2026-10-10T13:49:37.453Z",
+          "note": "Seller asked for a male voice during call INT_MV2G94UFNUFOJ.",
+          "quote": "I don't like your voice. Please change female voice to male voice."
+        }
+      ],
+      "updatedAt": "2026-10-10T13:49:37.453Z"
     },
     "tone": {
       "value": "warm",
@@ -102,7 +113,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "formality": {
       "value": "formal",
@@ -112,7 +123,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "pace": {
       "value": "normal",
@@ -122,27 +133,45 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "responseLength": {
-      "value": "balanced",
-      "source": "default",
-      "confidence": 0.4,
-      "observations": 0,
-      "tally": {},
-      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "value": "concise",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "concise": 1
+      },
+      "reason": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV2G94UFNUFOJ",
+          "at": "2026-10-10T13:49:37.453Z",
+          "note": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+          "quote": "जी मेरे पास समय नहीं है कृपया जल्दी बताइए आप मुद्दे की बात बताइए मुझे"
+        }
+      ],
+      "updatedAt": "2026-10-10T13:49:37.453Z"
     },
     "explanationDetail": {
-      "value": "medium",
-      "source": "default",
-      "confidence": 0.4,
-      "observations": 0,
-      "tally": {},
-      "reason": "Default level of explanation.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "value": "low",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "low": 1
+      },
+      "reason": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV2G94UFNUFOJ",
+          "at": "2026-10-10T13:49:37.453Z",
+          "note": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+          "quote": "जी मेरे पास समय नहीं है कृपया जल्दी बताइए आप मुद्दे की बात बताइए मुझे"
+        }
+      ],
+      "updatedAt": "2026-10-10T13:49:37.453Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -152,7 +181,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -162,7 +191,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -172,28 +201,110 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.520Z"
+      "updatedAt": "2026-09-10T13:45:01.890Z"
     }
   },
   "behaviour": {
-    "summary": "No conversations recorded yet.",
-    "traits": []
+    "summary": "Last call (INT_MV2G94UFNUFOJ, web): 6 seller turns, 9 adaptations, languages: Hindi, English. Outcome: Meeting booked (Wednesday 3 o'clock); 1 issue(s) raised.",
+    "traits": [
+      "Prefers short, to-the-point answers",
+      "Often short on time — keep calls quick",
+      "Has raised issues with IndiaMART"
+    ]
   },
-  "memory": [],
-  "status": "New",
-  "interactionCount": 0,
-  "lastInteractionAt": null,
-  "createdAt": "2026-09-10T12:19:35.520Z",
-  "updatedAt": "2026-09-10T12:19:35.520Z",
-  "history": [],
+  "memory": [
+    {
+      "id": "MEM_MV2GAWJ2ABZZY",
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "category": "business",
+      "fact": "Agreed to a meeting with the IndiaMART team: Wednesday 3 o'clock (booked 2026-10-10)",
+      "source": "learned"
+    },
+    {
+      "id": "MEM_MV2GAWJ2NIJ83",
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "category": "complaint",
+      "fact": "Issue raised: मुझे आपकी voice पसंद नहीं आ रही है।",
+      "quote": "मुझे आपकी voice पसंद नहीं आ रही है।",
+      "source": "learned"
+    }
+  ],
+  "status": "Provisional",
+  "interactionCount": 1,
+  "lastInteractionAt": "2026-10-10T13:49:37.431Z",
+  "createdAt": "2026-09-10T13:45:01.890Z",
+  "updatedAt": "2026-10-10T13:49:37.454Z",
+  "history": [
+    {
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "at": "2026-10-10T13:49:37.453Z",
+      "mode": "web",
+      "outcome": "Meeting booked (Wednesday 3 o'clock); 1 issue(s) raised",
+      "adaptations": 9,
+      "languagesUsed": [
+        "hi-IN",
+        "en-IN"
+      ]
+    }
+  ],
   "changeLog": [
     {
-      "at": "2026-09-10T12:19:35.520Z",
+      "at": "2026-09-10T13:45:01.890Z",
       "field": "profile",
       "from": "-",
       "to": "New",
       "reason": "Profile created from registry metadata.",
       "source": "metadata"
+    },
+    {
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "field": "responseLength",
+      "from": "balanced",
+      "to": "concise",
+      "reason": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "field": "explanationDetail",
+      "from": "medium",
+      "to": "low",
+      "reason": "Seller asked for shorter, to-the-point answers during call INT_MV2G94UFNUFOJ.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "field": "voiceGender",
+      "from": "female",
+      "to": "male",
+      "reason": "Seller asked for a male voice during call INT_MV2G94UFNUFOJ.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "field": "preferredSpeakers.female",
+      "from": "default",
+      "to": "priya",
+      "reason": "Seller asked for a different voice (didn't like Neha); next call uses \"Priya\".",
+      "source": "learned"
+    },
+    {
+      "at": "2026-10-10T13:49:37.453Z",
+      "interactionId": "INT_MV2G94UFNUFOJ",
+      "field": "profile",
+      "from": "New",
+      "to": "Provisional",
+      "reason": "1 recorded interaction(s).",
+      "source": "learned"
     }
-  ]
+  ],
+  "preferredSpeakers": {
+    "female": "priya"
+  }
 }

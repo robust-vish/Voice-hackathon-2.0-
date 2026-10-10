@@ -19,9 +19,9 @@ const REQUEST_WORDS = [
 const ALWAYS_WORDS = ["always", "hamesha", "humesha", "हमेशा", "every time", "har baar", "हर बार", "aage se", "आगे से", "next time", "agli baar", "अगली बार"];
 
 // STT may write English words in Devanagari ("मेल वॉइस"), so those spellings are included too.
-const VOICE_WORDS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस","awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର", "speaker", "agent", "baat karo", "bole", "bolo"];
+const VOICE_WORDS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस", "awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "aavaz", "aawaj", "awaj", "aawaaj", "awaaj", "aavaj", "avaj", "aavaaj", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର", "speaker", "agent", "baat karo", "bole", "bolo"];
 // Strictly "the voice" (no "bolo"/"agent"-style context words) — for "I don't like your voice".
-const VOICE_NOUNS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस", "awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "aavaz", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର"];
+const VOICE_NOUNS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस", "awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "aavaz", "aawaj", "awaj", "aawaaj", "awaaj", "aavaj", "avaj", "aavaaj", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର"];
 const VOICE_DISLIKE = [
   "don't like", "dont like", "do not like", "not like", "not good", "not nice", "bad", "irritat", "annoying", "hate",
   "change", "badlo", "badal", "badliye", "badaliye", "switch", "another", "different", "other", "new ",
@@ -30,9 +30,9 @@ const VOICE_DISLIKE = [
   "पसंद नहीं", "अच्छी नहीं", "अच्छा नहीं", "ठीक नहीं लग", "बेकार", "बदल", "बदलो", "बदलिए", "दूसरी", "दूसरा", "कोई और", "किसी और", "चेंज",
 ];
 // "I want to talk to a male / kisi ladki se baat karaiye" — a gender request without the word "voice".
-const TALK_TO = ["talk to", "talk with", "speak to", "speak with", "baat kar", "baat karn", "baat karw", "baat kara", "se baat", "connect", "transfer", "से बात", "बात कर", "बात करा", "बात करनी"];
-const MALE_WORDS = ["male", "मेल ", "जेंट्स","man ", "man's", "gents", "aadmi", "admi", "purush", "ladka", "ladke", "mard", "bhaiya", "boy", "पुरुष", "आदमी", "लड़के", "लड़का", "मर्द", "ஆண்", "మగ", "పురుష", "ಗಂಡು", "ಪುರುಷ", "ആണ്", "പുരുഷ", "পুরুষ", "ছেলে", "ਮਰਦ", "ਆਦਮੀ", "પુરુષ", "ପୁରୁଷ"];
-const FEMALE_WORDS = ["female", "फीमेल", "फ़ीमेल", "लेडी","woman", "lady", "ladies", "aurat", "mahila", "ladki", "girl", "didi", "महिला", "औरत", "लड़की", "स्त्री", "பெண்", "ఆడ", "స్త్రీ", "ಹೆಣ್ಣು", "ಮಹಿಳ", "സ്ത്രീ", "പെണ്", "মহিলা", "মেয়ে", "ਔਰਤ", "ਜ਼ਨਾਨੀ", "સ્ત્રી", "મહિલા", "ମହିଳା"];
+const TALK_TO = ["talk to", "talk with", "speak to", "speak with", "baat kar", "baat karn", "baat karw", "baat karv", "baat kara", "baat kij", "baat kiji", "baat ki", "se baat", "connect", "transfer", "से बात", "बात कर", "बात करा", "बात करनी", "बात कीज", "बात करवा"];
+const MALE_WORDS = ["male", "मेल ", "जेंट्स","man ", "man's", "gents", "aadmi", "admi", "aadmee", "aadami", "aadmiyon", "purush", "ladka", "ladke", "mard", "bhaiya", "boy", "पुरुष", "आदमी", "आदमि", "लड़के", "लड़का", "लडके", "लडका", "मर्द", "मर्दाना", "ஆண்", "మగ", "పురుష", "ಗಂಡು", "ಪುರುಷ", "ആണ്", "പുരുഷ", "পুরুষ", "ছেলে", "ਮਰਦ", "ਆਦਮੀ", "પુરુષ", "ପୁରୁଷ"];
+const FEMALE_WORDS = ["female", "फीमेल", "फ़ीमेल", "लेडी","woman", "lady", "ladies", "aurat", "mahila", "ladki", "girl", "didi", "महिला", "औरत", "लड़की", "लडकी", "स्त्री", "பெண்", "ఆడ", "స్త్రీ", "ಹೆಣ್ಣು", "ಮಹಿಳ", "സ്ത്രീ", "പെണ്", "মহিলা", "মেয়ে", "ਔਰਤ", "ਜ਼ਨਾਨੀ", "સ્ત્રી", "મહિલા", "ମହିଳା"];
 
 const SHORTER = ["short", "शॉर्ट", "शार्ट","shortly", "brief", "to the point", "point pe", "point par", "seedha", "sidha", "jaldi bataiye", "jaldi batao", "jaldi boliye", "jaldi bolo", "kam shabdon", "lamba mat", "zyada mat", "jyada mat", "quickly", "in short", "summary", "संक्षेप", "छोटा", "सीधा", "जल्दी बता", "पॉइंट", "சுருக்கமா", "క్లుప్తంగా", "ಸಂಕ್ಷಿಪ್ತ", "ചുരുക്കി", "সংক্ষেপে", "ਛੋਟੇ ਵਿੱਚ", "ટૂંકમાં", "ସଂକ୍ଷେପ", "thoda short"];
 const DETAIL = ["detail", "vistar", "elaborate", "explain", "samjhao", "samjhaiye", "samjha do", "poora batao", "pura batao", "step by step", "विस्तार", "समझाइए", "समझाओ", "समझा", "डिटेल", "விவரமா", "వివరంగా", "ವಿವರವಾಗಿ", "വിശദമായി", "বিস্তারিত", "ਵਿਸਥਾਰ", "વિગતવાર", "ବିସ୍ତାର"];

@@ -60,7 +60,7 @@
       "tally": {},
       "reason": "Registry language hint for a seller based in NCR, Delhi NCR (Hindi). Not yet confirmed on a call.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -70,7 +70,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "voiceGender": {
       "value": "female",
@@ -80,7 +80,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "tone": {
       "value": "warm",
@@ -90,7 +90,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "formality": {
       "value": "formal",
@@ -100,7 +100,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "pace": {
       "value": "normal",
@@ -110,7 +110,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -120,7 +120,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -130,7 +130,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -140,7 +140,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -150,7 +150,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -160,7 +160,7 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T12:19:35.527Z"
+      "updatedAt": "2026-09-10T13:45:01.904Z"
     }
   },
   "behaviour": {
@@ -171,12 +171,12 @@
   "status": "New",
   "interactionCount": 0,
   "lastInteractionAt": null,
-  "createdAt": "2026-09-10T12:19:35.527Z",
-  "updatedAt": "2026-09-10T12:19:35.527Z",
+  "createdAt": "2026-09-10T13:45:01.904Z",
+  "updatedAt": "2026-09-10T13:45:01.904Z",
   "history": [],
   "changeLog": [
     {
-      "at": "2026-09-10T12:19:35.527Z",
+      "at": "2026-09-10T13:45:01.904Z",
       "field": "profile",
       "from": "-",
       "to": "New",

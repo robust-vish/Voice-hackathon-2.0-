@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Card, DemoNotice, Empty, ErrorBox, ModeBadge, Spinner, StatusBadge } from "@/components/ui";
+import { Search } from "lucide-react";
+import { Card, Empty, ErrorBox, ModeBadge, PageHeader, Spinner, StatusBadge } from "@/components/ui";
 import { api, fmtDuration, fmtTime } from "@/lib/client";
 
 interface Row {
@@ -18,38 +19,38 @@ export default function InteractionsPage() {
     setError(null);
     api<{ items: Row[] }>(`/api/interactions${glid.trim() ? `?glid=${encodeURIComponent(glid.trim())}` : ""}`).then((r) => setRows(r.items)).catch((e) => setError(e.message));
   };
-  useEffect(() => { const t = setTimeout(load, 250); return () => clearTimeout(t); }, [glid]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { const t = setTimeout(load, 200); return () => clearTimeout(t); }, [glid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-xl font-bold">Call History</h1>
-      <DemoNotice />
-      <label className="flex max-w-xs flex-col text-xs text-gray-600">Filter by GLID
-        <input value={glid} onChange={(e) => setGlid(e.target.value)} placeholder="DEMO_GLID_001" className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm" />
-      </label>
+    <div>
+      <PageHeader title="Calls" subtitle="Every call, its outcome and how the agent adapted." />
+      <div className="relative mb-4 max-w-xs">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden />
+        <input aria-label="Filter by GLID" value={glid} onChange={(e) => setGlid(e.target.value)} placeholder="Filter by GLID" className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm outline-none focus:border-brand-500" />
+      </div>
       {error && <ErrorBox message={error} onRetry={load} />}
       {!rows && !error && <Spinner />}
-      {rows && rows.length === 0 && <Empty title="No interactions recorded yet" />}
+      {rows && rows.length === 0 && <Empty title="No calls yet" />}
       {rows && rows.length > 0 && (
-        <Card>
+        <Card padded={false}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="text-left text-xs uppercase text-gray-500">
-                <tr><th className="py-2 pr-3">Interaction</th><th className="pr-3">GLID / Seller</th><th className="pr-3">When</th><th className="pr-3">Mode</th><th className="pr-3">Status</th><th className="pr-3">Duration</th><th className="pr-3">Initial persona</th><th className="pr-3">Outcome</th><th className="pr-3">Adapt.</th><th>Profile update</th></tr>
+              <thead className="border-b border-gray-100 text-left text-[11px] font-medium uppercase tracking-wide text-gray-400">
+                <tr><th className="px-5 py-2.5">Seller</th><th className="pr-4">When</th><th className="pr-4">Mode</th><th className="pr-4">Status</th><th className="pr-4">Outcome</th><th className="pr-4 text-right">Adapt.</th><th className="pr-5 text-right">Duration</th></tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {rows.map((r) => (
-                  <tr key={r.id} className="align-top hover:bg-gray-50">
-                    <td className="py-2 pr-3"><Link className="font-mono text-xs text-brand-700 underline" href={`/interactions/${r.id}`}>{r.id}</Link></td>
-                    <td className="pr-3"><Link className="font-mono text-xs hover:underline" href={`/sellers/${r.glid}`}>{r.glid}</Link><div className="text-xs text-gray-600">{r.sellerName}</div></td>
-                    <td className="whitespace-nowrap pr-3 text-xs">{fmtTime(r.createdAt)}</td>
-                    <td className="pr-3"><ModeBadge mode={r.mode} /></td>
-                    <td className="pr-3"><StatusBadge status={r.status} /></td>
-                    <td className="pr-3 text-xs">{fmtDuration(r.durationSec)}</td>
-                    <td className="max-w-[220px] pr-3 text-xs text-gray-600">{r.initialPersona}</td>
-                    <td className="max-w-[180px] pr-3 text-xs">{r.outcome ?? "—"}</td>
-                    <td className="pr-3 text-center">{r.adaptations}</td>
-                    <td><StatusBadge status={r.postCall} />{r.postCall === "done" && <div className="text-xs text-gray-500">{r.profileUpdates} change(s)</div>}</td>
+                  <tr key={r.id} className="align-middle hover:bg-gray-50/70">
+                    <td className="px-5 py-3">
+                      <Link href={`/interactions/${r.id}`} className="font-medium text-gray-900 hover:underline">{r.sellerName}</Link>
+                      <div className="font-mono text-xs text-gray-400">{r.glid}</div>
+                    </td>
+                    <td className="whitespace-nowrap pr-4 text-xs text-gray-500">{fmtTime(r.createdAt)}</td>
+                    <td className="pr-4"><ModeBadge mode={r.mode} /></td>
+                    <td className="pr-4"><StatusBadge status={r.status} /></td>
+                    <td className="max-w-[280px] truncate pr-4 text-xs text-gray-600">{r.outcome ?? "—"}</td>
+                    <td className="pr-4 text-right tabular-nums">{r.adaptations}</td>
+                    <td className="pr-5 text-right text-xs text-gray-500">{fmtDuration(r.durationSec)}</td>
                   </tr>
                 ))}
               </tbody>

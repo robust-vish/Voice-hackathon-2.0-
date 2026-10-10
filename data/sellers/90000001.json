@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "glid": "DEMO_GLID_001",
+  "glid": "90000001",
   "isDemo": true,
   "displayName": "Shree Ganesh Steel Traders",
   "contactPerson": "Ramesh Agarwal",
@@ -16,7 +16,9 @@
   "trustSeal": true,
   "gstVerified": true,
   "yearEstablished": 2009,
+  "memberSince": "2019-04",
   "secondaryLanguage": "gu-IN",
+  "location": "Ahmedabad",
   "contact": {
     "pnsMapped": true,
     "pnsNumberMasked": "+91-80XXXXX411",
@@ -24,7 +26,7 @@
   },
   "catalog": [
     {
-      "offerId": "DEMO_OFR_1001",
+      "productId": 70000101,
       "name": "SS 304 Seamless Pipe",
       "price": 210,
       "unit": "kg",
@@ -35,7 +37,7 @@
       }
     },
     {
-      "offerId": "DEMO_OFR_1002",
+      "productId": 70000102,
       "name": "SS 316 Welded Tube",
       "price": null,
       "unit": "kg",
@@ -45,7 +47,7 @@
       }
     },
     {
-      "offerId": "DEMO_OFR_1003",
+      "productId": 70000103,
       "name": "SS Round Bar",
       "price": 195,
       "unit": "kg",
@@ -56,25 +58,53 @@
     "SS pipes bulk orders",
     "Gujarat & Maharashtra buyers"
   ],
+  "dealsIn": [],
+  "leadCategories": [
+    {
+      "mcatId": 90011,
+      "name": "Stainless Steel Pipes",
+      "count": 6,
+      "grade": "A"
+    },
+    {
+      "mcatId": 90012,
+      "name": "SS Round Bars",
+      "count": 2,
+      "grade": "A"
+    }
+  ],
+  "buyLeads": [
+    {
+      "offerId": 880000001,
+      "title": "SS 304 pipes, 2 tonnes, Pune",
+      "mcatId": 90011,
+      "status": "expired",
+      "consumedAt": "2026-09-18T10:20:00.000Z"
+    },
+    {
+      "offerId": 880000002,
+      "title": "SS round bar 316, 500 kg, Surat",
+      "mcatId": 90012,
+      "status": "expired",
+      "consumedAt": "2026-09-25T07:45:00.000Z"
+    },
+    {
+      "offerId": 880000003,
+      "title": "SS seamless pipe 1 inch, 800 kg, Nashik",
+      "mcatId": 90011,
+      "status": "active"
+    }
+  ],
   "preferences": {
     "language": {
       "value": "hi-IN",
-      "source": "learned",
+      "source": "metadata",
       "confidence": 0.5,
-      "observations": 1,
-      "tally": {
-        "hi-IN": 1
-      },
-      "reason": "Seller is speaking Hindi during call INT_MV0YKHD93QFYE.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV0YKHD93QFYE",
-          "at": "2026-10-09T12:47:30.773Z",
-          "note": "Seller is speaking Hindi during call INT_MV0YKHD93QFYE.",
-          "quote": "मत करो।"
-        }
-      ],
-      "updatedAt": "2026-10-09T12:47:30.773Z"
+      "observations": 0,
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Ahmedabad, Gujarat (Hindi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -84,26 +114,17 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "voiceGender": {
       "value": "female",
-      "source": "learned",
-      "confidence": 0.6,
-      "observations": 1,
-      "tally": {
-        "female": 1
-      },
-      "reason": "Seller asked for a female voice during call INT_MV0YKHD93QFYE.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV0YKHD93QFYE",
-          "at": "2026-10-09T12:47:30.773Z",
-          "note": "Seller asked for a female voice during call INT_MV0YKHD93QFYE.",
-          "quote": "I want to talk to in male voice not in female voice change your voice I don't like your voice"
-        }
-      ],
-      "updatedAt": "2026-10-09T12:47:30.773Z"
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "tone": {
       "value": "warm",
@@ -113,7 +134,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "formality": {
       "value": "formal",
@@ -127,21 +148,21 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_001_1",
-          "at": "2026-09-15T12:17:42.269Z",
+          "at": "2026-09-16T05:40:52.484Z",
           "note": "Seller consistently used 'aap' and preferred respectful address."
         },
         {
           "interactionId": "SEED_INT_001_2",
-          "at": "2026-09-21T12:17:42.269Z",
+          "at": "2026-09-22T05:40:52.484Z",
           "note": "Seller consistently used 'aap' and preferred respectful address."
         },
         {
           "interactionId": "SEED_INT_001_3",
-          "at": "2026-09-27T12:17:42.269Z",
+          "at": "2026-09-28T05:40:52.484Z",
           "note": "Seller consistently used 'aap' and preferred respectful address."
         }
       ],
-      "updatedAt": "2026-09-27T12:17:42.269Z"
+      "updatedAt": "2026-09-28T05:40:52.484Z"
     },
     "pace": {
       "value": "normal",
@@ -151,7 +172,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "responseLength": {
       "value": "concise",
@@ -165,18 +186,18 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_001_1",
-          "at": "2026-09-15T12:17:42.269Z",
+          "at": "2026-09-16T05:40:52.484Z",
           "note": "Seller asked to keep it short in 2 earlier (synthetic) calls.",
           "quote": "Seedha point pe aaiye, time kam hai."
         },
         {
           "interactionId": "SEED_INT_001_2",
-          "at": "2026-09-21T12:17:42.269Z",
+          "at": "2026-09-22T05:40:52.484Z",
           "note": "Seller asked to keep it short in 2 earlier (synthetic) calls.",
           "quote": "Seedha point pe aaiye, time kam hai."
         }
       ],
-      "updatedAt": "2026-09-21T12:17:42.269Z"
+      "updatedAt": "2026-09-22T05:40:52.484Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -186,7 +207,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -196,7 +217,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -206,7 +227,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-09T12:17:42.269Z"
+      "updatedAt": "2026-09-10T05:40:52.484Z"
     },
     "bestTimeToCall": {
       "value": "after 4 PM",
@@ -220,22 +241,22 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_001_1",
-          "at": "2026-09-15T12:17:42.269Z",
+          "at": "2026-09-16T05:40:52.484Z",
           "note": "Seller asked to be called after 4 PM.",
           "quote": "Chaar baje ke baad call kijiye."
         },
         {
           "interactionId": "SEED_INT_001_2",
-          "at": "2026-09-21T12:17:42.269Z",
+          "at": "2026-09-22T05:40:52.484Z",
           "note": "Seller asked to be called after 4 PM.",
           "quote": "Chaar baje ke baad call kijiye."
         }
       ],
-      "updatedAt": "2026-09-21T12:17:42.269Z"
+      "updatedAt": "2026-09-22T05:40:52.484Z"
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV0YKHD93QFYE, web): 8 seller turns, 2 adaptations, languages: Hindi, English. Outcome: Catalog information captured.",
+    "summary": "Synthetic seed behaviour from 3 prior demo call(s).",
     "traits": [
       "Busy, time-conscious",
       "Price-sensitive",
@@ -244,40 +265,31 @@
   },
   "memory": [
     {
-      "id": "MEM_MV0XKUBITKZJY",
-      "at": "2026-09-27T12:17:42.269Z",
+      "id": "MEM_MV1YUD8XU1JME",
+      "at": "2026-09-28T05:40:52.484Z",
       "category": "business",
       "fact": "Supplies mainly to fabricators in Gujarat; wants more Maharashtra buyers.",
       "source": "learned",
       "interactionId": "SEED_INT_001_1"
     },
     {
-      "id": "MEM_MV0XKUBIEZAKI",
-      "at": "2026-09-27T12:17:42.269Z",
+      "id": "MEM_MV1YUD8X2BX3Q",
+      "at": "2026-09-28T05:40:52.484Z",
       "category": "pricing",
       "fact": "Revises SS 304 prices every Monday based on LME rates.",
       "source": "learned",
       "interactionId": "SEED_INT_001_1"
-    },
-    {
-      "id": "MEM_MV0YN6C8CJHL2",
-      "at": "2026-10-09T12:47:30.773Z",
-      "interactionId": "INT_MV0YKHD93QFYE",
-      "category": "pricing",
-      "fact": "seller quoted ₹530 per kg",
-      "quote": "per kg ₹530 per kg.",
-      "source": "learned"
     }
   ],
   "status": "Established",
-  "interactionCount": 5,
-  "lastInteractionAt": "2026-10-09T12:47:30.749Z",
-  "createdAt": "2026-09-09T12:17:42.269Z",
-  "updatedAt": "2026-10-09T12:47:30.777Z",
+  "interactionCount": 3,
+  "lastInteractionAt": "2026-09-28T05:40:52.484Z",
+  "createdAt": "2026-09-10T05:40:52.484Z",
+  "updatedAt": "2026-09-28T05:40:52.484Z",
   "history": [
     {
       "interactionId": "SEED_INT_001_1",
-      "at": "2026-09-15T12:17:42.269Z",
+      "at": "2026-09-16T05:40:52.484Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -287,7 +299,7 @@
     },
     {
       "interactionId": "SEED_INT_001_2",
-      "at": "2026-09-21T12:17:42.269Z",
+      "at": "2026-09-22T05:40:52.484Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -297,39 +309,18 @@
     },
     {
       "interactionId": "SEED_INT_001_3",
-      "at": "2026-09-27T12:17:42.269Z",
+      "at": "2026-09-28T05:40:52.484Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
       "languagesUsed": [
         "hi-IN"
       ]
-    },
-    {
-      "interactionId": "INT_MV0XNWMO746AY",
-      "at": "2026-10-09T12:21:07.169Z",
-      "mode": "web",
-      "outcome": "Completed",
-      "adaptations": 0,
-      "languagesUsed": [
-        "hi-IN"
-      ]
-    },
-    {
-      "interactionId": "INT_MV0YKHD93QFYE",
-      "at": "2026-10-09T12:47:30.773Z",
-      "mode": "web",
-      "outcome": "Catalog information captured",
-      "adaptations": 2,
-      "languagesUsed": [
-        "hi-IN",
-        "en-IN"
-      ]
     }
   ],
   "changeLog": [
     {
-      "at": "2026-09-09T12:17:42.269Z",
+      "at": "2026-09-10T05:40:52.484Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -337,7 +328,7 @@
       "source": "metadata"
     },
     {
-      "at": "2026-09-15T12:17:42.269Z",
+      "at": "2026-09-16T05:40:52.484Z",
       "interactionId": "SEED_INT_001_1",
       "field": "responseLength",
       "from": "balanced",
@@ -346,7 +337,7 @@
       "source": "learned"
     },
     {
-      "at": "2026-09-15T12:17:42.269Z",
+      "at": "2026-09-16T05:40:52.484Z",
       "interactionId": "SEED_INT_001_1",
       "field": "bestTimeToCall",
       "from": "unknown",

@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { History, LayoutDashboard, Mic, Search, Settings, Users } from "lucide-react";
 
 const NAV = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
-  { href: "/search", label: "Search Seller", icon: Search },
-  { href: "/sellers", label: "Seller Explorer", icon: Users },
-  { href: "/interactions", label: "Call History", icon: History },
-  { href: "/config", label: "Configuration", icon: Settings },
+  { href: "/sellers", label: "Sellers", icon: Users },
+  { href: "/interactions", label: "Calls", icon: History },
+  { href: "/config", label: "Settings", icon: Settings },
 ];
 
 export function GlidSearch({ autoFocus = false, size = "sm", initial = "" }: { autoFocus?: boolean; size?: "sm" | "lg"; initial?: string }) {
@@ -32,45 +31,72 @@ export function GlidSearch({ autoFocus = false, size = "sm", initial = "" }: { a
           value={v}
           onChange={(e) => setV(e.target.value)}
           autoFocus={autoFocus}
-          placeholder="Search seller by GLID, e.g. DEMO_GLID_001"
-          className={`w-full rounded-lg border border-gray-300 bg-white pl-9 pr-3 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100 ${lg ? "py-3 text-base" : "py-1.5 text-sm"}`}
+          inputMode="numeric"
+          placeholder={lg ? "Enter a GLID, e.g. 6601433" : "Search GLID…"}
+          className={`w-full rounded-xl border border-gray-200 bg-white pl-9 pr-3 outline-none transition placeholder:text-gray-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 ${lg ? "py-3 text-base" : "py-2 text-sm"}`}
         />
       </div>
-      <button type="submit" className={`rounded-lg bg-brand-600 font-medium text-white hover:bg-brand-700 ${lg ? "px-5 text-base" : "px-3 text-sm"}`}>Search</button>
+      {lg && <button type="submit" className="rounded-xl bg-brand-600 px-5 text-sm font-medium text-white shadow-sm hover:bg-brand-700">Search</button>}
     </form>
+  );
+}
+
+function SarvamPill() {
+  const [ok, setOk] = useState<boolean | null>(null);
+  useEffect(() => {
+    fetch("/api/config").then((r) => r.json()).then((c) => setOk(!!c?.voiceProvider?.configured)).catch(() => setOk(false));
+  }, []);
+  if (ok === null) return null;
+  return (
+    <Link href="/config" className="hidden items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-600 sm:flex">
+      <span className={`h-2 w-2 rounded-full ${ok ? "bg-emerald-500" : "bg-amber-500"}`} />
+      Sarvam {ok ? "connected" : "not configured"}
+    </Link>
   );
 }
 
 export function Shell({ children }: { children: ReactNode }) {
   const path = usePathname();
+  const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href) || (href === "/sellers" && (path.startsWith("/call") || path.startsWith("/search"))));
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-2.5">
-          <Link href="/" className="flex items-center gap-2">
+    <div className="min-h-screen lg:pl-60">
+      {/* Sidebar (desktop) */}
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-gray-200/70 bg-white lg:flex">
+        <Link href="/" className="flex items-center gap-2.5 px-5 py-5">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-white shadow-sm"><Mic className="h-4 w-4" aria-hidden /></span>
+          <span className="leading-tight">
+            <span className="block text-sm font-semibold text-gray-900">Persona Voice Agent</span>
+            <span className="block text-[11px] text-gray-500">IndiaMART · Voice AI Hackathon</span>
+          </span>
+        </Link>
+        <nav aria-label="Main" className="mt-2 flex flex-col gap-0.5 px-3">
+          {NAV.map(({ href, label, icon: Icon }) => (
+            <Link key={href} href={href} aria-current={isActive(href) ? "page" : undefined}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${isActive(href) ? "bg-brand-50 font-semibold text-brand-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`}>
+              <Icon className="h-4 w-4" aria-hidden /> {label}
+            </Link>
+          ))}
+        </nav>
+        <div className="mt-auto p-5 text-[11px] leading-relaxed text-gray-400">Sellers are identified by GLID, BuyLeads by offer ID.</div>
+      </aside>
+
+      {/* Top bar */}
+      <header className="sticky top-0 z-30 border-b border-gray-200/70 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+          <Link href="/" className="flex items-center gap-2 lg:hidden">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white"><Mic className="h-4 w-4" aria-hidden /></span>
-            <span className="leading-tight">
-              <span className="block text-sm font-bold text-gray-900">Adaptive Persona Voice Agent</span>
-              <span className="block text-[11px] font-medium text-brand-600">IndiaMART Voice AI Hackathon</span>
-            </span>
           </Link>
-          <div className="order-3 w-full md:order-2 md:ml-6 md:w-96">
-            <GlidSearch />
-          </div>
+          <div className="w-full max-w-sm"><GlidSearch /></div>
+          <div className="ml-auto"><SarvamPill /></div>
         </div>
-        <nav aria-label="Main" className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4">
-          {NAV.map(({ href, label, icon: Icon }) => {
-            const active = href === "/" ? path === "/" : path.startsWith(href) || (href === "/sellers" && path.startsWith("/call"));
-            return (
-              <Link key={href} href={href} aria-current={active ? "page" : undefined}
-                className={`flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2 text-sm ${active ? "border-brand-600 font-semibold text-brand-700" : "border-transparent text-gray-600 hover:text-gray-900"}`}>
-                <Icon className="h-4 w-4" aria-hidden /> {label}
-              </Link>
-            );
-          })}
+        {/* Mobile nav */}
+        <nav aria-label="Main (mobile)" className="flex gap-1 overflow-x-auto px-3 pb-2 lg:hidden">
+          {NAV.map(({ href, label }) => (
+            <Link key={href} href={href} className={`whitespace-nowrap rounded-full px-3 py-1 text-sm ${isActive(href) ? "bg-brand-50 font-semibold text-brand-700" : "text-gray-600"}`}>{label}</Link>
+          ))}
         </nav>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
     </div>
   );
 }

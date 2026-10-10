@@ -35,6 +35,8 @@ const HURRY = ["time nahi hai", "time nahi", "time kam hai", "time kam", "don't 
 // Clearly off-topic subjects (the LLM also refuses anything else unrelated to IndiaMART).
 const OFF_TOPIC = ["capital of", "राजधानी", "rajdhani", "weather", "mausam", "मौसम", "cricket", "क्रिकेट", "ipl", "movie", "film", "फिल्म", "song", "gaana", "गाना", "joke", "chutkula", "चुटकुला", "recipe", "politics", "election", "चुनाव", "prime minister", "pradhan mantri", "प्रधानमंत्री", "president of", "who won", "kisne jeeta", "horoscope", "rashifal", "share market", "stock market", "bitcoin", "poem", "kavita", "homework", "tell me a story", "kahani sunao"];
 const ISSUE = ["issue", "problem", "dikkat", "dikat", "pareshani", "samasya", "complaint", "shikayat", "nahi aa rahe", "nahi aa rahi", "nahi aate", "not getting", "not receiving", "fake", "galat", "wrong", "irrelevant", "bekar lead", "refund", "not working", "kaam nahi", "error", "समस्या", "दिक्कत", "परेशानी", "शिकायत", "नहीं आ रहे", "नहीं आ रही", "गलत", "फ़र्ज़ी", "फर्जी"];
+// Seller wants it solved fast / it's still unresolved — the only times the agent escalates.
+const URGENT = ["urgent", "asap", "turant", "jaldi solve", "jaldi theek", "jaldi thik", "jaldi se solve", "abhi tak solve nahi", "abhi tak theek nahi", "still not resolved", "still not solved", "not resolved yet", "kab tak", "how long", "kitni baar bola", "fix it now", "solve karo", "solve kijiye", "theek karo", "तुरंत", "जल्दी ठीक", "जल्दी solve", "अभी तक", "कब तक"];
 const NO_ISSUE = ["no issue", "no issues", "no problem", "koi issue nahi", "koi problem nahi", "koi dikkat nahi", "sab theek", "sab thik", "everything is fine", "all good", "कोई दिक्कत नहीं", "कोई समस्या नहीं", "सब ठीक"];
 const NEGATION = ["don't like", "dont like", "do not like", "not ", "no ", "nahi", "nahin", "pasand nahi", "mat ", "hate", "नहीं", "नही", "पसंद नहीं", "मत "];
 const CLAUSE_SPLIT = /,|;|\bbut\b|\band\b|\blekin\b|\baur\b|और|लेकिन|\bcan you\b|\bplease\b|\binstead\b|\bswitch\b|\bkar do\b|\bkar dijiye\b/;
@@ -155,6 +157,8 @@ export function detectSignals(text: string, currentLanguage: LanguageCode): Sign
   if (has(t, HURRY)) out.push({ type: "hurry", label: "Seller has little time — speak faster and get to the point", quote, value: "fast", explicit: true, persistentCandidate: false, confidence: 0.85 });
 
   if (has(t, OFF_TOPIC)) out.push({ type: "off_topic", label: "Seller asked something unrelated to IndiaMART", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
+
+  if (has(t, URGENT)) out.push({ type: "urgent", label: "Seller wants the problem fixed quickly", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
 
   if (has(t, ISSUE) && !has(t, NO_ISSUE)) out.push({ type: "issue", label: "Seller reported an issue with IndiaMART", quote, value: quote, explicit: true, persistentCandidate: false, confidence: 0.75 });
 

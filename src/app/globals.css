@@ -7,13 +7,15 @@
   --color-brand-500: #e1252f;
   --color-brand-600: #c8102e;
   --color-brand-700: #a50d26;
-  --color-ink: #1f2430;
-  --font-sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", "Noto Sans", "Noto Sans Devanagari", "Noto Sans Tamil", sans-serif;
+  --color-ink: #111827;
+  --color-canvas: #f6f7f9;
+  --font-sans: "Inter", "Segoe UI Variable", "Segoe UI", ui-sans-serif, system-ui, "Noto Sans", "Noto Sans Devanagari", "Noto Sans Tamil", sans-serif;
 }
 
 html, body {
-  background: #ffffff;
+  background: var(--color-canvas);
   color: var(--color-ink);
+  font-feature-settings: "cv11", "ss01";
 }
 
 :focus-visible {
@@ -21,15 +23,19 @@ html, body {
   outline-offset: 2px;
 }
 
-.md-view h1 { font-size: 1.35rem; font-weight: 700; margin: 0.5rem 0 0.75rem; }
-.md-view h2 { font-size: 1.1rem; font-weight: 700; margin: 1.25rem 0 0.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.25rem; }
-.md-view h3 { font-size: 0.95rem; font-weight: 600; margin: 0.9rem 0 0.25rem; }
-.md-view p, .md-view li { font-size: 0.875rem; line-height: 1.55; }
+.md-view h1 { font-size: 1.25rem; font-weight: 700; margin: 0.25rem 0 0.75rem; }
+.md-view h2 { font-size: 1rem; font-weight: 650; margin: 1.25rem 0 0.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid #eef0f3; }
+.md-view h3 { font-size: 0.9rem; font-weight: 600; margin: 0.9rem 0 0.25rem; }
+.md-view p, .md-view li { font-size: 0.85rem; line-height: 1.6; color: #374151; }
 .md-view ul { list-style: disc; padding-left: 1.25rem; }
-.md-view blockquote { border-left: 3px solid var(--color-brand-500); background: var(--color-brand-50); padding: 0.4rem 0.75rem; margin: 0.5rem 0; font-size: 0.85rem; }
-.md-view table { border-collapse: collapse; margin: 0.5rem 0; font-size: 0.8rem; }
-.md-view th, .md-view td { border: 1px solid #e5e7eb; padding: 0.3rem 0.55rem; text-align: left; }
+.md-view blockquote { border-left: 3px solid var(--color-brand-500); background: var(--color-brand-50); padding: 0.4rem 0.75rem; margin: 0.5rem 0; font-size: 0.8rem; border-radius: 0 8px 8px 0; }
+.md-view table { border-collapse: collapse; margin: 0.5rem 0; font-size: 0.78rem; }
+.md-view th, .md-view td { border: 1px solid #eef0f3; padding: 0.35rem 0.6rem; text-align: left; }
+.md-view th { background: #f9fafb; font-weight: 600; }
 .md-view code { background: #f3f4f6; padding: 0 0.25rem; border-radius: 4px; }
 
 @keyframes pulse-ring { 0% { transform: scale(0.9); opacity: 0.7 } 100% { transform: scale(1.6); opacity: 0 } }
 .pulse-ring::before { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: currentColor; animation: pulse-ring 1.4s ease-out infinite; }
+
+/* thin, subtle scrollbars */
+* { scrollbar-width: thin; scrollbar-color: #d1d5db transparent; }

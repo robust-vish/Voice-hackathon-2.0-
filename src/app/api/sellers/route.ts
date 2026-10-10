@@ -28,7 +28,7 @@ export async function GET(req: Request) {
     if (language) all = all.filter((s) => s.preferredLanguage === language);
     if (status) all = all.filter((s) => s.status === status);
     if (category) all = all.filter((s) => s.category.toLowerCase().includes(category));
-    all.sort((a, b) => a.glid.localeCompare(b.glid));
+    all.sort((a, b) => Number(a.isDemo) - Number(b.isDemo) || Number(a.glid) - Number(b.glid));
 
     const total = all.length;
     return json({ total, page, pageSize, items: all.slice((page - 1) * pageSize, page * pageSize) });

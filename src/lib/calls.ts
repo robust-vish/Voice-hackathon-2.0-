@@ -2,7 +2,7 @@ import { applySignals } from "./adaptation";
 import { PACE_TO_TTS, composeReply, openingLine, stageIndex, type ComposedReply } from "./agent";
 import { detectScriptLanguage, hasNonLatinIndicScript, isLanguageCode, languageName } from "./languages";
 import { generatePersona, generatePlan, missingPriceProducts } from "./persona";
-import { computeStatus, isValidGlid, learnPreference, makeId, normalizeGlid, nowIso } from "./profile";
+import { computeStatus, GLID_HINT, isValidGlid, learnPreference, makeId, normalizeGlid, nowIso } from "./profile";
 import { sarvamConfigured, sarvamTranslate } from "./sarvam";
 import { detectSignals, extractFacts, looksEnglish, looksHinglish, saysAlways } from "./signals";
 import { bumpMetric, getInteraction, getOrInitProfile, getProfile, listInteractions, saveInteraction, saveProfile } from "./store";
@@ -37,7 +37,7 @@ export function prepareCall(rawGlid: string, mode: CallMode): { interaction?: In
   const checks: PrecallCheck[] = [];
   const glid = normalizeGlid(rawGlid ?? "");
   if (!isValidGlid(glid)) {
-    checks.push({ id: "glid", label: "Validate GLID", status: "fail", detail: "GLID must be 3–40 letters, digits or underscores." });
+    checks.push({ id: "glid", label: "Validate GLID", status: "fail", detail: GLID_HINT });
     return { checks };
   }
   checks.push({ id: "glid", label: "Validate GLID", status: "ok", detail: glid });
@@ -123,6 +123,23 @@ function noteEngine(i: Interaction, reply: ComposedReply) {
 
 // ---------------- D3: live turns ----------------
 
+function cleanName(v?: string | null): string | undefined {
+  const s = (v ?? "").replace(/["'.]/g, "").trim();
+  if (!s || s.length > 60 || /^(null|unknown|n\/a|none)$/i.test(s)) return undefined;
+  return s;
+}
+
+/** Fallback when no LLM: "main Rohit bol raha hoon" / "my name is Rohit" / "this is Rohit". */
+function nameFromText(text: string): string | undefined {
+  const m = text.match(/\b(?:my name is|mera naam)\s+([A-Za-z]{2,})/i)
+    ?? text.match(/\b(?:main|mai|this is|i am|i'm)\s+([A-Za-z]{2,})\s+(?:bol|speaking|here)\b/i)
+    ?? text.match(/मैं\s+([ऀ-ॿ]+)\s+बोल/)
+    ?? text.match(/मेरा नाम\s+([ऀ-ॿ]+)/);
+  const n = m?.[1];
+  if (!n || /^(bol|baat|abhi|busy|free|theek|thik|hai|hoon|aapse|yahan|here|not|the)$/i.test(n)) return undefined;
+  return n[0].toUpperCase() + n.slice(1);
+}
+
 const STYLE_SIGNALS: SignalType[] = ["language_switch", "voice_gender", "shorter", "hurry", "more_detail", "slower", "faster", "formal", "informal"];
 
 /**
@@ -199,6 +216,11 @@ export async function sellerTurn(id: string, rawText: string, stt?: { languageCo
     i.stagesVisited = Array.from(new Set([...(i.stagesVisited ?? ["identity"]), meta.stage]));
   }
   if (meta.meetingTime && !i.meetingTime) i.meetingTime = meta.meetingTime;
+  // Identity the seller stated ("main Rohit bol raha hoon, Kolkata Stationers se").
+  const statedName = cleanName(meta.sellerName) ?? nameFromText(text);
+  if (statedName) i.statedName = statedName;
+  const statedCompany = cleanName(meta.company);
+  if (statedCompany) i.statedCompany = statedCompany;
   // Record an issue only when THIS message reports one (the LLM tends to re-summarise old issues).
   const issueSignal = signals.find((s) => s.type === "issue");
   const newIssue = issueSignal || (meta.issue && i.issues.length === 0) ? (meta.issue ?? issueSignal?.quote) : undefined;
@@ -237,7 +259,7 @@ export function scenarioFor(i: Interaction): string[] {
     // off-topic refusal, Hinglish mirroring + meeting slot, hurry, explicit language, catalog, seller ends.
     return english
       ? [
-          `Yes, this is ${name} speaking.`,
+          name ? `Yes, this is ${name} speaking.` : "Yes, I am the owner of this account.",
           "Honestly, the BuyLeads I get are mostly from outside my area, which is a real problem.",
           `I don't like this ${thisGender} voice, can you switch to a ${otherGender} voice?`,
           "By the way, what is the capital of India?",
@@ -248,7 +270,7 @@ export function scenarioFor(i: Interaction): string[] {
           "Theek hai, paid plan ke baare mein sochta hoon. Bye.",
         ]
       : [
-          `Haan ji, main ${name} bol raha hoon.`,
+          name ? `Haan ji, main ${name} hoon.` : "Haan ji, main hi is account ka owner hoon.",
           "Ek issue hai, mujhe jo BuyLeads aa rahe hain woh mere area ke nahi hote.",
           `I don't like this ${thisGender} voice, can you switch to a ${otherGender} voice?`,
           "By the way, what is the capital of India?",
@@ -261,7 +283,7 @@ export function scenarioFor(i: Interaction): string[] {
   }
   return english
     ? [
-        `Yes, ${name} here.`,
+        name ? `Yes, ${name} here.` : "Yes, speaking.",
         "The issue I told you about last time is still not resolved.",
         "This time please explain in a bit more detail.",
         "I'm free for the meeting on Monday at 11 am.",
@@ -269,7 +291,7 @@ export function scenarioFor(i: Interaction): string[] {
         "Thanks, bye.",
       ]
     : [
-        `Haan ji, ${name} bol raha hoon.`,
+        name ? `Haan ji, ${name} hoon, boliye.` : "Haan ji, boliye.",
         "Pichhli baar jo issue bataya tha woh abhi tak solve nahi hua.",
         "Is baar thoda detail mein samjhaiye.",
         "Meeting ke liye Monday 11 baje theek rahega.",
@@ -391,12 +413,24 @@ export async function runPostCall(id: string): Promise<Interaction> {
           const item = profile.catalog.find((c) => c.price == null && f.fact.startsWith(`${c.name}:`));
           const amount = Number(f.fact.match(/₹([\d.]+)/)?.[1]);
           if (item && Number.isFinite(amount) && amount > 0) {
-            profile.changeLog.push({ at, interactionId: i.id, field: `catalog.${item.offerId}.price`, from: "missing", to: `₹${amount}/${item.unit ?? "unit"}`, reason: `Seller quoted the price on call: “${t.text}”`, source: "learned" });
+            profile.changeLog.push({ at, interactionId: i.id, field: `catalog.${item.productId}.price`, from: "missing", to: `₹${amount}/${item.unit ?? "unit"}`, reason: `Seller quoted the price on call: “${t.text}”`, source: "learned" });
             updates.push({ field: `Catalog price · ${item.name}`, from: "missing", to: `₹${amount}/${item.unit ?? "unit"}`, reason: "Seller quoted the price on the call." });
             item.price = amount;
           }
         }
       }
+    }
+    // Identity the seller stated on the call fills unknown profile fields (never overwrites known ones).
+    if (i.statedName && !profile.contactPerson) {
+      profile.changeLog.push({ at, interactionId: i.id, field: "contactPerson", from: "unknown", to: i.statedName, reason: "Stated by the seller on the call.", source: "learned" });
+      updates.push({ field: "Contact person", from: "unknown", to: i.statedName, reason: "Stated by the seller on the call." });
+      profile.contactPerson = i.statedName;
+      if (/^Unknown seller/i.test(profile.displayName)) profile.displayName = i.statedName;
+    }
+    if (i.statedCompany && !profile.companyName) {
+      profile.changeLog.push({ at, interactionId: i.id, field: "companyName", from: "unknown", to: i.statedCompany, reason: "Stated by the seller on the call.", source: "learned" });
+      updates.push({ field: "Company", from: "unknown", to: i.statedCompany, reason: "Stated by the seller on the call." });
+      profile.companyName = i.statedCompany;
     }
     const remember = (category: "availability" | "complaint" | "business", fact: string, quote?: string) => {
       if (profile.memory.some((m) => m.fact === fact)) return;

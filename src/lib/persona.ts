@@ -89,6 +89,8 @@ export function generatePlan(profile: SellerProfile, _persona: Persona): Convers
     "Enquiries are managed from the Lead Manager in the IndiaMART seller app; BuyLead preferences (category, city) can be set there.",
     profile.contact.pnsMapped ? "Buyer calls reach the seller through the PNS (Preferred Number Service) number." : "PNS is not mapped yet — offer help setting it up.",
   ];
+  if (profile.leadCategories?.length) talkingPoints.unshift(`Consumes BuyLeads in: ${profile.leadCategories.map((c) => c.name).join(", ")} — pitch more leads in these categories.`);
+  if (profile.dealsIn?.length) talkingPoints.unshift(`Deals in: ${profile.dealsIn.join(", ")}.`);
   if (profile.memory.length) talkingPoints.push(`Remember: ${profile.memory.slice(-2).map((m) => m.fact).join(" / ")}`);
   const avoid = ["Inventing statistics, prices, timelines or buyer names", "Asking for OTPs, passwords or bank details", "Answering questions unrelated to IndiaMART"];
   if (profile.preferences.bestTimeToCall.value !== "unknown") avoid.push(`Long calls outside the seller's preferred time (${profile.preferences.bestTimeToCall.value})`);

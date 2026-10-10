@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "glid": "218447291",
+  "isDemo": false,
+  "displayName": "Unknown seller (Kolkata)",
+  "category": "Stationery, Books & Jeans",
+  "subCategories": [],
+  "city": "Kolkata",
+  "state": "West Bengal",
+  "secondaryLanguage": "bn-IN",
+  "location": "Kolkata",
+  "contact": {
+    "pnsMapped": true,
+    "mobileMasked": "86XXXXX282",
+    "registeredNumbers": 1
+  },
+  "catalog": [],
+  "buyLeadInterests": [],
+  "dealsIn": [
+    "Stationery items",
+    "Books",
+    "Pens",
+    "Jeans",
+    "Notebooks"
+  ],
+  "leadCategories": [],
+  "buyLeads": [],
+  "preferences": {
+    "language": {
+      "value": "hi-IN",
+      "source": "metadata",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Hindi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "tone": {
+      "value": "warm",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T05:40:52.484Z"
+    }
+  },
+  "behaviour": {
+    "summary": "No conversations recorded yet.",
+    "traits": []
+  },
+  "memory": [],
+  "status": "New",
+  "interactionCount": 0,
+  "lastInteractionAt": null,
+  "createdAt": "2026-09-10T05:40:52.484Z",
+  "updatedAt": "2026-09-10T05:40:52.484Z",
+  "history": [],
+  "changeLog": [
+    {
+      "at": "2026-09-10T05:40:52.484Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    }
+  ]
+}

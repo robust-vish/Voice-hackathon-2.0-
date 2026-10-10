@@ -26,7 +26,7 @@ function SearchInner() {
   const run = (q: string) => {
     const g = q.trim();
     if (!g) return setState({ kind: "idle" });
-    if (!/^[A-Za-z0-9_\-\s]{3,40}$/.test(g)) return setState({ kind: "invalid", message: "A GLID contains only letters, digits and underscores (3–40 characters), e.g. DEMO_GLID_001." });
+    if (!/^[\d\s-]{4,16}$/.test(g)) return setState({ kind: "invalid", message: "A GLID is a number (4–12 digits), e.g. 6601433." });
     setState({ kind: "loading", glid: g });
     api<{ summary: SellerSummary; initialised: boolean }>(`/api/sellers/${encodeURIComponent(g)}`)
       .then((r) => setState({ kind: "found", summary: r.summary, initialised: r.initialised }))
@@ -42,11 +42,11 @@ function SearchInner() {
     <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex items-center gap-2">
         <Button variant="ghost" onClick={() => router.back()} aria-label="Go back"><ArrowLeft className="h-4 w-4" aria-hidden />Back</Button>
-        <h1 className="text-xl font-bold">Search Seller by GLID</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Find a seller</h1>
       </div>
       <Card>
         <GlidSearch size="lg" autoFocus key={glid} initial={glid} />
-        <p className="mt-2 text-xs text-gray-500">Exact GLID match, case-insensitive. Searches the backend profile store and the (demo) authorized seller registry.</p>
+        <p className="mt-2 text-xs text-gray-500">Exact GLID match. Searches stored profiles and the seller registry.</p>
       </Card>
 
       {state.kind === "loading" && <Spinner label={`Looking up ${state.glid}…`} />}

@@ -27,13 +27,23 @@ export function makeId(prefix: string): string {
   return `${prefix}_${t}${r}`;
 }
 
-/** GLID normalisation: trim, upper-case, spaces/hyphens -> underscore. */
+/** GLIDs are numbers: keep the digits only (spaces, dashes etc. are dropped). */
 export function normalizeGlid(raw: string): string {
-  return raw.trim().toUpperCase().replace(/[\s-]+/g, "_");
+  const s = (raw ?? "").trim();
+  return /^[\d\s-]+$/.test(s) ? s.replace(/\D/g, "") : s.toUpperCase();
 }
 
 export function isValidGlid(glid: string): boolean {
-  return /^[A-Z0-9_]{3,40}$/.test(glid);
+  return /^\d{4,12}$/.test(glid);
+}
+
+export const GLID_HINT = "A GLID is a number, e.g. 6601433.";
+
+/** "9582944261" -> "95XXXXX261" (the only form that ever leaves the registry). */
+export function maskMobile(raw?: string): string | undefined {
+  const d = (raw ?? "").replace(/\D/g, "");
+  if (d.length < 6) return undefined;
+  return `${d.slice(0, 2)}${"X".repeat(d.length - 5)}${d.slice(-3)}`;
 }
 
 function field<T extends string>(value: T, source: PreferenceSource, confidence: number, reason: string, at: string): PreferenceField<T> {
@@ -64,10 +74,10 @@ export function profileFromRegistry(entry: RegistryEntry, status: ProfileStatus,
   return {
     schemaVersion: PROFILE_SCHEMA_VERSION,
     glid: entry.glid,
-    isDemo: entry.glid.startsWith("DEMO_"),
+    isDemo: entry.isDemo,
     displayName: entry.displayName,
     contactPerson: entry.contactPerson,
-    companyName: entry.companyName ?? entry.displayName,
+    companyName: entry.companyName,
     category: entry.category,
     subCategories: entry.subCategories ?? [],
     city: entry.city,
@@ -78,9 +88,14 @@ export function profileFromRegistry(entry: RegistryEntry, status: ProfileStatus,
     yearEstablished: entry.yearEstablished,
     memberSince: entry.memberSince ?? MEMBER_SINCE[entry.glid],
     secondaryLanguage: entry.secondaryLanguage,
-    contact: { pnsMapped: entry.pnsMapped, pnsNumberMasked: entry.pnsNumberMasked, registeredNumbers: entry.registeredNumbers },
+    location: entry.location ?? entry.city,
+    // Raw mobile is deliberately NOT copied: profiles only carry the masked form.
+    contact: { pnsMapped: entry.pnsMapped, pnsNumberMasked: entry.pnsNumberMasked, mobileMasked: maskMobile(entry.mobile), registeredNumbers: entry.registeredNumbers },
     catalog: entry.catalog,
     buyLeadInterests: entry.buyLeadInterests ?? [],
+    dealsIn: entry.dealsIn ?? [],
+    leadCategories: entry.leadCategories ?? [],
+    buyLeads: entry.buyLeads ?? [],
     preferences: defaultPreferences(entry, at),
     behaviour: { summary: "No conversations recorded yet.", traits: [] },
     memory: [],
@@ -200,9 +215,11 @@ export function profileToMarkdown(p: SellerProfile): string {
   if (p.isDemo) L.push("> **Synthetic demonstration data.** Not a real IndiaMART seller.\n");
   L.push(`| Field | Value |`, `|---|---|`);
   L.push(`| GLID | \`${p.glid}\` |`);
-  if (p.contactPerson) L.push(`| Contact person | ${p.contactPerson} |`);
+  L.push(`| Contact person | ${p.contactPerson ?? "_unknown_"} |`);
+  L.push(`| Company | ${p.companyName ?? "_unknown_"} |`);
   L.push(`| Category | ${p.category} |`);
-  if (p.city || p.state) L.push(`| Location | ${[p.city, p.state].filter(Boolean).join(", ")} |`);
+  if (p.location || p.city || p.state) L.push(`| Location | ${p.location ?? [p.city, p.state].filter(Boolean).join(", ")} |`);
+  if (p.contact.mobileMasked) L.push(`| Mobile | ${p.contact.mobileMasked} |`);
   if (p.membership) L.push(`| Membership | ${p.membership} |`);
   const t = tenure(p.memberSince, p.glid);
   if (t) L.push(`| On IndiaMART for | ${t.en} (since ${p.memberSince ?? MEMBER_SINCE[p.glid]}) |`);
@@ -212,10 +229,25 @@ export function profileToMarkdown(p: SellerProfile): string {
   L.push(`| Interactions | ${p.interactionCount} (last: ${p.lastInteractionAt ?? "never"}) |`);
   L.push(`| Created / Updated | ${p.createdAt} / ${p.updatedAt} |`);
   L.push("");
+  if (p.leadCategories?.length) {
+    L.push(`## BuyLead categories consumed (${p.leadCategories.length})`, "");
+    L.push(`| MCAT ID | Category |`, `|---|---|`);
+    for (const c of p.leadCategories) L.push(`| ${c.mcatId} | ${c.name} |`);
+    L.push("");
+  }
+  if (p.dealsIn?.length) L.push(`## Deals in`, "", ...p.dealsIn.map((d) => `- ${d}`), "");
+  if (p.buyLeads?.length) {
+    L.push(`## BuyLeads (by offer ID)`, "");
+    L.push(`| Offer ID | Requirement | Status |`, `|---|---|---|`);
+    for (const b of p.buyLeads) L.push(`| ${b.offerId} | ${b.title} | ${b.status === "expired" ? `Expired (consumed ${b.consumedAt?.slice(0, 10) ?? ""})` : b.status} |`);
+    L.push("");
+  }
   L.push(`## Catalog (${p.catalog.length} products)`);
   L.push("");
-  L.push(`| Offer ID | Product | Price | MOQ |`, `|---|---|---|---|`);
-  for (const c of p.catalog) L.push(`| ${c.offerId} | ${c.name} | ${c.price != null ? `₹${c.price}/${c.unit ?? "unit"}` : "_missing_"} | ${c.moq ?? "-"} |`);
+  if (p.catalog.length) {
+    L.push(`| Product ID | Product | Price | MOQ |`, `|---|---|---|---|`);
+    for (const c of p.catalog) L.push(`| ${c.productId} | ${c.name} | ${c.price != null ? `₹${c.price}/${c.unit ?? "unit"}` : "_missing_"} | ${c.moq ?? "-"} |`);
+  } else L.push("_No products listed yet._");
   L.push("");
   if (p.buyLeadInterests.length) {
     L.push(`## BuyLead interests`, "", ...p.buyLeadInterests.map((b) => `- ${b}`), "");

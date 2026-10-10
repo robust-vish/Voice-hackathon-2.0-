@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { use, useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import {
-  AlertTriangle, ArrowRight, Bot, CheckCircle2, CircleDashed, Headphones, Loader2, Mic, MicOff, Phone, PhoneOff,
+  AlertTriangle, ArrowLeft, ArrowRight, Bot, CheckCircle2, CircleDashed, Headphones, Loader2, Mic, MicOff, Phone, PhoneOff,
   Play, RotateCcw, Send, SkipForward, User, Volume2, VolumeX, XCircle,
 } from "lucide-react";
 import { PersonaGrid } from "@/components/PersonaGrid";
-import { Badge, Button, Card, Empty, ErrorBox, LinkButton, ModeBadge, Spinner, StatusBadge } from "@/components/ui";
+import { Avatar, Badge, Button, Card, Empty, ErrorBox, LinkButton, ModeBadge, Spinner, StatusBadge, Tabs } from "@/components/ui";
 import { useSeller } from "@/components/useSeller";
 import { browserListen, browserRecognitionAvailable, MicSession, playFiller, prefetchFillers, speak, stopSpeaking, unlockAudio, type Engine, type Speech } from "@/components/voice";
 import { api, ApiError, fmtDuration, fmtTime } from "@/lib/client";
@@ -20,6 +20,7 @@ interface ConfigResp { voiceProvider: { configured: boolean }; callModes: { mode
 
 const LIVE = ["Connected", "In Progress"];
 
+type SideTab = "live" | "persona" | "adapt" | "plan";
 type Phase = "idle" | "listening" | "hearing" | "transcribing" | "thinking" | "speaking";
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -51,6 +52,7 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
   const [autoListen, setAutoListen] = useState(true);
   const [bargeIn, setBargeIn] = useState(true);
   const [fillers, setFillers] = useState(true);
+  const [sideTab, setSideTab] = useState<SideTab>("live");
   const [liveSeller, setLiveSeller] = useState<string | null>(null);
   const [playAudio, setPlayAudio] = useState(true);
   const [simAuto, setSimAuto] = useState(false);
@@ -393,75 +395,85 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
   const summary = interaction?.postCall.summary;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4">
-        <div className="min-w-0">
-          <Link href={`/sellers/${p.glid}`} className="text-xs text-gray-500 hover:underline">← {p.displayName}</Link>
-          <h1 className="flex flex-wrap items-center gap-2 text-xl font-bold"><Phone className="h-5 w-5 text-brand-600" aria-hidden />Call Seller</h1>
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-gray-700">
-            <span className="font-mono font-semibold">{p.glid}</span>
-            <span>· {p.displayName} · {p.category}</span>
-            <Badge tone={p.contact.pnsMapped ? "green" : "amber"}>PNS {p.contact.pnsMapped ? `mapped ${p.contact.pnsNumberMasked ?? ""}` : "not mapped"}</Badge>
-            {p.isDemo && <Badge tone="amber">Synthetic seller</Badge>}
+      <div className="flex flex-wrap items-center gap-4">
+        <Link href={`/sellers/${p.glid}`} aria-label="Back to seller" className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><ArrowLeft className="h-5 w-5" /></Link>
+        <Avatar name={p.contactPerson ?? p.displayName} seed={p.glid} />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="truncate text-xl font-semibold tracking-tight text-gray-900">{p.contactPerson ?? p.displayName}</h1>
+            {p.isDemo && <Badge>Demo</Badge>}
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 text-xs text-gray-500">
+            <span className="font-mono">GLID {p.glid}</span>
+            {p.companyName && <span>{p.companyName}</span>}
+            {(p.location ?? p.city) && <span>{p.location ?? p.city}</span>}
+            <span>PNS {p.contact.pnsMapped ? "mapped" : "not mapped"}</span>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-1 text-right text-xs text-gray-600">
-          {interaction ? (
-            <>
-              <div className="flex items-center gap-2"><ModeBadge mode={interaction.mode} /><StatusBadge status={interaction.status} /></div>
-              <div>Interaction <span className="font-mono">{interaction.id}</span></div>
-              <div>Provider: <span className="font-mono">{interaction.provider}</span></div>
-            </>
-          ) : <span>No call in progress</span>}
-        </div>
+        {interaction && (
+          <div className="flex items-center gap-2">
+            <ModeBadge mode={interaction.mode} /><StatusBadge status={interaction.status} />
+            <span className="hidden font-mono text-[11px] text-gray-400 md:inline">{interaction.id}</span>
+          </div>
+        )}
       </div>
 
       {error && <ErrorBox message={error} />}
       {pending && <div className="flex items-center gap-2 text-sm text-gray-600"><Loader2 className="h-4 w-4 animate-spin" aria-hidden />{pending}</div>}
 
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className="grid gap-6 lg:grid-cols-5">
         {/* Left: call surface */}
-        <div className="space-y-4 lg:col-span-3">
+        <div className="space-y-5 lg:col-span-3">
           {(!interaction || ended) && !summary && (
             <Card title="Start a call">
-              <fieldset className="space-y-2" disabled={!!pending}>
+              <fieldset className="grid gap-3 sm:grid-cols-2" disabled={!!pending}>
                 <legend className="sr-only">Call mode</legend>
                 {([
-                  { m: "web" as CallMode, title: "Web voice call (browser microphone)", desc: config?.voiceProvider.configured ? "You play the seller using your mic. Real speech recognition + Sarvam voices; language and voice gender switch live. Not a phone call." : "You play the seller using your mic and the browser's speech engines (add SARVAM_API_KEY for Sarvam voices). Not a phone call." },
-                  { m: "simulated" as CallMode, title: "Simulated call (scripted seller)", desc: "Deterministic seller script runs through the real persona, adaptation and profile-update services. Clearly labelled Simulated." },
+                  { m: "web" as CallMode, title: "Web voice call", desc: config?.voiceProvider.configured ? "Talk as the seller through your mic. Sarvam voices; language & voice switch live." : "Talk as the seller through your mic (browser speech; add a Sarvam key for better voices)." },
+                  { m: "simulated" as CallMode, title: "Simulated call", desc: "A scripted seller runs through the real persona, adaptation and profile-update logic." },
                 ]).map((o) => (
-                  <label key={o.m} className={`flex cursor-pointer gap-3 rounded-lg border p-3 ${mode === o.m ? "border-brand-500 bg-brand-50" : "border-gray-200"}`}>
-                    <input type="radio" name="mode" className="mt-1 accent-brand-600" checked={mode === o.m} onChange={() => setMode(o.m)} />
-                    <span><span className="block text-sm font-semibold">{o.title}</span><span className="block text-xs text-gray-600">{o.desc}</span></span>
+                  <label key={o.m} className={`flex cursor-pointer gap-3 rounded-xl border p-4 transition ${mode === o.m ? "border-brand-500 bg-brand-50/60 ring-2 ring-brand-100" : "border-gray-200 hover:border-gray-300"}`}>
+                    <input type="radio" name="mode" className="mt-0.5 accent-brand-600" checked={mode === o.m} onChange={() => setMode(o.m)} />
+                    <span><span className="block text-sm font-semibold">{o.title}</span><span className="mt-0.5 block text-xs text-gray-500">{o.desc}</span></span>
                   </label>
                 ))}
-                <div className="flex gap-3 rounded-lg border border-dashed border-gray-200 p-3 opacity-70">
-                  <input type="radio" disabled className="mt-1" aria-label="Phone call (disabled)" />
-                  <span><span className="block text-sm font-semibold">Outbound phone call (PSTN) — unavailable</span><span className="block text-xs text-gray-600">{pstn?.detail ?? "Telephony provider not configured."}</span></span>
-                </div>
               </fieldset>
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap items-center gap-3">
                 <Button onClick={prepare} disabled={!!pending}><Phone className="h-4 w-4" aria-hidden />Prepare call</Button>
+                <span className="text-xs text-gray-400" title={pstn?.detail}>Phone (PSTN) calling isn&apos;t connected yet</span>
               </div>
             </Card>
           )}
 
           {checks && (!interaction || interaction.status === "Preparing") && (
-            <Card title="Pre-call preparation">
-              <ul className="space-y-2">
-                {checks.map((c) => (
-                  <li key={c.id} className="flex items-start gap-2 text-sm">
-                    <CheckIcon s={c.status} />
-                    <div><div className="font-medium">{c.label}</div><div className="text-xs text-gray-600">{c.detail}</div></div>
-                  </li>
-                ))}
-              </ul>
+            <Card>
+              {(() => {
+                const failed = checks.filter((c) => c.status === "fail").length;
+                const warned = checks.filter((c) => c.status === "warn").length;
+                return (
+                  <details open={failed > 0}>
+                    <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium">
+                      {failed ? <XCircle className="h-4 w-4 text-brand-600" /> : <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
+                      {failed ? `${failed} check${failed > 1 ? "s" : ""} failed` : `${checks.length} pre-call checks passed`}{warned ? ` · ${warned} note${warned > 1 ? "s" : ""}` : ""}
+                      <span className="ml-auto text-xs font-normal text-gray-400">details</span>
+                    </summary>
+                    <ul className="mt-3 space-y-2 border-t border-gray-100 pt-3">
+                      {checks.map((c) => (
+                        <li key={c.id} className="flex items-start gap-2 text-sm">
+                          <CheckIcon s={c.status} />
+                          <div><div className="font-medium">{c.label}</div><div className="text-xs text-gray-500">{c.detail}</div></div>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                );
+              })()}
               {interaction?.status === "Preparing" && (
                 <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <Button onClick={start} disabled={!!pending}><Play className="h-4 w-4" aria-hidden />{interaction.mode === "simulated" ? "Start simulated call" : "Start web voice call"}</Button>
+                  <Button onClick={start} disabled={!!pending}><Play className="h-4 w-4" aria-hidden />{interaction.mode === "simulated" ? "Start simulated call" : "Start call"}</Button>
                   <Button variant="secondary" onClick={() => finish("operator")} disabled={!!pending}>Cancel</Button>
-                  <span className="text-xs text-gray-500">Persona bound to <span className="font-mono">{interaction.glid}</span>.</span>
                 </div>
               )}
             </Card>
@@ -595,80 +607,101 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
           )}
         </div>
 
-        {/* Right: persona + adaptation */}
-        <div className="space-y-4 lg:col-span-2">
-          {interaction?.lastSignal && isLive && (
-            <div className="rounded-xl border border-brand-200 bg-brand-50 p-3 text-sm">
-              <div className="text-xs font-semibold uppercase tracking-wide text-brand-700">Current detected signal</div>
-              <div className="mt-1 font-medium">{interaction.lastSignal.label}</div>
-              <div className="text-xs text-gray-600">“{interaction.lastSignal.quote}” · {interaction.lastSignal.explicit ? "explicit request" : "inferred"} · confidence {interaction.lastSignal.confidence}</div>
-            </div>
-          )}
+        {/* Right: tabbed side panel */}
+        <div className="lg:col-span-2">
+          <div className="sticky top-20 space-y-4">
+            <Tabs<SideTab>
+              value={sideTab}
+              onChange={setSideTab}
+              tabs={[
+                { id: "live", label: "Live" },
+                { id: "persona", label: "Persona" },
+                { id: "adapt", label: "Adaptations", count: interaction?.switchLog.length || undefined },
+                { id: "plan", label: "Plan" },
+              ]}
+            />
 
-          {interaction && interaction.status !== "Preparing" && (
-            <Card title="Call notes">
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between gap-2"><dt className="text-gray-500">Stage</dt><dd className="font-medium capitalize">{interaction.stage ?? "—"}</dd></div>
-                <div className="flex justify-between gap-2"><dt className="text-gray-500">Meeting</dt><dd className="text-right font-medium">{interaction.meetingTime ?? "not booked yet"}</dd></div>
-                <div>
-                  <dt className="text-gray-500">Issues raised ({interaction.issues?.length ?? 0})</dt>
-                  {(interaction.issues ?? []).map((x, k) => {
-                    const esc = (interaction.escalations ?? []).some((e) => e.issue === x.issue);
-                    return <dd key={k} className="mt-1 rounded-md bg-gray-50 px-2 py-1 text-xs">{x.issue} {esc && <Badge tone="red">escalated</Badge>}</dd>;
-                  })}
-                  {(interaction.escalations ?? []).filter((e) => !(interaction.issues ?? []).some((x) => x.issue === e.issue)).map((e, k) => <dd key={`e${k}`} className="mt-1 rounded-md bg-gray-50 px-2 py-1 text-xs">{e.issue} <Badge tone="red">escalated</Badge></dd>)}
-                </div>
-              </dl>
-            </Card>
-          )}
-
-          <Card title={<span className="flex items-center gap-2">Adaptation history <Badge tone="red">{interaction?.switchLog.length ?? 0}</Badge></span>}>
-            {!interaction || interaction.switchLog.length === 0 ? <p className="text-sm text-gray-500">No adaptations yet. Try asking for another language, a {persona.voiceGender.value === "female" ? "male" : "female"} voice, or shorter answers.</p> : (
-              <ol className="space-y-2">
-                {interaction.switchLog.slice().reverse().map((s) => (
-                  <li key={s.id} className="rounded-lg border border-gray-200 p-2.5 text-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-semibold">{s.dimension === "plan" ? "Conversation plan" : s.dimension}</span>
-                      <Badge tone={s.scope === "temporary" ? "gray" : "violet"}>{s.scope === "temporary" ? "temporary" : "persistent candidate"}</Badge>
+            {sideTab === "live" && (
+              <div className="space-y-4">
+                {interaction?.lastSignal && isLive && (
+                  <div className="rounded-2xl border border-brand-100 bg-brand-50/70 p-4 text-sm">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-brand-700">Latest signal</div>
+                    <div className="mt-1 font-medium text-gray-900">{interaction.lastSignal.label}</div>
+                    <div className="mt-0.5 text-xs text-gray-500">“{interaction.lastSignal.quote}”</div>
+                  </div>
+                )}
+                <Card title="Call notes">
+                  <dl className="space-y-3 text-sm">
+                    <div className="flex justify-between gap-2"><dt className="text-gray-500">Stage</dt><dd className="font-medium capitalize">{interaction?.stage ?? "—"}</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-gray-500">Voice</dt><dd className="font-medium">{persona.agentName} · {languageName(persona.language.value)}</dd></div>
+                    <div className="flex justify-between gap-2"><dt className="text-gray-500">Meeting</dt><dd className="text-right font-medium">{interaction?.meetingTime ?? "—"}</dd></div>
+                    {(interaction?.statedName || interaction?.statedCompany) && (
+                      <div className="flex justify-between gap-2"><dt className="text-gray-500">Seller said</dt><dd className="text-right font-medium">{[interaction.statedName, interaction.statedCompany].filter(Boolean).join(" · ")}</dd></div>
+                    )}
+                    <div>
+                      <dt className="text-gray-500">Issues</dt>
+                      {!(interaction?.issues?.length || interaction?.escalations?.length) && <dd className="text-xs text-gray-400">None raised</dd>}
+                      {(interaction?.issues ?? []).map((x, k) => {
+                        const esc = (interaction?.escalations ?? []).some((e) => e.issue === x.issue);
+                        return <dd key={k} className="mt-1.5 rounded-lg bg-gray-50 px-2.5 py-1.5 text-xs">{x.issue} {esc && <Badge tone="red">escalated</Badge>}</dd>;
+                      })}
                     </div>
-                    <div className="mt-1 text-xs text-gray-700"><span className="text-gray-500">Signal:</span> {s.signal}</div>
-                    <div className="text-xs"><span className="text-gray-500">Change:</span> <span className="line-through decoration-gray-400">{s.previous}</span> → <strong>{s.next}</strong></div>
-                    <div className="text-xs text-gray-600"><span className="text-gray-500">Why:</span> {s.reason}</div>
-                    <div className="text-[11px] text-gray-400">{fmtTime(s.at)}</div>
-                  </li>
-                ))}
-              </ol>
+                  </dl>
+                </Card>
+                {interaction && (
+                  <details className="rounded-2xl border border-gray-200/70 bg-white px-5 py-3 text-xs">
+                    <summary className="cursor-pointer text-sm font-medium text-gray-700">Status timeline</summary>
+                    <ol className="mt-2 space-y-1">
+                      {interaction.statusHistory.map((h, k) => <li key={k} className="flex gap-2"><span className="w-24 shrink-0 text-gray-400">{fmtTime(h.at)}</span><StatusBadge status={h.status} /><span className="text-gray-500">{h.note}</span></li>)}
+                    </ol>
+                  </details>
+                )}
+              </div>
             )}
-          </Card>
 
-          <Card title={interaction ? "Current persona (live)" : "Persona for this call"}>
-            <p className="mb-2 text-xs text-gray-600">{persona.summary}</p>
-            <PersonaGrid persona={persona} compact highlight={interaction?.overrides} />
-          </Card>
+            {sideTab === "persona" && (
+              <Card>
+                <p className="mb-3 text-xs text-gray-500">{persona.summary}</p>
+                <PersonaGrid persona={persona} compact highlight={interaction?.overrides} />
+              </Card>
+            )}
 
-          <Card title="Conversation plan">
-            <p className="text-xs font-medium">{plan.objective}</p>
-            <ol className="mt-2 space-y-1">
-              {plan.steps.map((s, idx) => {
-                const cur = interaction && isLive && idx === interaction.planStep;
-                const done = interaction && (idx < interaction.planStep || ended);
-                return (
-                  <li key={s.id} className={`flex items-start gap-2 rounded-md px-2 py-1 text-xs ${cur ? "bg-brand-50 font-semibold" : ""}`}>
-                    {done ? <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 text-emerald-600" aria-hidden /> : <CircleDashed className="mt-0.5 h-3.5 w-3.5 text-gray-400" aria-hidden />}
-                    <span><strong>{s.title}:</strong> {s.goal}</span>
-                  </li>
-                );
-              })}
-            </ol>
-          </Card>
+            {sideTab === "adapt" && (
+              <Card>
+                {!interaction || interaction.switchLog.length === 0 ? <p className="text-sm text-gray-500">No adaptations yet. Ask for another language, a {persona.voiceGender.value === "female" ? "male" : "female"} voice, or shorter answers.</p> : (
+                  <ol className="max-h-[60vh] space-y-3 overflow-y-auto">
+                    {interaction.switchLog.slice().reverse().map((s) => (
+                      <li key={s.id} className="border-l-2 border-brand-200 pl-3 text-sm">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-medium capitalize">{s.dimension === "plan" ? "Plan" : s.dimension.replace(/([A-Z])/g, " $1").toLowerCase()}</span>
+                          <span className="text-xs"><span className="text-gray-400 line-through">{s.previous}</span> → <strong>{s.next}</strong></span>
+                        </div>
+                        <div className="text-xs text-gray-500">{s.reason}</div>
+                        <div className="mt-0.5 flex items-center gap-2 text-[11px] text-gray-400">{fmtTime(s.at)} <Badge tone={s.scope === "temporary" ? "gray" : "violet"}>{s.scope === "temporary" ? "this call" : "may persist"}</Badge></div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </Card>
+            )}
 
-          {interaction && (
-            <Card title="Call status timeline">
-              <ol className="space-y-1 text-xs">
-                {interaction.statusHistory.map((h, k) => <li key={k} className="flex gap-2"><span className="w-28 shrink-0 text-gray-500">{fmtTime(h.at)}</span><StatusBadge status={h.status} /><span className="text-gray-600">{h.note}</span></li>)}
-              </ol>
-            </Card>
-          )}
+            {sideTab === "plan" && (
+              <Card>
+                <ol className="space-y-1.5">
+                  {plan.steps.map((s, idx) => {
+                    const cur = interaction && isLive && idx === interaction.planStep;
+                    const done = interaction && (idx < interaction.planStep || ended);
+                    return (
+                      <li key={s.id} className={`flex items-start gap-2 rounded-lg px-2 py-1.5 text-xs ${cur ? "bg-brand-50" : ""}`}>
+                        {done ? <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden /> : <CircleDashed className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${cur ? "text-brand-600" : "text-gray-300"}`} aria-hidden />}
+                        <span><span className={`font-medium ${cur ? "text-brand-700" : "text-gray-800"}`}>{s.title}.</span> <span className="text-gray-500">{s.goal}</span></span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
     </div>

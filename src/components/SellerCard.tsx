@@ -1,52 +1,68 @@
 "use client";
 
-import { Eye, FileText, Phone } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { MapPin, MoreHorizontal, Phone } from "lucide-react";
 import type { SellerSummary } from "@/lib/summaries";
-import { languageName } from "@/lib/languages";
 import { fmtTime } from "@/lib/client";
-import { Badge, Field, LinkButton, StatusBadge } from "./ui";
+import { Avatar, Badge, Chip, LinkButton, StatusBadge } from "./ui";
 
-export function SellerActions({ glid }: { glid: string }) {
+export function sellerLabel(s: { displayName: string; contactPerson?: string; companyName?: string }) {
+  return s.contactPerson ?? s.displayName;
+}
+
+/** Compact list row used on Overview, Sellers and Search. */
+export function SellerRow({ s, compact = false }: { s: SellerSummary; compact?: boolean }) {
+  const [menu, setMenu] = useState(false);
+  const cats = s.leadCategories.length ? s.leadCategories : s.dealsIn;
   return (
-    <div className="flex flex-wrap gap-2">
-      <LinkButton href={`/sellers/${glid}/persona`}><Eye className="h-4 w-4" aria-hidden />View Persona</LinkButton>
-      <LinkButton href={`/sellers/${glid}`}><FileText className="h-4 w-4" aria-hidden />View Profile</LinkButton>
-      <LinkButton href={`/call/${glid}`} variant="primary"><Phone className="h-4 w-4" aria-hidden />Call Seller</LinkButton>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5 transition hover:bg-gray-50/70">
+      <Link href={`/sellers/${s.glid}`} className="flex min-w-0 flex-1 items-center gap-3">
+        <Avatar name={s.contactPerson ?? s.displayName} seed={s.glid} />
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="truncate text-sm font-semibold text-gray-900">{sellerLabel(s)}</span>
+            {s.isDemo && <Badge>Demo</Badge>}
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 text-xs text-gray-500">
+            <span className="font-mono">{s.glid}</span>
+            {s.companyName && <span>· {s.companyName}</span>}
+            {s.location && <span className="inline-flex items-center gap-0.5">· <MapPin className="h-3 w-3" aria-hidden />{s.location}</span>}
+          </div>
+        </div>
+      </Link>
+      {!compact && (
+        <div className="hidden min-w-0 flex-[1.2] flex-wrap gap-1.5 md:flex">
+          {cats.slice(0, 3).map((c) => <Chip key={c}>{c}</Chip>)}
+          {cats.length > 3 && <span className="text-xs text-gray-400">+{cats.length - 3}</span>}
+        </div>
+      )}
+      {!compact && <div className="hidden w-24 lg:block"><StatusBadge status={s.status} /></div>}
+      {!compact && <div className="hidden w-28 text-xs text-gray-500 lg:block">{s.lastInteractionAt ? fmtTime(s.lastInteractionAt) : "No calls yet"}</div>}
+      <div className="relative flex items-center gap-1">
+        <LinkButton href={`/call/${s.glid}`} variant="primary" size="sm"><Phone className="h-3.5 w-3.5" aria-hidden />Call</LinkButton>
+        {!compact && (
+          <>
+            <button aria-label="More actions" aria-expanded={menu} onClick={() => setMenu((m) => !m)} onBlur={() => setTimeout(() => setMenu(false), 150)}
+              className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><MoreHorizontal className="h-4 w-4" /></button>
+            {menu && (
+              <div className="absolute right-0 top-9 z-20 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-lg">
+                <Link className="block px-3 py-2 hover:bg-gray-50" href={`/sellers/${s.glid}`}>View profile</Link>
+                <Link className="block px-3 py-2 hover:bg-gray-50" href={`/sellers/${s.glid}/persona`}>View persona</Link>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
 
-export function SellerCard({ s, detailed = false }: { s: SellerSummary; detailed?: boolean }) {
+/** Kept for the search result page. */
+export function SellerCard({ s }: { s: SellerSummary; detailed?: boolean }) {
   return (
-    <article className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 className="truncate text-base font-semibold text-gray-900">{s.displayName}</h3>
-          <div className="font-mono text-xs text-gray-500">{s.glid}</div>
-        </div>
-        <div className="flex gap-1.5">
-          {s.isDemo && <Badge tone="amber">Demo</Badge>}
-          <StatusBadge status={s.status} />
-        </div>
-      </div>
-      <dl className="grid grid-cols-2 gap-3">
-        <Field label="Category">{s.category}</Field>
-        <Field label="Preferred language">{languageName(s.preferredLanguage)}</Field>
-        <Field label="Interactions">{s.interactionCount}</Field>
-        <Field label="Last interaction">{fmtTime(s.lastInteractionAt)}</Field>
-        {detailed && (
-          <>
-            <Field label="Contact person">{s.contactPerson ?? "—"}</Field>
-            <Field label="Location">{[s.city, s.state].filter(Boolean).join(", ") || "—"}</Field>
-            <Field label="Membership">{s.membership ?? "—"}</Field>
-            <Field label="Catalog products">{s.catalogCount}</Field>
-            <Field label="PNS mapping">{s.pnsMapped ? "Mapped" : "Not mapped"}</Field>
-            <Field label="Last profile update">{fmtTime(s.updatedAt)}</Field>
-          </>
-        )}
-      </dl>
-      <p className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-700"><span className="font-semibold">Persona: </span>{s.personaSummary}</p>
-      <SellerActions glid={s.glid} />
-    </article>
+    <div className="overflow-hidden rounded-2xl border border-gray-200/70 bg-white">
+      <SellerRow s={s} />
+    </div>
   );
 }

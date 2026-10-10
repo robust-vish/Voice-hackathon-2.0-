@@ -1,0 +1,977 @@
+{
+  "id": "INT_MV1ZO273KLDAX",
+  "glid": "7349419",
+  "sellerName": "Shobhna",
+  "mode": "web",
+  "provider": "web+sarvam",
+  "status": "Completed",
+  "statusHistory": [
+    {
+      "status": "Preparing",
+      "at": "2026-10-10T06:03:57.855Z",
+      "note": "Pre-call checks passed"
+    },
+    {
+      "status": "Initiating",
+      "at": "2026-10-10T06:04:01.177Z",
+      "note": "Opening browser audio session"
+    },
+    {
+      "status": "Connected",
+      "at": "2026-10-10T06:04:01.177Z",
+      "note": "Browser microphone session connected (not PSTN)"
+    },
+    {
+      "status": "In Progress",
+      "at": "2026-10-10T06:04:01.177Z"
+    },
+    {
+      "status": "Ending",
+      "at": "2026-10-10T06:08:17.369Z",
+      "note": "Ended by agent"
+    },
+    {
+      "status": "Completed",
+      "at": "2026-10-10T06:08:17.369Z"
+    }
+  ],
+  "createdAt": "2026-10-10T06:03:57.855Z",
+  "checks": [
+    {
+      "id": "glid",
+      "label": "Validate GLID",
+      "status": "ok",
+      "detail": "7349419"
+    },
+    {
+      "id": "profile",
+      "label": "Fetch seller profile",
+      "status": "ok",
+      "detail": "Shobhna · New · updated 2026-09-10T05:40:52.484Z"
+    },
+    {
+      "id": "pns",
+      "label": "Resolve contact via PNS mapping",
+      "status": "ok",
+      "detail": "PNS mapped (masked); 1 registered number(s). Full number is never shown."
+    },
+    {
+      "id": "persona",
+      "label": "Generate persona & conversation plan",
+      "status": "ok",
+      "detail": "Hindi (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace"
+    },
+    {
+      "id": "interaction",
+      "label": "Initialise interaction ID",
+      "status": "ok",
+      "detail": "INT_MV1ZO273KLDAX"
+    },
+    {
+      "id": "binding",
+      "label": "Bind GLID + persona to agent",
+      "status": "ok",
+      "detail": "Agent context bound to 7349419 (profile version 2026-09-10T05:40:52.484Z)."
+    },
+    {
+      "id": "provider",
+      "label": "Check voice provider",
+      "status": "ok",
+      "detail": "Operator's browser mic plays the seller. Speech → Sarvam STT, replies → Sarvam Bulbul TTS. Not a PSTN phone call."
+    }
+  ],
+  "profileVersionAt": "2026-09-10T05:40:52.484Z",
+  "initialPersona": {
+    "glid": "7349419",
+    "generatedAt": "2026-10-10T06:03:57.852Z",
+    "agentName": "Priya",
+    "voiceSpeaker": "priya",
+    "language": {
+      "value": "hi-IN",
+      "reason": "Registry language hint for a seller based in Delhi, Delhi (Hindi). Not yet confirmed on a call.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "metadata"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "voiceGender": {
+      "value": "female",
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidenceCount": 0,
+      "confidence": 0.3,
+      "source": "default"
+    },
+    "tone": {
+      "value": "warm",
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "formality": {
+      "value": "formal",
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "default"
+    },
+    "pace": {
+      "value": "normal",
+      "reason": "Default speaking pace.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "reason": "Default level of explanation.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "summary": "Hindi (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace"
+  },
+  "currentPersona": {
+    "glid": "7349419",
+    "generatedAt": "2026-10-10T06:03:57.852Z",
+    "agentName": "Rahul",
+    "voiceSpeaker": "rahul",
+    "language": {
+      "value": "hi-IN",
+      "reason": "Seller explicitly asked to continue in Hindi.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "voiceGender": {
+      "value": "male",
+      "reason": "Seller asked to hear a male voice.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "tone": {
+      "value": "warm",
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "formality": {
+      "value": "formal",
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "default"
+    },
+    "pace": {
+      "value": "fast",
+      "reason": "Seller has little time — speak faster.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "responseLength": {
+      "value": "concise",
+      "reason": "Seller has little time — go straight to the point.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "explanationDetail": {
+      "value": "low",
+      "reason": "No time for explanations; only the essentials.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "summary": "Hindi (code-mixed) · male voice \"Rahul\" · warm, formal · concise answers · fast pace"
+  },
+  "overrides": {
+    "language": "hi-IN",
+    "voiceGender": "male",
+    "pace": "fast",
+    "responseLength": "concise",
+    "explanationDetail": "low"
+  },
+  "plan": {
+    "objective": "Collect feedback, resolve/escalate issues, book a meeting, and present paid-plan benefits.",
+    "steps": [
+      {
+        "id": "identity",
+        "title": "Confirm identity",
+        "goal": "Ask: \"Am I speaking with Shobhna of Shobhna?\""
+      },
+      {
+        "id": "feedback",
+        "title": "Feedback",
+        "goal": "Introduce yourself; mention they have been using IndiaMART for a while and ask about their experience and any issues."
+      },
+      {
+        "id": "resolve",
+        "title": "Resolve or escalate",
+        "goal": "Help with the issue if you are sure of the answer; otherwise apologise sincerely and escalate it to the senior team for a quick resolution."
+      },
+      {
+        "id": "meeting",
+        "title": "Meeting slot",
+        "goal": "Ask when the seller is free for a short meeting with an IndiaMART representative (day + time)."
+      },
+      {
+        "id": "pitch",
+        "title": "Paid subscription benefits",
+        "goal": "Explain paid-plan benefits: many more BuyLeads to grow the business, better search visibility, TrustSEAL/verified badge, dedicated support."
+      },
+      {
+        "id": "catalog",
+        "title": "Catalog gap",
+        "goal": "Ask whether any new products should be added."
+      },
+      {
+        "id": "open",
+        "title": "Open conversation",
+        "goal": "Answer IndiaMART questions; only the seller ends the call."
+      }
+    ],
+    "talkingPoints": [
+      "Consumes BuyLeads in: Basmati Rice, Mobile Phones, Galvanized Iron Pipes, LED Bulb, Electric Motorcycle, Apple iPhone, Men Cargo Jeans — pitch more leads in these categories.",
+      "Paid plans: more BuyLeads every week, higher ranking in search results, verified/TrustSEAL badge, dedicated account support (no made-up numbers).",
+      "Products with a price get more buyer enquiries than those without.",
+      "Enquiries are managed from the Lead Manager in the IndiaMART seller app; BuyLead preferences (category, city) can be set there.",
+      "Buyer calls reach the seller through the PNS (Preferred Number Service) number."
+    ],
+    "avoid": [
+      "Inventing statistics, prices, timelines or buyer names",
+      "Asking for OTPs, passwords or bank details",
+      "Answering questions unrelated to IndiaMART"
+    ]
+  },
+  "planStep": 2,
+  "beat": 5,
+  "stage": "resolve",
+  "issues": [
+    {
+      "at": "2026-10-10T06:04:57.015Z",
+      "turnId": "T_MV1ZPBUF8B7VO",
+      "issue": "Seller reported facing issues on IndiaMART."
+    }
+  ],
+  "escalations": [],
+  "turns": [
+    {
+      "id": "T_MV1ZO4RDGB0II",
+      "at": "2026-10-10T06:04:01.177Z",
+      "speaker": "agent",
+      "text": "नमस्ते! क्या मेरी बात Shobhna जी से हो रही है?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZODD17JNVG",
+      "at": "2026-10-10T06:04:12.325Z",
+      "speaker": "seller",
+      "text": "क्या है? ये पानी है यार। Hello।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZOE6Y5EKPO",
+      "at": "2026-10-10T06:04:13.402Z",
+      "speaker": "agent",
+      "text": "अरे, माफ़ कीजिएगा! शायद network का issue था। क्या मैं Shobhna जी से बात कर रही हूँ?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZOLQKVWOY2",
+      "at": "2026-10-10T06:04:23.180Z",
+      "speaker": "seller",
+      "text": "हां hello",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZOMC4TEQI0",
+      "at": "2026-10-10T06:04:23.956Z",
+      "speaker": "agent",
+      "text": "नमस्ते! मैं IndiaMART से Priya बात कर रही हूँ। आप काफी समय से IndiaMART पर हैं और iPhone और Galvanized Iron Pipes के लिए BuyLeads ले रही हैं। आपका experience कैसा रहा? क्या आपको कोई issue आ रहा है?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZP063TC5NL",
+      "at": "2026-10-10T06:04:41.883Z",
+      "speaker": "seller",
+      "text": "आपने मुझे call क्यों किया है?",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZP0PFF4ECU",
+      "at": "2026-10-10T06:04:42.579Z",
+      "speaker": "agent",
+      "text": "जी, दरअसल हम IndiaMART sellers का feedback लेने के लिए call करते हैं। आप काफी समय से हमारे साथ हैं, तो बस जानना था कि आपको BuyLeads और app से कोई परेशानी तो नहीं हो रही?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZPBUF8B7VO",
+      "at": "2026-10-10T06:04:57.015Z",
+      "speaker": "seller",
+      "text": "नहीं, बहुत हो रही है।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZPCFP5RQU5",
+      "at": "2026-10-10T06:04:57.781Z",
+      "speaker": "agent",
+      "text": "सुनकर बुरा लगा। बताइए Shobhna जी, exactly क्या दिक्कत आ रही है आपको? मैं अभी solve करने की कोशिश करती हूँ।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZPK9O01YVW",
+      "at": "2026-10-10T06:05:07.932Z",
+      "speaker": "seller",
+      "text": "आप नहीं कर पाएंगी।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZPKQ3PK0KJ",
+      "at": "2026-10-10T06:05:08.523Z",
+      "speaker": "agent",
+      "text": "जी, थोड़ा तो बता दीजिए ताकि मैं आपकी मदद कर सकूँ।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZPR4U9DPY8",
+      "at": "2026-10-10T06:05:16.830Z",
+      "speaker": "seller",
+      "text": "मेरे",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZPRN5NSUYD",
+      "at": "2026-10-10T06:05:17.489Z",
+      "speaker": "agent",
+      "text": "जी, मैं समझ रही हूँ कि आप परेशान हैं। आप मुझे issue बता दीजिए, मैं पूरी कोशिश करूँगी help करने की।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZPZOFNJ18L",
+      "at": "2026-10-10T06:05:27.903Z",
+      "speaker": "seller",
+      "text": "आज दिल्ली में protest हो रहा है क्यों हो रहा है पता है आपको?",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZQ09AW1GKF",
+      "at": "2026-10-10T06:05:28.654Z",
+      "speaker": "agent",
+      "text": "देखिए, मैं IndiaMART से जुड़ी बातें ही बता सकती हूँ। अगर आपको app में कोई problem आ रही है तो बताइए, वरना मैं आपका time नहीं लेना चाहती।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZQCIYK5Q16",
+      "at": "2026-10-10T06:05:44.554Z",
+      "speaker": "seller",
+      "text": "आप अपना code base बता पाएंगी? आप कैसे बनी हैं, क्या है, कहां से आई हैं?",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZQDE84X1YG",
+      "at": "2026-10-10T06:05:45.680Z",
+      "speaker": "agent",
+      "text": "मैं IndiaMART की AI assistant हूँ। मैं आपके app और business से जुड़ी बातों में ही मदद कर सकती हूँ। बताइए, BuyLeads या catalog में कोई issue है क्या?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZQOPOA7HWY",
+      "at": "2026-10-10T06:06:00.348Z",
+      "speaker": "seller",
+      "text": "हाँ मुझे bylates आ नहीं रहे हैं। बहुत कम bylates आ रहे हैं।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZQPK54Y0YO",
+      "at": "2026-10-10T06:06:01.445Z",
+      "speaker": "agent",
+      "text": "अच्छा, BuyLeads कम आने की दिक्कत आ रही है। देखिए, यह आपके catalog और BuyLead preferences पर depend करता है। एक काम करिए, Add Products में जाकर अपने products check कर लीजिए कि सब सही से listed हैं। फिर BuyLeads section में अपनी category और location preferences update कर दीजिए। क्या आप इसे try कर लेंगी?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZR4F1I5BYS",
+      "at": "2026-10-10T06:06:20.701Z",
+      "speaker": "seller",
+      "text": "Hello Hello Hello",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZR52AKZ2C5",
+      "at": "2026-10-10T06:06:21.539Z",
+      "speaker": "agent",
+      "text": "जी, मैं सुन पा रही हूँ। BuyLeads कम आने की दिक्कत के लिए आपने Add Products और BuyLeads preferences check कर लीं?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZRAHZS7RTC",
+      "at": "2026-10-10T06:06:28.583Z",
+      "speaker": "seller",
+      "text": "मैं सुन लिया कीजिए अगर कुछ बोल रही हैं तो। अगर सामने वाला कुछ बोल रहा है तो आप सुना कीजिए at least।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZRB22KOLAR",
+      "at": "2026-10-10T06:06:29.306Z",
+      "speaker": "agent",
+      "text": "अरे, माफ़ कीजिएगा। मैं सुन रही हूँ, बताइए। क्या BuyLeads कम आने की problem का solution सही से समझ में आया?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZRIVM0YOTD",
+      "at": "2026-10-10T06:06:39.442Z",
+      "speaker": "seller",
+      "text": "हां वो मुझे नहीं पता है क्यों कमा रहा है मेरा सब कुछ updated है।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZRJKV3PO3A",
+      "at": "2026-10-10T06:06:40.351Z",
+      "speaker": "agent",
+      "text": "समझ गई, सब updated है फिर भी problem आ रही है। मैं इसे note कर लेती हूँ। एक बार Add Products में catalog matching और BuyLeads में location preferences ज़रूर check कर लीजिए। क्या आप इसे बाद में देख सकती हैं?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZRQP3H4YEW",
+      "at": "2026-10-10T06:06:49.575Z",
+      "speaker": "seller",
+      "text": "Capital of India",
+      "language": "en-IN",
+      "signals": [
+        "language_switch",
+        "off_topic"
+      ]
+    },
+    {
+      "id": "T_MV1ZRS7NIKYYO",
+      "at": "2026-10-10T06:06:51.539Z",
+      "speaker": "agent",
+      "text": "I can only help with transactions related to IndiaMART. Can you please check your preferences like Add Products and BuyLeads for any issues with low purchase volume?",
+      "language": "en-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZS36EXGRFN",
+      "at": "2026-10-10T06:07:05.750Z",
+      "speaker": "seller",
+      "text": "Why you switch language? Previously I'm talking to you in Hindi, why you switch to English?",
+      "language": "en-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV1ZS3QTWXBF4",
+      "at": "2026-10-10T06:07:06.485Z",
+      "speaker": "agent",
+      "text": "Oh sorry, I will continue in English. Can you tell me, are you facing any specific issues in your BuyLeads balance?",
+      "language": "en-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZS8Y31GWQR",
+      "at": "2026-10-10T06:07:13.227Z",
+      "speaker": "seller",
+      "text": "Continue in Hindi",
+      "language": "en-IN",
+      "signals": [
+        "language_switch"
+      ]
+    },
+    {
+      "id": "T_MV1ZS9J5E0FND",
+      "at": "2026-10-10T06:07:13.985Z",
+      "speaker": "agent",
+      "text": "जी ज़रूर! तो आपके BuyLeads कम आने की problem के बारे में, क्या Add Products और BuyLeads preferences check करने से कुछ help मिली?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV1ZSJEEB40P7",
+      "at": "2026-10-10T06:07:26.774Z",
+      "speaker": "seller",
+      "text": "Like your voice, I want to talk to a male agent.",
+      "language": "en-IN",
+      "signals": [
+        "language_switch",
+        "voice_gender"
+      ]
+    },
+    {
+      "id": "T_MV1ZSK2TT51QK",
+      "at": "2026-10-10T06:07:27.653Z",
+      "speaker": "agent",
+      "text": "I understand you are looking for a male agent. I will note this down for you.",
+      "language": "en-IN",
+      "voice": {
+        "gender": "male",
+        "speaker": "rahul"
+      }
+    },
+    {
+      "id": "T_MV1ZSX4EHCZ0P",
+      "at": "2026-10-10T06:07:44.558Z",
+      "speaker": "seller",
+      "text": "मेरे मेरे को by late नहीं मिल रही है और मैं बहुत frustrated हूं।",
+      "language": "hi-IN",
+      "signals": [
+        "language_switch"
+      ]
+    },
+    {
+      "id": "T_MV1ZSXTWI755B",
+      "at": "2026-10-10T06:07:45.476Z",
+      "speaker": "agent",
+      "text": "अरे, मैं समझ सकता हूँ कि आपको काफी frustration हो रही है। ऐसे में leads न मिलना कितना stressful होता है, बिल्कुल। आप एक बार BuyLeads section में जाकर अपनी category preferences और location settings ज़रूर check कर लीजिए, कभी-कभी छोटे changes से ही leads आने शुरू हो जाती हैं।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "male",
+        "speaker": "rahul"
+      }
+    },
+    {
+      "id": "T_MV1ZTAL9KER9C",
+      "at": "2026-10-10T06:08:02.013Z",
+      "speaker": "seller",
+      "text": "कीजिए मेरे पास समय नहीं है।",
+      "language": "hi-IN",
+      "signals": [
+        "hurry"
+      ]
+    },
+    {
+      "id": "T_MV1ZTB9FWIJ9S",
+      "at": "2026-10-10T06:08:02.883Z",
+      "speaker": "agent",
+      "text": "ठीक है, मैं सीधा point पर आता हूँ। मैं इसे note कर रहा हूँ। आप बस Add Products में जाकर अपनी location preference एक बार update कर लीजिए। इससे आपके matching BuyLeads बढ़ सकते हैं।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "male",
+        "speaker": "rahul"
+      }
+    },
+    {
+      "id": "T_MV1ZTKCUS21YC",
+      "at": "2026-10-10T06:08:14.670Z",
+      "speaker": "seller",
+      "text": "अरे भाई सुन लो, call cut कर दो।",
+      "language": "hi-IN",
+      "signals": [
+        "end_call"
+      ]
+    },
+    {
+      "id": "T_MV1ZTKCVUF78X",
+      "at": "2026-10-10T06:08:14.671Z",
+      "speaker": "agent",
+      "text": "बहुत-बहुत धन्यवाद Shobhna जी। आपका दिन शुभ हो!",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "male",
+        "speaker": "rahul"
+      }
+    }
+  ],
+  "switchLog": [
+    {
+      "id": "SW_MV1ZRQP4UEO72",
+      "at": "2026-10-10T06:06:49.575Z",
+      "turnId": "T_MV1ZRQP3H4YEW",
+      "signalType": "language_switch",
+      "signal": "Seller switched to English — replying in English",
+      "quote": "Capital of India",
+      "dimension": "language",
+      "previous": "Hindi",
+      "next": "English",
+      "reason": "Seller explicitly asked to continue in English.",
+      "scope": "persistent-candidate"
+    },
+    {
+      "id": "SW_MV1ZRQP4ANWA4",
+      "at": "2026-10-10T06:06:49.575Z",
+      "turnId": "T_MV1ZRQP3H4YEW",
+      "signalType": "off_topic",
+      "signal": "Seller asked something unrelated to IndiaMART",
+      "quote": "Capital of India",
+      "dimension": "plan",
+      "previous": "Resolve or escalate",
+      "next": "Politely decline; steer back to IndiaMART",
+      "reason": "Agent only helps with IndiaMART-related topics.",
+      "scope": "temporary"
+    },
+    {
+      "id": "SW_MV1ZS8Y3A7G31",
+      "at": "2026-10-10T06:07:13.227Z",
+      "turnId": "T_MV1ZS8Y31GWQR",
+      "signalType": "language_switch",
+      "signal": "Seller asked to talk in Hindi",
+      "quote": "Continue in Hindi",
+      "dimension": "language",
+      "previous": "English",
+      "next": "Hindi",
+      "reason": "Seller explicitly asked to continue in Hindi.",
+      "scope": "persistent-candidate"
+    },
+    {
+      "id": "SW_MV1ZSJEF7VIA8",
+      "at": "2026-10-10T06:07:26.774Z",
+      "turnId": "T_MV1ZSJEEB40P7",
+      "signalType": "language_switch",
+      "signal": "Seller switched to English — replying in English",
+      "quote": "Like your voice, I want to talk to a male agent.",
+      "dimension": "language",
+      "previous": "Hindi",
+      "next": "English",
+      "reason": "Seller explicitly asked to continue in English.",
+      "scope": "persistent-candidate"
+    },
+    {
+      "id": "SW_MV1ZSJEFCZYEG",
+      "at": "2026-10-10T06:07:26.774Z",
+      "turnId": "T_MV1ZSJEEB40P7",
+      "signalType": "voice_gender",
+      "signal": "Seller asked for a male voice",
+      "quote": "Like your voice, I want to talk to a male agent.",
+      "dimension": "voiceGender",
+      "previous": "female",
+      "next": "male",
+      "reason": "Seller asked to hear a male voice.",
+      "scope": "persistent-candidate"
+    },
+    {
+      "id": "SW_MV1ZSX4EK8BEG",
+      "at": "2026-10-10T06:07:44.558Z",
+      "turnId": "T_MV1ZSX4EHCZ0P",
+      "signalType": "language_switch",
+      "signal": "Seller switched to Hindi — replying in Hindi",
+      "quote": "मेरे मेरे को by late नहीं मिल रही है और मैं बहुत frustrated हूं।",
+      "dimension": "language",
+      "previous": "English",
+      "next": "Hindi",
+      "reason": "Seller explicitly asked to continue in Hindi.",
+      "scope": "persistent-candidate"
+    },
+    {
+      "id": "SW_MV1ZTAL9N9IPR",
+      "at": "2026-10-10T06:08:02.013Z",
+      "turnId": "T_MV1ZTAL9KER9C",
+      "signalType": "hurry",
+      "signal": "Seller has little time — speak faster and get to the point",
+      "quote": "कीजिए मेरे पास समय नहीं है।",
+      "dimension": "pace",
+      "previous": "normal",
+      "next": "fast",
+      "reason": "Seller has little time — speak faster.",
+      "scope": "temporary"
+    },
+    {
+      "id": "SW_MV1ZTAL9KGBV1",
+      "at": "2026-10-10T06:08:02.013Z",
+      "turnId": "T_MV1ZTAL9KER9C",
+      "signalType": "hurry",
+      "signal": "Seller has little time — speak faster and get to the point",
+      "quote": "कीजिए मेरे पास समय नहीं है।",
+      "dimension": "responseLength",
+      "previous": "balanced",
+      "next": "concise",
+      "reason": "Seller has little time — go straight to the point.",
+      "scope": "temporary"
+    },
+    {
+      "id": "SW_MV1ZTAL9JU1XW",
+      "at": "2026-10-10T06:08:02.013Z",
+      "turnId": "T_MV1ZTAL9KER9C",
+      "signalType": "hurry",
+      "signal": "Seller has little time — speak faster and get to the point",
+      "quote": "कीजिए मेरे पास समय नहीं है।",
+      "dimension": "explanationDetail",
+      "previous": "medium",
+      "next": "low",
+      "reason": "No time for explanations; only the essentials.",
+      "scope": "temporary"
+    },
+    {
+      "id": "SW_MV1ZTKCVDCL2L",
+      "at": "2026-10-10T06:08:14.671Z",
+      "turnId": "T_MV1ZTKCUS21YC",
+      "signalType": "end_call",
+      "signal": "Seller is ending the call",
+      "quote": "अरे भाई सुन लो, call cut कर दो।",
+      "dimension": "plan",
+      "previous": "Resolve or escalate",
+      "next": "Close the call",
+      "reason": "Seller is ending the call.",
+      "scope": "temporary"
+    }
+  ],
+  "signals": [
+    {
+      "type": "language_switch",
+      "label": "Seller switched to English — replying in English",
+      "quote": "Capital of India",
+      "value": "en-IN",
+      "explicit": false,
+      "persistentCandidate": true,
+      "confidence": 0.691,
+      "turnId": "T_MV1ZRQP3H4YEW",
+      "at": "2026-10-10T06:06:49.575Z"
+    },
+    {
+      "type": "off_topic",
+      "label": "Seller asked something unrelated to IndiaMART",
+      "quote": "Capital of India",
+      "explicit": true,
+      "persistentCandidate": false,
+      "confidence": 0.8,
+      "turnId": "T_MV1ZRQP3H4YEW",
+      "at": "2026-10-10T06:06:49.575Z"
+    },
+    {
+      "type": "language_switch",
+      "label": "Seller asked to talk in Hindi",
+      "quote": "Continue in Hindi",
+      "value": "hi-IN",
+      "explicit": true,
+      "persistentCandidate": true,
+      "confidence": 0.9,
+      "turnId": "T_MV1ZS8Y31GWQR",
+      "at": "2026-10-10T06:07:13.227Z"
+    },
+    {
+      "type": "language_switch",
+      "label": "Seller switched to English — replying in English",
+      "quote": "Like your voice, I want to talk to a male agent.",
+      "value": "en-IN",
+      "explicit": false,
+      "persistentCandidate": true,
+      "confidence": 1,
+      "turnId": "T_MV1ZSJEEB40P7",
+      "at": "2026-10-10T06:07:26.774Z"
+    },
+    {
+      "type": "voice_gender",
+      "label": "Seller asked for a male voice",
+      "quote": "Like your voice, I want to talk to a male agent.",
+      "value": "male",
+      "explicit": true,
+      "persistentCandidate": true,
+      "confidence": 0.9,
+      "turnId": "T_MV1ZSJEEB40P7",
+      "at": "2026-10-10T06:07:26.774Z"
+    },
+    {
+      "type": "language_switch",
+      "label": "Seller switched to Hindi — replying in Hindi",
+      "quote": "मेरे मेरे को by late नहीं मिल रही है और मैं बहुत frustrated हूं।",
+      "value": "hi-IN",
+      "explicit": false,
+      "persistentCandidate": true,
+      "confidence": 0.947,
+      "turnId": "T_MV1ZSX4EHCZ0P",
+      "at": "2026-10-10T06:07:44.558Z"
+    },
+    {
+      "type": "hurry",
+      "label": "Seller has little time — speak faster and get to the point",
+      "quote": "कीजिए मेरे पास समय नहीं है।",
+      "value": "fast",
+      "explicit": true,
+      "persistentCandidate": false,
+      "confidence": 0.85,
+      "turnId": "T_MV1ZTAL9KER9C",
+      "at": "2026-10-10T06:08:02.013Z"
+    },
+    {
+      "type": "end_call",
+      "label": "Seller is ending the call",
+      "quote": "अरे भाई सुन लो, call cut कर दो।",
+      "explicit": true,
+      "persistentCandidate": false,
+      "confidence": 0.8,
+      "turnId": "T_MV1ZTKCUS21YC",
+      "at": "2026-10-10T06:08:14.670Z"
+    }
+  ],
+  "engineNotes": [],
+  "postCall": {
+    "status": "done",
+    "summary": {
+      "interactionId": "INT_MV1ZO273KLDAX",
+      "durationSec": 256,
+      "outcome": "1 issue(s) raised",
+      "initialPersonaSummary": "Hindi (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace",
+      "adaptations": 10,
+      "observations": [
+        "Seller switched to English — replying in English — “Capital of India”",
+        "Seller asked something unrelated to IndiaMART — “Capital of India”",
+        "Seller asked to talk in Hindi — “Continue in Hindi”",
+        "Seller switched to English — replying in English — “Like your voice, I want to talk to a male agent.”",
+        "Seller asked for a male voice — “Like your voice, I want to talk to a male agent.”",
+        "Seller switched to Hindi — replying in Hindi — “मेरे मेरे को by late नहीं मिल रही है और मैं बहुत frustrated हूं।”",
+        "Seller has little time — speak faster and get to the point — “कीजिए मेरे पास समय नहीं है।”",
+        "Seller is ending the call — “अरे भाई सुन लो, call cut कर दो।”"
+      ],
+      "updates": [
+        {
+          "field": "language",
+          "from": "hi-IN",
+          "to": "hi-IN",
+          "reason": "Reinforced: Seller switched to Hindi — replying in Hindi during call INT_MV1ZO273KLDAX. (now 1 observations, confidence 0.5)."
+        },
+        {
+          "field": "voiceGender",
+          "from": "female",
+          "to": "male",
+          "reason": "Seller asked for a male voice during call INT_MV1ZO273KLDAX."
+        }
+      ],
+      "rejected": [],
+      "memoryAdded": [
+        "Issue raised: Seller reported facing issues on IndiaMART."
+      ],
+      "profileUpdatedAt": "2026-10-10T06:08:17.382Z"
+    },
+    "attempts": 1
+  },
+  "startedAt": "2026-10-10T06:04:01.177Z",
+  "stagesVisited": [
+    "identity",
+    "feedback",
+    "resolve"
+  ],
+  "statedName": "Shobhna",
+  "lastSignal": {
+    "type": "end_call",
+    "label": "Seller is ending the call",
+    "quote": "अरे भाई सुन लो, call cut कर दो।",
+    "explicit": true,
+    "persistentCandidate": false,
+    "confidence": 0.8
+  },
+  "explicitLanguage": true,
+  "agentEnded": true,
+  "endedAt": "2026-10-10T06:08:17.369Z",
+  "durationSec": 256,
+  "outcome": "1 issue(s) raised"
+}

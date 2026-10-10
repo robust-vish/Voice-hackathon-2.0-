@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { DEMO_REGISTRY, SEED_LEARNINGS, SEEDED_PROFILE_GLIDS } from "./seed-data";
+import { DEMO_REGISTRY, SEED_LEARNINGS, SEED_VERSION, SEEDED_PROFILE_GLIDS } from "./seed-data";
 import { computeStatus, learnPreference, makeId, profileFromRegistry, profileToMarkdown } from "./profile";
 import type { Interaction, RegistryEntry, SellerProfile } from "./types";
 
@@ -35,8 +35,13 @@ let seeded = false;
 export function ensureSeeded(force = false) {
   if (seeded && !force) return;
   if (!force && fs.existsSync(REGISTRY_FILE)) {
-    seeded = true;
-    return;
+    // Re-seed automatically when the seller dataset changed (e.g. real sellers added).
+    const current = readJson<{ seedVersion?: number }>(REGISTRY_FILE)?.seedVersion;
+    if (current === SEED_VERSION) {
+      seeded = true;
+      return;
+    }
+    force = true;
   }
   if (force) {
     fs.rmSync(SELLERS_DIR, { recursive: true, force: true });
@@ -45,7 +50,7 @@ export function ensureSeeded(force = false) {
   }
   fs.mkdirSync(SELLERS_DIR, { recursive: true });
   fs.mkdirSync(INTERACTIONS_DIR, { recursive: true });
-  writeJsonAtomic(REGISTRY_FILE, { note: "Synthetic demo registry standing in for IndiaMART's authorized seller registry.", sellers: DEMO_REGISTRY });
+  writeJsonAtomic(REGISTRY_FILE, { seedVersion: SEED_VERSION, note: "Seller registry (real sellers + synthetic demo sellers). Contains raw mobile numbers — keep private.", sellers: DEMO_REGISTRY });
 
   const base = Date.now() - 1000 * 60 * 60 * 24 * 30;
   for (const glid of SEEDED_PROFILE_GLIDS) {

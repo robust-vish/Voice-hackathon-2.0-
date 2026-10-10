@@ -55,7 +55,7 @@ export interface Preferences {
 export type PreferenceKey = keyof Preferences;
 
 export interface CatalogItem {
-  offerId: string; // IndiaMART product listing (offer) id
+  productId: number; // catalog product id (BuyLeads are identified separately, by offer id)
   name: string;
   price?: number | null;
   unit?: string;
@@ -111,13 +111,18 @@ export interface SellerProfile {
   yearEstablished?: number;
   memberSince?: string; // "YYYY-MM" — when the seller joined IndiaMART
   secondaryLanguage?: LanguageCode;
+  location?: string;
   contact: {
     pnsMapped: boolean; // Preferred Number Service virtual number mapped
     pnsNumberMasked?: string;
+    mobileMasked?: string; // raw mobile never leaves the registry file
     registeredNumbers: number;
   };
   catalog: CatalogItem[];
   buyLeadInterests: string[];
+  dealsIn: string[];
+  leadCategories: LeadCategory[];
+  buyLeads: BuyLead[];
   preferences: Preferences;
   behaviour: { summary: string; traits: string[] };
   memory: MemoryNote[];
@@ -131,8 +136,31 @@ export interface SellerProfile {
 }
 
 /** Metadata available from the (demo) authorized seller registry. */
+/** A BuyLead category (MCAT) the seller consumes leads from. */
+export interface LeadCategory {
+  mcatId: number;
+  name: string;
+  count: number; // raw value from the source data (index 0), stored as-is
+  grade: string; // raw value from the source data (index 2), stored as-is
+}
+
+/** A BuyLead is identified by its numeric offer id; once consumed it expires. */
+export interface BuyLead {
+  offerId: number;
+  title: string;
+  mcatId?: number;
+  status: "active" | "consumed" | "expired";
+  consumedAt?: string;
+}
+
 export interface RegistryEntry {
-  glid: string;
+  glid: string; // numeric GLID as a string
+  isDemo: boolean;
+  mobile?: string; // raw number: registry file only, never copied into profiles / API / LLM
+  location?: string;
+  dealsIn?: string[];
+  leadCategories?: LeadCategory[];
+  buyLeads?: BuyLead[];
   displayName: string;
   contactPerson?: string;
   companyName?: string;
@@ -212,7 +240,7 @@ export type CallStatus =
 export type SignalType =
   | "language_switch" | "voice_gender" | "shorter" | "more_detail" | "slower" | "faster"
   | "formal" | "informal" | "busy" | "callback_time" | "frustration" | "not_interested" | "end_call"
-  | "hurry" | "off_topic" | "issue";
+  | "hurry" | "off_topic" | "issue" | "urgent";
 
 export interface Signal {
   type: SignalType;
@@ -303,6 +331,8 @@ export interface Interaction {
   issues?: { at: string; turnId: string; issue: string }[];
   escalations?: { at: string; turnId: string; issue: string }[];
   meetingTime?: string;
+  statedName?: string; // name the seller told us on this call
+  statedCompany?: string; // company the seller told us on this call
   agentEnded?: boolean; // agent delivered its closing line
   engineNotes: string[];
   turns: Turn[];

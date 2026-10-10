@@ -36,6 +36,11 @@ function changesFor(s: Signal): Change[] {
       ];
     case "busy":
       return [{ key: "responseLength", value: "concise", reason: "Seller is busy; keep it very short and offer a callback." }];
+    case "urgent":
+      return [
+        { key: "tone", value: "empathetic", reason: "Seller wants a quick fix — acknowledge the urgency and be reassuring." },
+        { key: "responseLength", value: "concise", reason: "Urgent problem: skip the small talk, give the fix or the next step." },
+      ];
     case "hurry":
       return [
         { key: "pace", value: "fast", reason: "Seller has little time — speak faster." },
@@ -53,7 +58,7 @@ const PLAN_SIGNALS: Partial<Record<Signal["type"], (s: Signal) => { next: string
   not_interested: () => ({ next: "Close politely, no further pitch", reason: "Seller said they are not interested." }),
   end_call: () => ({ next: "Close the call", reason: "Seller is ending the call." }),
   off_topic: () => ({ next: "Politely decline; steer back to IndiaMART", reason: "Agent only helps with IndiaMART-related topics." }),
-  issue: () => ({ next: "Resolve the issue or escalate it", reason: "Seller reported a problem with IndiaMART." }),
+  issue: () => ({ next: "Help with app guidance", reason: "Seller reported a problem with IndiaMART." }),
 };
 
 /** Applies detected signals to the live interaction: call-scoped overrides + switch log. */

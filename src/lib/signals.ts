@@ -35,6 +35,29 @@ const HURRY = ["time nahi hai", "time nahi", "time kam hai", "time kam", "don't 
 // Clearly off-topic subjects (the LLM also refuses anything else unrelated to IndiaMART).
 const OFF_TOPIC = ["capital of", "राजधानी", "rajdhani", "weather", "mausam", "मौसम", "cricket", "क्रिकेट", "ipl", "movie", "film", "फिल्म", "song", "gaana", "गाना", "joke", "chutkula", "चुटकुला", "recipe", "politics", "election", "चुनाव", "prime minister", "pradhan mantri", "प्रधानमंत्री", "president of", "who won", "kisne jeeta", "horoscope", "rashifal", "share market", "stock market", "bitcoin", "poem", "kavita", "homework", "tell me a story", "kahani sunao"];
 const ISSUE = ["issue", "problem", "dikkat", "dikat", "pareshani", "samasya", "complaint", "shikayat", "nahi aa rahe", "nahi aa rahi", "nahi aate", "not getting", "not receiving", "fake", "galat", "wrong", "irrelevant", "bekar lead", "refund", "not working", "kaam nahi", "error", "समस्या", "दिक्कत", "परेशानी", "शिकायत", "नहीं आ रहे", "नहीं आ रही", "गलत", "फ़र्ज़ी", "फर्जी"];
+// ---- Seller asking for their OWN account details ("mera GLID kya hai?", "my registered number?") ----
+export type ProfileField = "glid" | "mobile" | "name" | "company" | "location" | "categories" | "membership";
+const PROFILE_FIELD_WORDS: Record<ProfileField, string[]> = {
+  glid: ["glid", "g l i d", "gl id", "जीएलआईडी", "जी एल आई डी", "जीएल आईडी", "user id", "seller id", "account id", "यूजर आईडी"],
+  mobile: ["mobile number", "mobile no", "mobile num", "phone number", "phone no", "registered number", "registered mobile", "contact number", "mera number", "mera mobile", "my number", "my mobile", "मोबाइल नंबर", "मेरा नंबर", "मेरा मोबाइल", "फोन नंबर", "फ़ोन नंबर", "रजिस्टर्ड नंबर"],
+  name: ["mera naam", "my name", "मेरा नाम"],
+  company: ["meri company", "my company", "company ka naam", "company name", "firm ka naam", "मेरी कंपनी", "कंपनी का नाम"],
+  location: ["meri location", "my location", "mera address", "my address", "मेरा पता", "मेरी लोकेशन"],
+  categories: ["meri categor", "my categor", "kaun si categor", "which categor", "konsi categor", "मेरी कैटेगरी", "कौन सी कैटेगरी"],
+  membership: ["mera plan", "my plan", "meri membership", "my membership", "mera package", "मेरा प्लान", "मेरी मेंबरशिप"],
+};
+const PROFILE_GENERIC = ["profile details", "profile detail", "meri details", "meri detail", "my details", "account details", "account detail", "मेरी डिटेल", "प्रोफाइल डिटेल", "प्रोफ़ाइल डिटेल"];
+const ASKING = ["kya", "kya hai", "what", "batao", "bataiye", "bataye", "bataen", "tell", "konsa", "kaunsa", "kaun", "which", "confirm", "?", "क्या", "बताइए", "बताओ", "बताएं", "बताइये", "कौन", "कितना"];
+const NOT_MINE = ["buyer", "customer", "kharidar", "client", "बायर", "खरीदार", "ग्राहक", "उसका", "uska"];
+
+/** Which of the seller's own profile fields they're asking about (empty if none). */
+export function profileQueryFields(t: string): ProfileField[] {
+  if (!has(t, ASKING) || has(t, NOT_MINE)) return [];
+  const fields = (Object.keys(PROFILE_FIELD_WORDS) as ProfileField[]).filter((f) => has(t, PROFILE_FIELD_WORDS[f]));
+  if (fields.length === 0 && has(t, PROFILE_GENERIC)) return ["name", "glid", "mobile", "location"];
+  return fields;
+}
+
 // Seller wants it solved fast / it's still unresolved — the only times the agent escalates.
 const URGENT = ["urgent", "asap", "turant", "jaldi solve", "jaldi theek", "jaldi thik", "jaldi se solve", "abhi tak solve nahi", "abhi tak theek nahi", "still not resolved", "still not solved", "not resolved yet", "kab tak", "how long", "kitni baar bola", "fix it now", "solve karo", "solve kijiye", "theek karo", "तुरंत", "जल्दी ठीक", "जल्दी solve", "अभी तक", "कब तक"];
 const NO_ISSUE = ["no issue", "no issues", "no problem", "koi issue nahi", "koi problem nahi", "koi dikkat nahi", "sab theek", "sab thik", "everything is fine", "all good", "कोई दिक्कत नहीं", "कोई समस्या नहीं", "सब ठीक"];
@@ -157,6 +180,9 @@ export function detectSignals(text: string, currentLanguage: LanguageCode): Sign
   if (has(t, HURRY)) out.push({ type: "hurry", label: "Seller has little time — speak faster and get to the point", quote, value: "fast", explicit: true, persistentCandidate: false, confidence: 0.85 });
 
   if (has(t, OFF_TOPIC)) out.push({ type: "off_topic", label: "Seller asked something unrelated to IndiaMART", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
+
+  const profileFields = profileQueryFields(t);
+  if (profileFields.length) out.push({ type: "profile_query", label: `Seller asked for their own profile details (${profileFields.join(", ")})`, quote, value: profileFields.join(","), explicit: true, persistentCandidate: false, confidence: 0.85 });
 
   if (has(t, URGENT)) out.push({ type: "urgent", label: "Seller wants the problem fixed quickly", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
 

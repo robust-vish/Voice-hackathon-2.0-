@@ -28,13 +28,22 @@
   "preferences": {
     "language": {
       "value": "hi-IN",
-      "source": "metadata",
+      "source": "learned",
       "confidence": 0.5,
-      "observations": 0,
-      "tally": {},
-      "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Hindi). Not yet confirmed on a call.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "observations": 1,
+      "tally": {
+        "hi-IN": 1
+      },
+      "reason": "Seller switched to Hindi — replying in Hindi during call INT_MV20VCDULB1IG.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV20VCDULB1IG",
+          "at": "2026-10-10T06:44:44.294Z",
+          "note": "Seller switched to Hindi — replying in Hindi during call INT_MV20VCDULB1IG.",
+          "quote": "हरियाणी में बात करो।"
+        }
+      ],
+      "updatedAt": "2026-10-10T06:44:44.294Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -48,13 +57,22 @@
     },
     "voiceGender": {
       "value": "female",
-      "source": "default",
-      "confidence": 0.3,
-      "observations": 0,
-      "tally": {},
-      "reason": "Default agent voice; no stated preference yet.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "female": 1
+      },
+      "reason": "Seller asked for a female voice during call INT_MV20VCDULB1IG.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV20VCDULB1IG",
+          "at": "2026-10-10T06:44:44.294Z",
+          "note": "Seller asked for a female voice during call INT_MV20VCDULB1IG.",
+          "quote": "Female"
+        }
+      ],
+      "updatedAt": "2026-10-10T06:44:44.294Z"
     },
     "tone": {
       "value": "warm",
@@ -138,16 +156,40 @@
     }
   },
   "behaviour": {
-    "summary": "No conversations recorded yet.",
+    "summary": "Last call (INT_MV20VCDULB1IG, web): 24 seller turns, 7 adaptations, languages: Hindi, English, Gujarati, Marathi. Outcome: 1 issue(s) raised.",
     "traits": []
   },
-  "memory": [],
-  "status": "New",
-  "interactionCount": 0,
-  "lastInteractionAt": null,
+  "memory": [
+    {
+      "id": "MEM_MV214HVTZMJM4",
+      "at": "2026-10-10T06:44:44.294Z",
+      "interactionId": "INT_MV20VCDULB1IG",
+      "category": "complaint",
+      "fact": "Issue raised: Seller is unable to find stationery leads because their catalog is not fully updated.",
+      "quote": "वहां मैं गया था लेकिन मेरे को stationery के",
+      "source": "learned"
+    }
+  ],
+  "status": "Provisional",
+  "interactionCount": 1,
+  "lastInteractionAt": "2026-10-10T06:44:44.268Z",
   "createdAt": "2026-09-10T05:40:52.484Z",
-  "updatedAt": "2026-10-10T06:21:21.048Z",
-  "history": [],
+  "updatedAt": "2026-10-10T06:44:44.298Z",
+  "history": [
+    {
+      "interactionId": "INT_MV20VCDULB1IG",
+      "at": "2026-10-10T06:44:44.294Z",
+      "mode": "web",
+      "outcome": "1 issue(s) raised",
+      "adaptations": 7,
+      "languagesUsed": [
+        "hi-IN",
+        "en-IN",
+        "gu-IN",
+        "mr-IN"
+      ]
+    }
+  ],
   "changeLog": [
     {
       "at": "2026-09-10T05:40:52.484Z",
@@ -164,6 +206,15 @@
       "to": "Soumya Sarkar",
       "reason": "Seller name provided by the IndiaMART team.",
       "source": "metadata"
+    },
+    {
+      "at": "2026-10-10T06:44:44.294Z",
+      "interactionId": "INT_MV20VCDULB1IG",
+      "field": "profile",
+      "from": "New",
+      "to": "Provisional",
+      "reason": "1 recorded interaction(s).",
+      "source": "learned"
     }
   ],
   "contactPerson": "Soumya Sarkar"

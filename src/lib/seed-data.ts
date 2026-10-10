@@ -4,7 +4,8 @@ import type { LanguageCode, LeadCategory, PreferenceKey, RegistryEntry } from ".
 // numeric offer id (a BuyLead expires once consumed).
 //
 // REAL sellers (isDemo: false) were provided by the IndiaMART team. Their raw mobile numbers
-// live ONLY here / in data/registry.json — profiles, API responses and the LLM only ever see
+// live ONLY here / in data/registry.json. They are read out to the seller only when the seller
+// asks for their own number on a call; profiles, API responses and the LLM only ever see
 // a masked number. Do not publish this file.
 //
 // DEMO sellers (isDemo: true) are synthetic and kept for the scripted Simulated demo.

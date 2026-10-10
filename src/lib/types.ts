@@ -240,7 +240,7 @@ export type CallStatus =
 export type SignalType =
   | "language_switch" | "voice_gender" | "shorter" | "more_detail" | "slower" | "faster"
   | "formal" | "informal" | "busy" | "callback_time" | "frustration" | "not_interested" | "end_call"
-  | "hurry" | "off_topic" | "issue" | "urgent";
+  | "hurry" | "off_topic" | "issue" | "urgent" | "profile_query";
 
 export interface Signal {
   type: SignalType;

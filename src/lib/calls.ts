@@ -1,5 +1,6 @@
 import { applySignals } from "./adaptation";
 import { PACE_TO_TTS, composeReply, openingLine, stageIndex, type ComposedReply } from "./agent";
+import { polishAgentText } from "./grammar";
 import { detectScriptLanguage, hasNonLatinIndicScript, isLanguageCode, languageName } from "./languages";
 import { generatePersona, generatePlan, missingPriceProducts } from "./persona";
 import { computeStatus, GLID_HINT, isValidGlid, learnPreference, makeId, normalizeGlid, nowIso } from "./profile";
@@ -92,6 +93,8 @@ export function prepareCall(rawGlid: string, mode: CallMode): { interaction?: In
 // ---------------- D2: start ----------------
 
 function agentTurn(reply: ComposedReply): Turn {
+  // Same text is shown and spoken: fix verb gender for the current voice, "help assistant" wording.
+  reply.text = polishAgentText(reply.text, reply.language, reply.voice.gender);
   return { id: makeId("T"), at: nowIso(), speaker: "agent", text: reply.text, language: reply.language, voice: reply.voice, translatedFrom: reply.note === "untranslated" ? "untranslated" : undefined };
 }
 

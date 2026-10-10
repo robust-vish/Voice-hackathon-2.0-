@@ -176,7 +176,7 @@
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV1YV3R5RUZI4, web): 8 seller turns, 8 adaptations, languages: Hindi. Outcome: 3 issue(s) escalated.",
+    "summary": "Last call (INT_MV21J6ZEIU1GN, web): 4 seller turns, 0 adaptations, languages: Hindi. Outcome: 1 issue(s) raised.",
     "traits": [
       "Has raised issues with IndiaMART",
       "Has shown frustration with repeated calls"
@@ -209,13 +209,22 @@
       "fact": "Issue raised: Seller is not receiving BuyLeads for Power Bikes (Royal Enfield) while other categories like 1121 Basmati Rice and Kamdhenu TMT Bars are working fine. (escalated 2026-10-10)",
       "quote": "आपको मेरा issue समझ में आया? अगर आया तो बताइए क्या issue है मेरा।",
       "source": "learned"
+    },
+    {
+      "id": "MEM_MV21KI68NTTHI",
+      "at": "2026-10-10T06:57:11.167Z",
+      "interactionId": "INT_MV21J6ZEIU1GN",
+      "category": "complaint",
+      "fact": "Issue raised: Seller wants to know their GL ID.",
+      "quote": "हाँ मुझे अपनी GL ID जानना है।",
+      "source": "learned"
     }
   ],
   "status": "Provisional",
-  "interactionCount": 1,
-  "lastInteractionAt": "2026-10-10T05:45:27.689Z",
+  "interactionCount": 2,
+  "lastInteractionAt": "2026-10-10T06:57:11.147Z",
   "createdAt": "2026-09-10T05:40:52.484Z",
-  "updatedAt": "2026-10-10T05:45:27.699Z",
+  "updatedAt": "2026-10-10T06:57:11.168Z",
   "history": [
     {
       "interactionId": "INT_MV1YV3R5RUZI4",
@@ -223,6 +232,16 @@
       "mode": "web",
       "outcome": "3 issue(s) escalated",
       "adaptations": 8,
+      "languagesUsed": [
+        "hi-IN"
+      ]
+    },
+    {
+      "interactionId": "INT_MV21J6ZEIU1GN",
+      "at": "2026-10-10T06:57:11.167Z",
+      "mode": "web",
+      "outcome": "1 issue(s) raised",
+      "adaptations": 0,
       "languagesUsed": [
         "hi-IN"
       ]
@@ -245,6 +264,16 @@
       "to": "Provisional",
       "reason": "1 recorded interaction(s).",
       "source": "learned"
+    },
+    {
+      "at": "2026-10-10T06:57:11.167Z",
+      "interactionId": "INT_MV21J6ZEIU1GN",
+      "field": "companyName",
+      "from": "unknown",
+      "to": "Equinox",
+      "reason": "Stated by the seller on the call.",
+      "source": "learned"
     }
-  ]
+  ],
+  "companyName": "Equinox"
 }

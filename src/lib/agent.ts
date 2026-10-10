@@ -3,7 +3,8 @@ import { isPaidMember, missingPriceProducts } from "./persona";
 import { tenure } from "./profile";
 import { sarvamChat, sarvamConfigured, sarvamTranslate, type ChatMessage } from "./sarvam";
 import { knowledgePrompt, quickTip } from "./knowledge";
-import { extractFacts } from "./signals";
+import { extractFacts, type ProfileField } from "./signals";
+import { getRegistryEntry } from "./store";
 import { CALL_STAGES, type AgentReply, type CallStage, type Interaction, type LanguageCode, type Pace, type ResponseLength, type SellerProfile, type Signal, type VoiceGender } from "./types";
 
 // Call script (template "beats"):
@@ -57,23 +58,61 @@ const IDENTITY: Lines = {
 
 const FEEDBACK: Lines = {
   en: (c) => c.openIssue
-    ? `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent} from IndiaMART. Last time you mentioned "${c.openIssue}" — has that been sorted out, or are you still facing it?`
+    ? `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. Last time you mentioned "${c.openIssue}" — has that been sorted out, or are you still facing it?`
     : by(c.len,
       `Thanks! ${c.agent} from IndiaMART. You've been with us ${c.tenureEn} — any issues lately?`,
-      `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent} from IndiaMART. You've been using IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""} — how has your experience been? Are you facing any issues?`,
-      `Thank you so much${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent} from IndiaMART. You've been with IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""}, and we'd really like your honest feedback — how has the experience been, and is anything troubling you, like leads, enquiries or your listings?`),
+      `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. You've been using IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""} — how has your experience been? Are you facing any issues?`,
+      `Thank you so much${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. You've been with IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""}, and we'd really like your honest feedback — how has the experience been, and is anything troubling you, like leads, enquiries or your listings?`),
   hi: (c) => c.openIssue
     ? `जी धन्यवाद! मैं ${c.agent}, IndiaMART से। पिछली बार आपने "${c.openIssue}" के बारे में बताया था — क्या वो solve हो गया, या अभी भी दिक्कत आ रही है?`
     : by(c.len,
       `जी धन्यवाद! मैं ${c.agent}, IndiaMART से। ${c.tenureHi} से आप हमारे साथ हैं — कोई दिक्कत?`,
-      `जी धन्यवाद! मैं ${c.agent} बोल ${hiG(c.g, "रही", "रहा")} हूँ, IndiaMART से। आप पिछले ${c.tenureHi} से IndiaMART use कर रहे हैं${c.cats ? `, ${c.cats} के BuyLeads ले रहे हैं` : ""} — आपका experience कैसा रहा? कोई दिक्कत तो नहीं आ रही?`,
-      `जी बहुत धन्यवाद! मैं ${c.agent} बोल ${hiG(c.g, "रही", "रहा")} हूँ, IndiaMART से। आप पिछले ${c.tenureHi} से IndiaMART के साथ हैं${c.cats ? ` और ${c.cats} के BuyLeads ले रहे हैं` : ""}, तो हम आपका honest feedback जानना चाहते हैं — experience कैसा रहा? Leads, enquiries या listing में कोई परेशानी तो नहीं?`),
+      `जी धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant, बोल ${hiG(c.g, "रही", "रहा")} हूँ। आप पिछले ${c.tenureHi} से IndiaMART use कर रहे हैं${c.cats ? `, ${c.cats} के BuyLeads ले रहे हैं` : ""} — आपका experience कैसा रहा? कोई दिक्कत तो नहीं आ रही?`,
+      `जी बहुत धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant, बोल ${hiG(c.g, "रही", "रहा")} हूँ। आप पिछले ${c.tenureHi} से IndiaMART के साथ हैं${c.cats ? ` और ${c.cats} के BuyLeads ले रहे हैं` : ""}, तो हम आपका honest feedback जानना चाहते हैं — experience कैसा रहा? Leads, enquiries या listing में कोई परेशानी तो नहीं?`),
 };
 
 const ESCALATE: Lines = {
   en: () => `I'm really sorry you're facing this — we truly apologise. I'm escalating it to our senior team right away so it gets resolved as soon as possible.`,
   hi: (c) => `इस परेशानी के लिए हमें सच में बहुत खेद है। मैं इसे अभी अपनी senior team को escalate कर ${hiG(c.g, "रही", "रहा")} हूँ, ताकि जल्द से जल्द solve हो जाए।`,
 };
+/** "6601433" -> "6 6 0 1 4 3 3" so the voice reads digits one by one. */
+const spell = (digits: string) => digits.replace(/\D/g, "").split("").join(" ");
+
+const ANYTHING_ELSE: Lines = {
+  en: () => "Anything else you'd like to check?",
+  hi: () => "और कुछ जानना चाहेंगे?",
+};
+
+/**
+ * Exact answer to "what is my GLID / mobile / …" from the seller's record. The raw mobile is read
+ * from the registry only here (it is never part of the profile or the LLM prompt).
+ */
+function profileAnswer(fields: ProfileField[], p: SellerProfile): Lines {
+  const mobile = getRegistryEntry(p.glid)?.mobile;
+  const cats = (p.leadCategories?.length ? p.leadCategories.map((x) => x.name) : p.dealsIn ?? []).slice(0, 5).join(", ");
+  const loc = p.location ?? p.city;
+  const plan = p.membership?.replace(/\s*\(demo\)/i, "");
+  const en: Record<ProfileField, string> = {
+    glid: `Your GLID is ${spell(p.glid)}.`,
+    mobile: mobile ? `Your registered mobile number is ${spell(mobile)}.` : "I don't have a registered mobile number on your record right now.",
+    name: p.contactPerson ? `The name on your account is ${p.contactPerson}.` : "Your name isn't on our record yet — may I know your name?",
+    company: p.companyName ? `Your company on record is ${p.companyName}.` : "Your company name isn't on our record yet.",
+    location: loc ? `Your location on record is ${loc}.` : "Your location isn't on our record yet.",
+    categories: cats ? `You take BuyLeads for ${cats}.` : "I don't see any BuyLead categories on your record yet.",
+    membership: plan ? `You're on the ${plan} plan.` : "I don't have your plan details with me right now.",
+  };
+  const hi: Record<ProfileField, string> = {
+    glid: `आपका GLID है ${spell(p.glid)}।`,
+    mobile: mobile ? `आपका registered mobile number है ${spell(mobile)}।` : "अभी आपके record में registered mobile number नहीं दिख रहा।",
+    name: p.contactPerson ? `आपके account पर नाम ${p.contactPerson} है।` : "आपका नाम अभी हमारे record में नहीं है — क्या मैं आपका नाम जान सकती हूँ?",
+    company: p.companyName ? `आपकी company ${p.companyName} है।` : "आपकी company का नाम अभी हमारे record में नहीं है।",
+    location: loc ? `आपकी location ${loc} है।` : "आपकी location अभी record में नहीं है।",
+    categories: cats ? `आप ${cats} के BuyLeads लेते हैं।` : "अभी आपके record में कोई BuyLead category नहीं दिख रही।",
+    membership: plan ? `आप ${plan} plan पर हैं।` : "आपके plan की details अभी मेरे पास नहीं हैं।",
+  };
+  return { en: () => fields.map((f) => en[f]).join(" "), hi: () => fields.map((f) => hi[f]).join(" ") };
+}
+
 /** App guidance for a reported issue (template path). Falls back to "noted, I'll check". */
 function tipLines(issue: string): Lines {
   const t = quickTip(issue);
@@ -233,6 +272,13 @@ export async function composeReply(tc: TurnContext): Promise<ComposedReply> {
   // Only the SELLER ends the call: an explicit goodbye / "end the call", or "not interested".
   if (has("not_interested")) return done(await render([NOT_INTERESTED], c, lang), lang, voice, true, LAST_BEAT, { issue });
   if (has("end_call")) return done(await render([...(issue && canEscalate ? [ESCALATE] : []), GOODBYE], c, lang), lang, voice, true, LAST_BEAT, { issue, escalated: !!issue && canEscalate });
+  // Seller asked for their own details (GLID, mobile, …): answer exactly from the record, no LLM.
+  const pq = signals.find((s) => s.type === "profile_query");
+  if (pq?.value) {
+    const fields = pq.value.split(",") as ProfileField[];
+    return done(await render([profileAnswer(fields, profile), ANYTHING_ELSE], c, lang), lang, voice, false, tc.beat, {});
+  }
+
   const meetingJustSet = has("callback_time") && !!interaction.meetingTime;
   if (has("callback_time") && !meetingJustSet) return done(await render([CALLBACK_OK], c, lang), lang, voice, false, tc.beat, {});
 
@@ -344,7 +390,7 @@ const HUMAN_STYLE = [
   "- HONESTY: never make up prices, market rates, timelines, numbers or processes. Don't suggest a price — the seller decides.",
   "- Solve problems yourself first using the INDIAMART KNOWLEDGE below (tell them where to tap in the app). How much you explain follows the persona's explanation detail: low = just the one key step, medium = up to two steps, high = clear step-by-step.",
   "- You can NOTE information for the seller's profile. Escalating to the senior team is ONLY allowed when the ESCALATION line below says so — and say it once, never repeat it. Don't promise anything else (no \"I'll update your listing\", no \"our team will call you\").",
-  "- Don't claim to be human. If the seller sincerely asks whether you are a person or an AI, say honestly that you are IndiaMART's AI assistant.",
+  "- WHO YOU ARE: introduce yourself as IndiaMART's seller help assistant (Hindi: \"IndiaMART की seller help assistant\" as a woman, \"IndiaMART का seller help assistant\" as a man). Never call yourself an AI, AI assistant, bot, robot or voice agent. If the seller asks whether you are a real person, don't claim to be human — say you are IndiaMART's virtual help assistant, here to help with their IndiaMART account, and carry on.",
   "- NEVER say goodbye or wrap up the call on your own. Only the seller ends the call.",
 ].join("\n");
 
@@ -372,7 +418,7 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
   const c = ctxFor(profile, interaction);
   const current = interaction.stage ?? "identity";
   const system = [
-    `You are ${p.agentName}, ${p.voiceGender.value === "male" ? "a man" : "a woman"} from IndiaMART's seller success team, on a live phone call with an IndiaMART seller.`,
+    `You are ${p.agentName}, ${p.voiceGender.value === "male" ? "a man" : "a woman"}, IndiaMART's seller help assistant, on a live phone call with an IndiaMART seller.`,
     `Seller: ${profile.contactPerson ?? "name unknown"}${c.company ? ` of ${c.company}` : ""} (${profile.location ?? profile.city ?? ""}). On IndiaMART for ${c.tenureEn}. Membership: ${profile.membership ?? "unknown"}.`,
     profile.leadCategories?.length ? `BuyLead categories this seller consumes: ${profile.leadCategories.map((x) => x.name).join(", ")}.` : "",
     profile.dealsIn?.length ? `Deals in: ${profile.dealsIn.join(", ")}.` : "",
@@ -402,7 +448,8 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
   const history: ChatMessage[] = interaction.turns
     .filter((t) => t.speaker !== "system")
     .slice(-12)
-    .map((t) => ({ role: t.speaker === "agent" ? "assistant" : "user", content: t.text }));
+    // Long digit runs (mobile numbers read out on request) never go to the LLM.
+    .map((t) => ({ role: t.speaker === "agent" ? "assistant" : "user", content: t.text.replace(/(\d[\s-]?){8,}/g, "[number]") }));
   const raw = await sarvamChat([{ role: "system", content: system }, ...history], 700, 0.7, true);
   const parsed = parseLlm(raw);
   if (process.env.DEBUG_LLM === "1") console.log("[llm raw]", raw.slice(0, 400));

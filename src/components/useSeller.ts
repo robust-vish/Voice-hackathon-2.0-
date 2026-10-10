@@ -15,7 +15,8 @@ export interface SellerResp {
   activeInteraction: { id: string; status: string; overrides: Partial<Record<PersonaDimensionKey, string>>; currentPersona: Persona } | null;
 }
 
-export function useSeller(glid: string) {
+/** Loads a seller. With `pollMs`, it also refreshes silently in the background (e.g. to follow a live call). */
+export function useSeller(glid: string, pollMs?: number) {
   const [data, setData] = useState<SellerResp | null>(null);
   const [error, setError] = useState<{ message: string; status: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -28,5 +29,14 @@ export function useSeller(glid: string) {
       .finally(() => setLoading(false));
   }, [glid]);
   useEffect(() => { reload(); }, [reload]);
+
+  useEffect(() => {
+    if (!pollMs) return;
+    const id = setInterval(() => {
+      api<SellerResp>(`/api/sellers/${encodeURIComponent(glid)}`).then(setData).catch(() => {});
+    }, pollMs);
+    return () => clearInterval(id);
+  }, [glid, pollMs]);
+
   return { data, error, loading, reload };
 }

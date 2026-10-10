@@ -88,24 +88,24 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_002_1",
-          "at": "2026-09-16T08:14:41.195Z",
+          "at": "2026-09-16T09:31:03.951Z",
           "note": "Seller switched to English in 3 earlier (synthetic) calls.",
           "quote": "Let's continue in English, please."
         },
         {
           "interactionId": "SEED_INT_002_2",
-          "at": "2026-09-22T08:14:41.195Z",
+          "at": "2026-09-22T09:31:03.951Z",
           "note": "Seller switched to English in 3 earlier (synthetic) calls.",
           "quote": "Let's continue in English, please."
         },
         {
           "interactionId": "SEED_INT_002_3",
-          "at": "2026-09-28T08:14:41.195Z",
+          "at": "2026-09-28T09:31:03.951Z",
           "note": "Seller switched to English in 3 earlier (synthetic) calls.",
           "quote": "Let's continue in English, please."
         }
       ],
-      "updatedAt": "2026-09-28T08:14:41.195Z"
+      "updatedAt": "2026-09-28T09:31:03.951Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -115,7 +115,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "voiceGender": {
       "value": "female",
@@ -125,7 +125,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "tone": {
       "value": "direct",
@@ -139,16 +139,16 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_002_1",
-          "at": "2026-09-16T08:14:41.195Z",
+          "at": "2026-09-16T09:31:03.951Z",
           "note": "Seller responded best to direct, numbers-first answers."
         },
         {
           "interactionId": "SEED_INT_002_2",
-          "at": "2026-09-22T08:14:41.195Z",
+          "at": "2026-09-22T09:31:03.951Z",
           "note": "Seller responded best to direct, numbers-first answers."
         }
       ],
-      "updatedAt": "2026-09-22T08:14:41.195Z"
+      "updatedAt": "2026-09-22T09:31:03.951Z"
     },
     "formality": {
       "value": "formal",
@@ -158,7 +158,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "pace": {
       "value": "normal",
@@ -168,7 +168,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -178,7 +178,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -188,7 +188,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -198,7 +198,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     },
     "objectionHandling": {
       "value": "data-backed",
@@ -212,16 +212,16 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_002_1",
-          "at": "2026-09-16T08:14:41.195Z",
+          "at": "2026-09-16T09:31:03.951Z",
           "note": "Seller asked for data (lead counts, response rates) before agreeing."
         },
         {
           "interactionId": "SEED_INT_002_2",
-          "at": "2026-09-22T08:14:41.195Z",
+          "at": "2026-09-22T09:31:03.951Z",
           "note": "Seller asked for data (lead counts, response rates) before agreeing."
         }
       ],
-      "updatedAt": "2026-09-22T08:14:41.195Z"
+      "updatedAt": "2026-09-22T09:31:03.951Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -231,7 +231,7 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T08:14:41.195Z"
+      "updatedAt": "2026-09-10T09:31:03.951Z"
     }
   },
   "behaviour": {
@@ -244,16 +244,16 @@
   },
   "memory": [
     {
-      "id": "MEM_MV24C66CDPJQW",
-      "at": "2026-10-04T08:14:41.195Z",
+      "id": "MEM_MV272EAKQ4AM6",
+      "at": "2026-10-04T09:31:03.951Z",
       "category": "business",
       "fact": "Has an in-house sales team that handles the Lead Manager (LMS) inbox.",
       "source": "learned",
       "interactionId": "SEED_INT_002_1"
     },
     {
-      "id": "MEM_MV24C66C62Y1O",
-      "at": "2026-10-04T08:14:41.195Z",
+      "id": "MEM_MV272EAKZ26FY",
+      "at": "2026-10-04T09:31:03.951Z",
       "category": "availability",
       "fact": "Factory closed on Sundays.",
       "source": "learned",
@@ -262,13 +262,13 @@
   ],
   "status": "Established",
   "interactionCount": 4,
-  "lastInteractionAt": "2026-10-04T08:14:41.195Z",
-  "createdAt": "2026-09-10T08:14:41.195Z",
-  "updatedAt": "2026-10-04T08:14:41.195Z",
+  "lastInteractionAt": "2026-10-04T09:31:03.951Z",
+  "createdAt": "2026-09-10T09:31:03.951Z",
+  "updatedAt": "2026-10-04T09:31:03.951Z",
   "history": [
     {
       "interactionId": "SEED_INT_002_1",
-      "at": "2026-09-16T08:14:41.195Z",
+      "at": "2026-09-16T09:31:03.951Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -278,7 +278,7 @@
     },
     {
       "interactionId": "SEED_INT_002_2",
-      "at": "2026-09-22T08:14:41.195Z",
+      "at": "2026-09-22T09:31:03.951Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -288,7 +288,7 @@
     },
     {
       "interactionId": "SEED_INT_002_3",
-      "at": "2026-09-28T08:14:41.195Z",
+      "at": "2026-09-28T09:31:03.951Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -298,7 +298,7 @@
     },
     {
       "interactionId": "SEED_INT_002_4",
-      "at": "2026-10-04T08:14:41.195Z",
+      "at": "2026-10-04T09:31:03.951Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -309,7 +309,7 @@
   ],
   "changeLog": [
     {
-      "at": "2026-09-10T08:14:41.195Z",
+      "at": "2026-09-10T09:31:03.951Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -317,7 +317,7 @@
       "source": "metadata"
     },
     {
-      "at": "2026-09-16T08:14:41.195Z",
+      "at": "2026-09-16T09:31:03.951Z",
       "interactionId": "SEED_INT_002_1",
       "field": "language",
       "from": "te-IN",
@@ -326,7 +326,7 @@
       "source": "learned"
     },
     {
-      "at": "2026-09-16T08:14:41.195Z",
+      "at": "2026-09-16T09:31:03.951Z",
       "interactionId": "SEED_INT_002_1",
       "field": "tone",
       "from": "warm",
@@ -335,7 +335,7 @@
       "source": "learned"
     },
     {
-      "at": "2026-09-16T08:14:41.195Z",
+      "at": "2026-09-16T09:31:03.951Z",
       "interactionId": "SEED_INT_002_1",
       "field": "objectionHandling",
       "from": "acknowledge-and-reassure",

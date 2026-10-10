@@ -430,7 +430,9 @@ export async function runPostCall(id: string): Promise<Interaction> {
       profile.contactPerson = i.statedName;
       if (/^Unknown seller/i.test(profile.displayName)) profile.displayName = i.statedName;
     }
-    if (i.statedCompany && !profile.companyName) {
+    // A "company" that is just the seller's own name is the LLM echoing the name, not a company.
+    const sameAsName = (s: string) => [profile.contactPerson, profile.displayName, i.statedName].some((n) => n && n.trim().toLowerCase() === s.trim().toLowerCase());
+    if (i.statedCompany && !profile.companyName && !sameAsName(i.statedCompany)) {
       profile.changeLog.push({ at, interactionId: i.id, field: "companyName", from: "unknown", to: i.statedCompany, reason: "Stated by the seller on the call.", source: "learned" });
       updates.push({ field: "Company", from: "unknown", to: i.statedCompany, reason: "Stated by the seller on the call." });
       profile.companyName = i.statedCompany;

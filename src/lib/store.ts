@@ -112,6 +112,12 @@ function syncIdentities() {
     }
     if (/^Unknown seller/i.test(p.displayName) && seed.displayName && !/^Unknown seller/i.test(seed.displayName)) { p.displayName = seed.displayName; changed = true; }
     if (seed.companyName && !p.companyName) { p.companyName = seed.companyName; changed = true; }
+    // An earlier build could save the seller's own name as their company ("Shobhna of Shobhna").
+    if (p.companyName && !seed.companyName && p.contactPerson && p.companyName.trim().toLowerCase() === p.contactPerson.trim().toLowerCase()) {
+      p.changeLog.push({ at, field: "companyName", from: p.companyName, to: "unknown", reason: "Company name was just the seller's own name; cleared.", source: "metadata" });
+      p.companyName = undefined;
+      changed = true;
+    }
     if (changed) saveProfile(p);
   }
   if (regChanged) writeJsonAtomic(REGISTRY_FILE, reg);

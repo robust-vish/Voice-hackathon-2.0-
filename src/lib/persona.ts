@@ -75,7 +75,9 @@ export function generatePlan(profile: SellerProfile, _persona: Persona): Convers
   const openIssues = profile.memory.filter((m) => m.category === "complaint").slice(-2);
   const paid = isPaidMember(profile);
   const steps = [
-    { id: "identity", title: "Confirm identity", goal: `Ask: "Am I speaking with ${profile.contactPerson ?? "the owner"} of ${profile.companyName ?? profile.displayName}?"` },
+    { id: "identity", title: "Confirm identity", goal: profile.contactPerson
+      ? `Ask: "Am I speaking with ${profile.contactPerson} ji${profile.companyName && profile.companyName !== profile.contactPerson ? ` from ${profile.companyName}` : ""}?"`
+      : `Ask whether this is the owner of the IndiaMART account${profile.companyName ? ` (${profile.companyName})` : ""}, and note their name.` },
     { id: "feedback", title: "Feedback", goal: `Introduce yourself; mention they have been using IndiaMART for ${t?.en ?? "a while"} and ask about their experience and any issues.${openIssues.length ? ` Also ask whether the earlier issue (${openIssues.map((m) => m.fact).join("; ")}) got resolved.` : ""}` },
     { id: "resolve", title: "Resolve or escalate", goal: "Help with the issue if you are sure of the answer; otherwise apologise sincerely and escalate it to the senior team for a quick resolution." },
     { id: "meeting", title: "Meeting slot", goal: "Ask when the seller is free for a short meeting with an IndiaMART representative (day + time)." },

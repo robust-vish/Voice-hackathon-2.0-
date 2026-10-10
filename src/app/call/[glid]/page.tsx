@@ -6,7 +6,7 @@ import {
   AlertTriangle, ArrowLeft, ArrowRight, Bot, CheckCircle2, CircleDashed, Headphones, Loader2, Mic, MicOff, Phone, PhoneOff,
   Play, RotateCcw, Send, SkipForward, User, Volume2, VolumeX, XCircle,
 } from "lucide-react";
-import { PersonaGrid } from "@/components/PersonaGrid";
+import { PersonaAtAGlance, PersonaGrid } from "@/components/PersonaGrid";
 import { Avatar, Badge, Button, Card, Empty, ErrorBox, LinkButton, ModeBadge, Spinner, StatusBadge, Tabs } from "@/components/ui";
 import { useSeller } from "@/components/useSeller";
 import { browserListen, browserRecognitionAvailable, MicSession, playFiller, prefetchFillers, speak, stopSpeaking, unlockAudio, type Engine, type Speech } from "@/components/voice";
@@ -661,8 +661,8 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
 
             {sideTab === "persona" && (
               <Card>
-                <p className="mb-3 text-xs text-gray-500">{persona.summary}</p>
-                <PersonaGrid persona={persona} compact highlight={interaction?.overrides} />
+                <div className="mb-4"><PersonaAtAGlance persona={persona} /></div>
+                <PersonaGrid persona={persona} baseline={interaction ? seller.persona : undefined} compact />
               </Card>
             )}
 

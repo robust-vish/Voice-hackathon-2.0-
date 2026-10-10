@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowLeft, Building2, MapPin, Phone, Smartphone } from "lucide-react";
 import { Markdown } from "./Markdown";
-import { PersonaGrid } from "./PersonaGrid";
+import { PersonaAtAGlance, PersonaGrid } from "./PersonaGrid";
 import { Avatar, Badge, Button, Card, Chip, Empty, ErrorBox, Field, LinkButton, ModeBadge, Spinner, StatusBadge, Tabs } from "./ui";
 import { useSeller } from "./useSeller";
 import { api, fmtTime } from "@/lib/client";
@@ -62,8 +62,9 @@ function ManualEdit({ glid, onSaved }: { glid: string; onSaved: () => void }) {
 }
 
 export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; initialTab?: SellerTab }) {
-  const { data, error, loading, reload } = useSeller(glid);
   const [tab, setTab] = useState<SellerTab>(initialTab);
+  // The persona tab refreshes itself so its pointers follow a call happening in another tab.
+  const { data, error, loading, reload } = useSeller(glid, tab === "persona" ? 3000 : undefined);
   const [md, setMd] = useState<string | null>(null);
   const [showJson, setShowJson] = useState(false);
 
@@ -182,10 +183,23 @@ export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; 
 
       {tab === "persona" && (
         <div className="space-y-6">
-          <Card title="How the agent will talk to this seller">
-            <p className="mb-4 text-sm text-gray-600">{data.persona.summary}</p>
-            <PersonaGrid persona={data.persona} />
-          </Card>
+          {(() => {
+            const live = data.activeInteraction && ["Connected", "In Progress"].includes(data.activeInteraction.status) ? data.activeInteraction : null;
+            const persona = live?.currentPersona ?? data.persona;
+            return (
+              <Card
+                title={live ? "How the agent is talking right now" : "How the agent will talk to this seller"}
+                action={live ? (
+                  <Link href={`/call/${p.glid}`} className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />Live call · updating
+                  </Link>
+                ) : <span className="text-xs text-gray-400">Updates after every call</span>}
+              >
+                <div className="mb-5"><PersonaAtAGlance persona={persona} /></div>
+                <PersonaGrid persona={persona} baseline={live ? data.persona : undefined} />
+              </Card>
+            );
+          })()}
           <div className="grid gap-6 lg:grid-cols-2">
             <Card title="Call plan">
               <ol className="space-y-2 text-sm">

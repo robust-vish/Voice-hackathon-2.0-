@@ -88,7 +88,7 @@ Drive calls through the API with a small **Node script** (`POST /api/calls` → 
 - **Sarvam chat:** keep `reasoning_effort: null` (hidden reasoning can eat the token budget and return empty text); use `response_format: json_object`; `bulbul:v2` and `sarvam-30b` are deprecated.
 - **STT spellings:** speech-to-text writes English words in Devanagari ("मेल वॉइस") and Hindi words many ways ("aawaj/awaaz") — add variants to the word lists, and note "फीमेल" contains "मेल" (it is scrubbed before male detection).
 - `/api/admin/reset` and changing `SEED_VERSION` **delete** profiles and interactions.
-- Serverless hosts (Vercel): set `DATA_DIR=/tmp/voice-agent-data`; `/tmp` is per-instance and temporary.
+- Serverless hosts (Vercel): set `DATA_DIR=/tmp/voice-agent-data` **and** connect Upstash Redis (`KV_REST_API_URL`/`KV_REST_API_TOKEN`). `/tmp` is per-instance, so without the shared store calls fail with "Interaction not found". `src/lib/sync.ts` hydrates in `handle()` before each API request and flushes after; every JSON write must go through `writeJsonAtomic` so it is marked dirty.
 
 ## Code style
 

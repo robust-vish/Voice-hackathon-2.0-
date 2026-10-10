@@ -16,5 +16,5 @@ export async function POST(req: Request) {
     // Unknown / wrong-gender speakers fall back to the default voice for that gender.
     const r = await sarvamTts(text, body.language, gender, pace, typeof body.speaker === "string" ? body.speaker.toLowerCase() : undefined);
     return json(r);
-  });
+  }, { sync: false });
 }

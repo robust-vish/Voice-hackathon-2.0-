@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     if (file.size > 10 * 1024 * 1024) return fail("Audio too large", 413);
     const name = (file as File).name || "speech.wav";
     return json(await sarvamStt(file, name));
-  });
+  }, { sync: false });
 }
 
 // GET is only used to pre-compile this route in dev so the first real request is fast.

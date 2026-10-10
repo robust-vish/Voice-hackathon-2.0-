@@ -28,21 +28,14 @@
   "buyLeads": [],
   "preferences": {
     "language": {
-      "value": "bn-IN",
-      "source": "manual",
-      "confidence": 1,
+      "value": "hi-IN",
+      "source": "metadata",
+      "confidence": 0.5,
       "observations": 0,
-      "tally": {
-        "hi-IN": 1
-      },
-      "reason": "Manual override by operator: set",
-      "evidence": [
-        {
-          "at": "2026-10-10T13:50:49.219Z",
-          "note": "Manual override (hi-IN → bn-IN): set"
-        }
-      ],
-      "updatedAt": "2026-10-10T13:50:49.219Z"
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Hindi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -52,7 +45,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "voiceGender": {
       "value": "female",
@@ -62,7 +55,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "tone": {
       "value": "warm",
@@ -72,7 +65,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "formality": {
       "value": "formal",
@@ -82,7 +75,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "pace": {
       "value": "normal",
@@ -92,7 +85,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -102,7 +95,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -112,7 +105,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -122,7 +115,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -132,7 +125,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -142,84 +135,28 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.948Z"
+      "updatedAt": "2026-09-10T17:06:48.713Z"
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV2GCK0CVY1VH, web): 6 seller turns, 11 adaptations, languages: Bengali, Hindi, Gujarati, English. Outcome: 1 issue(s) raised.",
-    "traits": [
-      "Often short on time — keep calls quick",
-      "Has raised issues with IndiaMART"
-    ]
+    "summary": "No conversations recorded yet.",
+    "traits": []
   },
-  "memory": [
-    {
-      "id": "MEM_MV2GEAGN79CZM",
-      "at": "2026-10-10T13:52:15.478Z",
-      "interactionId": "INT_MV2GCK0CVY1VH",
-      "category": "complaint",
-      "fact": "Issue raised: मुझे अब भी आपकी voice पसंद नहीं आ रही है",
-      "quote": "मुझे अब भी आपकी voice पसंद नहीं आ रही है",
-      "source": "learned"
-    }
-  ],
-  "status": "Provisional",
-  "interactionCount": 1,
-  "lastInteractionAt": "2026-10-10T13:52:15.463Z",
-  "createdAt": "2026-09-10T13:45:01.948Z",
-  "updatedAt": "2026-10-10T13:52:15.479Z",
-  "history": [
-    {
-      "interactionId": "INT_MV2GCK0CVY1VH",
-      "at": "2026-10-10T13:52:15.478Z",
-      "mode": "web",
-      "outcome": "1 issue(s) raised",
-      "adaptations": 11,
-      "languagesUsed": [
-        "bn-IN",
-        "hi-IN",
-        "gu-IN",
-        "en-IN"
-      ]
-    }
-  ],
+  "memory": [],
+  "status": "New",
+  "interactionCount": 0,
+  "lastInteractionAt": null,
+  "createdAt": "2026-09-10T17:06:48.713Z",
+  "updatedAt": "2026-09-10T17:06:48.713Z",
+  "history": [],
   "changeLog": [
     {
-      "at": "2026-09-10T13:45:01.948Z",
+      "at": "2026-09-10T17:06:48.713Z",
       "field": "profile",
       "from": "-",
       "to": "New",
       "reason": "Profile created from registry metadata.",
       "source": "metadata"
-    },
-    {
-      "at": "2026-10-10T13:50:49.219Z",
-      "field": "language",
-      "from": "hi-IN",
-      "to": "bn-IN",
-      "reason": "Manual override: set",
-      "source": "manual"
-    },
-    {
-      "at": "2026-10-10T13:52:15.478Z",
-      "interactionId": "INT_MV2GCK0CVY1VH",
-      "field": "preferredSpeakers.female",
-      "from": "default",
-      "to": "simran",
-      "reason": "Seller asked for a different voice (didn't like Neha, Priya); next call uses \"Simran\".",
-      "source": "learned"
-    },
-    {
-      "at": "2026-10-10T13:52:15.478Z",
-      "interactionId": "INT_MV2GCK0CVY1VH",
-      "field": "profile",
-      "from": "New",
-      "to": "Provisional",
-      "reason": "1 recorded interaction(s).",
-      "source": "learned"
     }
-  ],
-  "preferredSpeakers": {
-    "female": "simran"
-  }
+  ]
 }

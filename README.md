@@ -115,6 +115,7 @@ All settings live in `.env.local` (see `.env.example`).
 | `SARVAM_TTS_TEMPERATURE` | `0.75` | Expressiveness of the voice (0–1). |
 | `SARVAM_FEMALE_SPEAKER` / `SARVAM_MALE_SPEAKER` | `neha` / `rahul` | Default voices (any Bulbul v3 speaker). |
 | `DATA_DIR` | `./data` | Where profiles and interactions are stored. |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | — | Upstash Redis (or `UPSTASH_REDIS_REST_URL` / `_TOKEN`): shares data across serverless instances. Not needed locally. |
 | `DISABLE_LLM` | — | `1` = template replies only (no LLM calls). |
 | `DEBUG_LLM` | — | `1` = log raw LLM output on the server. |
 | `TELEPHONY_PROVIDER` | `none` | Placeholder for a future PSTN adapter (see roadmap). |
@@ -308,9 +309,10 @@ Set `SARVAM_API_KEY` in the host's environment settings.
 **Vercel**
 1. Import the GitHub repo; framework = Next.js.
 2. Environment variables: `SARVAM_API_KEY=…` and **`DATA_DIR=/tmp/voice-agent-data`** (Vercel's filesystem is read-only except `/tmp`).
-3. Deploy. The HTTPS URL works with the browser microphone.
+3. **Storage → Create Database → Upstash for Redis (free)** → connect it to the project. This adds `KV_REST_API_URL` / `KV_REST_API_TOKEN` automatically.
+4. Deploy (or redeploy). The HTTPS URL works with the browser microphone. **Settings** in the app should say *"shared across server instances via Upstash Redis"*.
 
-> ⚠️ On serverless hosts, `/tmp` is per-instance and temporary: learned profiles reset when an instance is recycled, and on rare occasions a call may lose its state between instances. For a permanent deployment, swap `src/lib/store.ts` for a database/KV adapter (the rest of the app only talks to the store's functions).
+> Why Redis? Serverless hosts run several instances, each with its own private `/tmp`. Without a shared store, a call started on one instance is "not found" on the next. `src/lib/sync.ts` pulls other instances' changes at the start of every API request and pushes its own writes before responding; without Redis credentials (localhost) it does nothing.
 
 ## 🔒 Privacy & safety
 

@@ -87,18 +87,18 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_003_1",
-          "at": "2026-09-16T13:45:01.970Z",
+          "at": "2026-09-16T17:06:48.721Z",
           "note": "Seller replied in Tamil in 2 earlier (synthetic) calls.",
           "quote": "தமிழ்ல பேசுங்க."
         },
         {
           "interactionId": "SEED_INT_003_2",
-          "at": "2026-09-22T13:45:01.970Z",
+          "at": "2026-09-22T17:06:48.721Z",
           "note": "Seller replied in Tamil in 2 earlier (synthetic) calls.",
           "quote": "தமிழ்ல பேசுங்க."
         }
       ],
-      "updatedAt": "2026-09-22T13:45:01.970Z"
+      "updatedAt": "2026-09-22T17:06:48.721Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -108,7 +108,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "voiceGender": {
       "value": "female",
@@ -118,7 +118,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "tone": {
       "value": "warm",
@@ -128,7 +128,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "formality": {
       "value": "formal",
@@ -138,7 +138,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "pace": {
       "value": "slow",
@@ -152,18 +152,18 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_003_1",
-          "at": "2026-09-16T13:45:01.970Z",
+          "at": "2026-09-16T17:06:48.721Z",
           "note": "Seller asked the agent to speak slowly.",
           "quote": "Konjam medhuva pesunga."
         },
         {
           "interactionId": "SEED_INT_003_2",
-          "at": "2026-09-22T13:45:01.970Z",
+          "at": "2026-09-22T17:06:48.721Z",
           "note": "Seller asked the agent to speak slowly.",
           "quote": "Konjam medhuva pesunga."
         }
       ],
-      "updatedAt": "2026-09-22T13:45:01.970Z"
+      "updatedAt": "2026-09-22T17:06:48.721Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -173,7 +173,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -183,7 +183,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -193,7 +193,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -203,7 +203,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -213,7 +213,7 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.970Z"
+      "updatedAt": "2026-09-10T17:06:48.721Z"
     }
   },
   "behaviour": {
@@ -226,8 +226,8 @@
   },
   "memory": [
     {
-      "id": "MEM_MV2G4ZYRTDEYV",
-      "at": "2026-09-22T13:45:01.970Z",
+      "id": "MEM_MV2NCHLDIE4HR",
+      "at": "2026-09-22T17:06:48.721Z",
       "category": "business",
       "fact": "Sells mostly to garment exporters in Tiruppur.",
       "source": "learned",
@@ -236,13 +236,13 @@
   ],
   "status": "Provisional",
   "interactionCount": 2,
-  "lastInteractionAt": "2026-09-22T13:45:01.970Z",
-  "createdAt": "2026-09-10T13:45:01.970Z",
-  "updatedAt": "2026-09-22T13:45:01.970Z",
+  "lastInteractionAt": "2026-09-22T17:06:48.721Z",
+  "createdAt": "2026-09-10T17:06:48.721Z",
+  "updatedAt": "2026-09-22T17:06:48.721Z",
   "history": [
     {
       "interactionId": "SEED_INT_003_1",
-      "at": "2026-09-16T13:45:01.970Z",
+      "at": "2026-09-16T17:06:48.721Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -252,7 +252,7 @@
     },
     {
       "interactionId": "SEED_INT_003_2",
-      "at": "2026-09-22T13:45:01.970Z",
+      "at": "2026-09-22T17:06:48.721Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -263,7 +263,7 @@
   ],
   "changeLog": [
     {
-      "at": "2026-09-10T13:45:01.970Z",
+      "at": "2026-09-10T17:06:48.721Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -271,7 +271,7 @@
       "source": "metadata"
     },
     {
-      "at": "2026-09-16T13:45:01.970Z",
+      "at": "2026-09-16T17:06:48.721Z",
       "interactionId": "SEED_INT_003_1",
       "field": "pace",
       "from": "normal",

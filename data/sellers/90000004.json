@@ -83,7 +83,7 @@
       "tally": {},
       "reason": "Registry language hint for a seller based in Ludhiana, Punjab (Punjabi). Not yet confirmed on a call.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -93,7 +93,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "voiceGender": {
       "value": "male",
@@ -107,18 +107,18 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_004_1",
-          "at": "2026-09-16T13:45:01.977Z",
+          "at": "2026-09-16T17:06:48.724Z",
           "note": "Seller asked for a male voice twice.",
           "quote": "Male voice vich gall karo."
         },
         {
           "interactionId": "SEED_INT_004_2",
-          "at": "2026-09-22T13:45:01.977Z",
+          "at": "2026-09-22T17:06:48.724Z",
           "note": "Seller asked for a male voice twice.",
           "quote": "Male voice vich gall karo."
         }
       ],
-      "updatedAt": "2026-09-22T13:45:01.977Z"
+      "updatedAt": "2026-09-22T17:06:48.724Z"
     },
     "tone": {
       "value": "direct",
@@ -132,16 +132,16 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_004_1",
-          "at": "2026-09-16T13:45:01.977Z",
+          "at": "2026-09-16T17:06:48.724Z",
           "note": "Seller responds best to direct, no-nonsense answers."
         },
         {
           "interactionId": "SEED_INT_004_2",
-          "at": "2026-09-22T13:45:01.977Z",
+          "at": "2026-09-22T17:06:48.724Z",
           "note": "Seller responds best to direct, no-nonsense answers."
         }
       ],
-      "updatedAt": "2026-09-22T13:45:01.977Z"
+      "updatedAt": "2026-09-22T17:06:48.724Z"
     },
     "formality": {
       "value": "formal",
@@ -151,7 +151,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "pace": {
       "value": "normal",
@@ -161,7 +161,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "responseLength": {
       "value": "concise",
@@ -175,24 +175,24 @@
       "evidence": [
         {
           "interactionId": "SEED_INT_004_1",
-          "at": "2026-09-16T13:45:01.977Z",
+          "at": "2026-09-16T17:06:48.724Z",
           "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
           "quote": "Seedhi gall karo ji."
         },
         {
           "interactionId": "SEED_INT_004_2",
-          "at": "2026-09-22T13:45:01.977Z",
+          "at": "2026-09-22T17:06:48.724Z",
           "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
           "quote": "Seedhi gall karo ji."
         },
         {
           "interactionId": "SEED_INT_004_3",
-          "at": "2026-09-28T13:45:01.977Z",
+          "at": "2026-09-28T17:06:48.724Z",
           "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
           "quote": "Seedhi gall karo ji."
         }
       ],
-      "updatedAt": "2026-09-28T13:45:01.977Z"
+      "updatedAt": "2026-09-28T17:06:48.724Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -202,7 +202,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -212,7 +212,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -222,7 +222,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -232,7 +232,7 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T13:45:01.977Z"
+      "updatedAt": "2026-09-10T17:06:48.724Z"
     }
   },
   "behaviour": {
@@ -245,8 +245,8 @@
   },
   "memory": [
     {
-      "id": "MEM_MV2G4ZYXUZ8RT",
-      "at": "2026-09-28T13:45:01.977Z",
+      "id": "MEM_MV2NCHLGTGUBG",
+      "at": "2026-09-28T17:06:48.724Z",
       "category": "availability",
       "fact": "Busy at the workshop till 2 PM; free in the afternoon.",
       "source": "learned",
@@ -255,13 +255,13 @@
   ],
   "status": "Established",
   "interactionCount": 3,
-  "lastInteractionAt": "2026-09-28T13:45:01.977Z",
-  "createdAt": "2026-09-10T13:45:01.977Z",
-  "updatedAt": "2026-09-28T13:45:01.977Z",
+  "lastInteractionAt": "2026-09-28T17:06:48.724Z",
+  "createdAt": "2026-09-10T17:06:48.724Z",
+  "updatedAt": "2026-09-28T17:06:48.724Z",
   "history": [
     {
       "interactionId": "SEED_INT_004_1",
-      "at": "2026-09-16T13:45:01.977Z",
+      "at": "2026-09-16T17:06:48.724Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -271,7 +271,7 @@
     },
     {
       "interactionId": "SEED_INT_004_2",
-      "at": "2026-09-22T13:45:01.977Z",
+      "at": "2026-09-22T17:06:48.724Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -281,7 +281,7 @@
     },
     {
       "interactionId": "SEED_INT_004_3",
-      "at": "2026-09-28T13:45:01.977Z",
+      "at": "2026-09-28T17:06:48.724Z",
       "mode": "simulated",
       "outcome": "Synthetic prior call (seed data)",
       "adaptations": 1,
@@ -292,7 +292,7 @@
   ],
   "changeLog": [
     {
-      "at": "2026-09-10T13:45:01.977Z",
+      "at": "2026-09-10T17:06:48.724Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -300,7 +300,7 @@
       "source": "metadata"
     },
     {
-      "at": "2026-09-16T13:45:01.977Z",
+      "at": "2026-09-16T17:06:48.724Z",
       "interactionId": "SEED_INT_004_1",
       "field": "responseLength",
       "from": "balanced",
@@ -309,7 +309,7 @@
       "source": "learned"
     },
     {
-      "at": "2026-09-16T13:45:01.977Z",
+      "at": "2026-09-16T17:06:48.724Z",
       "interactionId": "SEED_INT_004_1",
       "field": "tone",
       "from": "warm",
@@ -318,7 +318,7 @@
       "source": "learned"
     },
     {
-      "at": "2026-09-16T13:45:01.977Z",
+      "at": "2026-09-16T17:06:48.724Z",
       "interactionId": "SEED_INT_004_1",
       "field": "voiceGender",
       "from": "female",

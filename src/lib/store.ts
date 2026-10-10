@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { DEMO_REGISTRY, SEED_LEARNINGS, SEED_VERSION, SEEDED_PROFILE_GLIDS } from "./seed-data";
 import { computeStatus, learnPreference, makeId, profileFromRegistry, profileToMarkdown } from "./profile";
+import { markDirty, markReset } from "./sync";
 import type { Interaction, RegistryEntry, SellerProfile } from "./types";
 
 // File-based storage: one JSON + one Markdown file per seller (keyed by GLID),
@@ -17,6 +18,7 @@ function writeJsonAtomic(file: string, data: unknown) {
   const tmp = `${file}.${process.pid}.${Date.now()}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(data, null, 2), "utf8");
   fs.renameSync(tmp, file);
+  markDirty(file, DATA_DIR); // shared store on serverless hosts (no-op locally)
 }
 
 function readJson<T>(file: string): T | null {
@@ -45,6 +47,7 @@ export function ensureSeeded(force = false) {
     force = true;
   }
   if (force) {
+    markReset();
     fs.rmSync(SELLERS_DIR, { recursive: true, force: true });
     fs.rmSync(INTERACTIONS_DIR, { recursive: true, force: true });
     fs.rmSync(METRICS_FILE, { force: true });

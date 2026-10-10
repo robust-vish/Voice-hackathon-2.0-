@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "glid": "218447291",
   "isDemo": false,
-  "displayName": "Unknown seller (Kolkata)",
+  "displayName": "Soumya Sarkar",
   "category": "Stationery, Books & Jeans",
   "subCategories": [],
   "city": "Kolkata",
@@ -146,7 +146,7 @@
   "interactionCount": 0,
   "lastInteractionAt": null,
   "createdAt": "2026-09-10T05:40:52.484Z",
-  "updatedAt": "2026-09-10T05:40:52.484Z",
+  "updatedAt": "2026-10-10T06:21:21.048Z",
   "history": [],
   "changeLog": [
     {
@@ -156,6 +156,15 @@
       "to": "New",
       "reason": "Profile created from registry metadata.",
       "source": "metadata"
+    },
+    {
+      "at": "2026-10-10T06:21:21.048Z",
+      "field": "contactPerson",
+      "from": "unknown",
+      "to": "Soumya Sarkar",
+      "reason": "Seller name provided by the IndiaMART team.",
+      "source": "metadata"
     }
-  ]
+  ],
+  "contactPerson": "Soumya Sarkar"
 }

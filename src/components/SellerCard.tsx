@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { MapPin, MoreHorizontal, Phone } from "lucide-react";
 import type { SellerSummary } from "@/lib/summaries";
 import { fmtTime } from "@/lib/client";
@@ -14,6 +15,18 @@ export function sellerLabel(s: { displayName: string; contactPerson?: string; co
 /** Compact list row used on Overview, Sellers and Search. */
 export function SellerRow({ s, compact = false }: { s: SellerSummary; compact?: boolean }) {
   const [menu, setMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const go = (href: string) => { setMenu(false); router.push(href); };
+  // Close the menu on a click outside it or on Escape (instead of on blur, which raced the item click).
+  useEffect(() => {
+    if (!menu) return;
+    const onDown = (e: MouseEvent) => { if (!menuRef.current?.contains(e.target as Node)) setMenu(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenu(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [menu]);
   const cats = s.leadCategories.length ? s.leadCategories : s.dealsIn;
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5 transition hover:bg-gray-50/70">
@@ -39,16 +52,16 @@ export function SellerRow({ s, compact = false }: { s: SellerSummary; compact?: 
       )}
       {!compact && <div className="hidden w-24 lg:block"><StatusBadge status={s.status} /></div>}
       {!compact && <div className="hidden w-28 text-xs text-gray-500 lg:block">{s.lastInteractionAt ? fmtTime(s.lastInteractionAt) : "No calls yet"}</div>}
-      <div className="relative flex items-center gap-1">
+      <div ref={menuRef} className="relative flex items-center gap-1">
         <LinkButton href={`/call/${s.glid}`} variant="primary" size="sm"><Phone className="h-3.5 w-3.5" aria-hidden />Call</LinkButton>
         {!compact && (
           <>
-            <button aria-label="More actions" aria-expanded={menu} onClick={() => setMenu((m) => !m)} onBlur={() => setTimeout(() => setMenu(false), 150)}
+            <button type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu((m) => !m)}
               className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><MoreHorizontal className="h-4 w-4" /></button>
             {menu && (
-              <div className="absolute right-0 top-9 z-20 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-lg">
-                <Link className="block px-3 py-2 hover:bg-gray-50" href={`/sellers/${s.glid}`}>View profile</Link>
-                <Link className="block px-3 py-2 hover:bg-gray-50" href={`/sellers/${s.glid}/persona`}>View persona</Link>
+              <div role="menu" className="absolute right-0 top-9 z-50 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-lg">
+                <button type="button" role="menuitem" className="block w-full px-3 py-2 text-left hover:bg-gray-50" onClick={() => go(`/sellers/${s.glid}?tab=profile`)}>View profile</button>
+                <button type="button" role="menuitem" className="block w-full px-3 py-2 text-left hover:bg-gray-50" onClick={() => go(`/sellers/${s.glid}/persona`)}>View persona</button>
               </div>
             )}
           </>

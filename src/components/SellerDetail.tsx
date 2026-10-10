@@ -12,7 +12,7 @@ import { languageName } from "@/lib/languages";
 import { ALLOWED_VALUES, PREF_LABEL, PREF_ORDER } from "@/lib/prefs-meta";
 import type { PreferenceKey } from "@/lib/types";
 
-export type SellerTab = "overview" | "persona" | "buyleads" | "files";
+export type SellerTab = "overview" | "persona" | "buyleads" | "profile";
 
 function ManualEdit({ glid, onSaved }: { glid: string; onSaved: () => void }) {
   const [field, setField] = useState<PreferenceKey>("responseLength");
@@ -68,7 +68,7 @@ export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; 
   const [showJson, setShowJson] = useState(false);
 
   useEffect(() => {
-    if (tab === "files" && data) api<string>(`/api/sellers/${glid}/markdown`).then(setMd).catch(() => setMd(null));
+    if (tab === "profile" && data) api<string>(`/api/sellers/${glid}/markdown`).then(setMd).catch(() => setMd(null));
   }, [tab, data?.profile.updatedAt]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading && !data) return <Spinner label={`Loading ${glid}…`} />;
@@ -115,7 +115,7 @@ export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; 
           { id: "overview", label: "Overview" },
           { id: "persona", label: "Persona" },
           { id: "buyleads", label: "BuyLeads", count: cats.length || leads.length || undefined },
-          { id: "files", label: "Files" },
+          { id: "profile", label: "Profile" },
         ]}
       />
 
@@ -228,7 +228,7 @@ export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; 
         </div>
       )}
 
-      {tab === "files" && (
+      {tab === "profile" && (
         <div className="space-y-6">
           <Card title="Markdown profile" action={<span className="font-mono text-xs text-gray-400">data/sellers/{p.glid}.md</span>}>
             {md ? <Markdown source={md} /> : <Spinner />}

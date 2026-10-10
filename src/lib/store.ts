@@ -39,6 +39,7 @@ export function ensureSeeded(force = false) {
     const current = readJson<{ seedVersion?: number }>(REGISTRY_FILE)?.seedVersion;
     if (current === SEED_VERSION) {
       seeded = true;
+      syncIdentities();
       return;
     }
     force = true;
@@ -83,6 +84,37 @@ export function ensureSeeded(force = false) {
     saveProfile(p, { keepUpdatedAt: true });
   }
   seeded = true;
+}
+
+/**
+ * Non-destructive update for corrected seller details (e.g. a name supplied later):
+ * copies name/company from seed-data into the registry file and into profiles where the
+ * name is still unknown — without wiping call history or learned preferences.
+ */
+function syncIdentities() {
+  const reg = readJson<{ seedVersion: number; note?: string; sellers: RegistryEntry[] }>(REGISTRY_FILE);
+  if (!reg) return;
+  let regChanged = false;
+  for (const seed of DEMO_REGISTRY) {
+    const e = reg.sellers.find((x) => x.glid === seed.glid);
+    if (!e) continue;
+    for (const k of ["displayName", "contactPerson", "companyName"] as const) {
+      if (seed[k] && e[k] !== seed[k]) { e[k] = seed[k]; regChanged = true; }
+    }
+    const p = readJson<SellerProfile>(sellerJson(seed.glid));
+    if (!p) continue;
+    const at = new Date().toISOString();
+    let changed = false;
+    if (seed.contactPerson && (!p.contactPerson || /^Unknown seller/i.test(p.displayName))) {
+      p.changeLog.push({ at, field: "contactPerson", from: p.contactPerson ?? "unknown", to: seed.contactPerson, reason: "Seller name provided by the IndiaMART team.", source: "metadata" });
+      p.contactPerson = seed.contactPerson;
+      changed = true;
+    }
+    if (/^Unknown seller/i.test(p.displayName) && seed.displayName && !/^Unknown seller/i.test(seed.displayName)) { p.displayName = seed.displayName; changed = true; }
+    if (seed.companyName && !p.companyName) { p.companyName = seed.companyName; changed = true; }
+    if (changed) saveProfile(p);
+  }
+  if (regChanged) writeJsonAtomic(REGISTRY_FILE, reg);
 }
 
 // ---------- Registry (stands in for the authorized IndiaMART seller registry) ----------

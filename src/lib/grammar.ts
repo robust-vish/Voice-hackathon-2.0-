@@ -17,6 +17,7 @@ const HI_TO_MALE: Rule[] = [
   [/(\S+?)(ूँगी|ूंगी)(?=[\s,.!?।]|$)/g, "$1ूँगा"],
   [/(\S+?)ऊँगी(?=[\s,.!?।]|$)/g, "$1ऊँगा"],
   [/समझ (गई|गयी)(?=[\s,.!?।]|$)/g, "समझ गया"],
+  [/IndiaMART की ((?:virtual |seller |वर्चुअल )*(?:help assistant|हेल्प असिस्टेंट))/g, "IndiaMART का $1"],
 ];
 const HI_TO_FEMALE: Rule[] = [
   [/(\S+?)ता (हूँ|हूं|हू)(?=[\s,.!?।]|$)/g, "$1ती $2"],
@@ -26,6 +27,7 @@ const HI_TO_FEMALE: Rule[] = [
   [/(\S+?)(ूँगा|ूंगा)(?=[\s,.!?।]|$)/g, "$1ूँगी"],
   [/(\S+?)ऊँगा(?=[\s,.!?।]|$)/g, "$1ऊँगी"],
   [/समझ गया(?=[\s,.!?।]|$)/g, "समझ गई"],
+  [/IndiaMART का ((?:virtual |seller |वर्चुअल )*(?:help assistant|हेल्प असिस्टेंट))/g, "IndiaMART की $1"],
 ];
 // Romanised Hindi (Hinglish).
 const RO_TO_MALE: Rule[] = [
@@ -76,6 +78,11 @@ export function helpAssistantWording(text: string): string {
     .replace(/\bAI\b/g, "help assistant");
 }
 
+/** The LLM occasionally mangles the brand ("भारतMART", "इंडियामार्ट"). */
+export function brandName(text: string): string {
+  return text.replace(/भारत\s?MART|इंडिया\s?मार्ट|इंडियामार्ट|India\s+Mart\b|Indiamart\b|INDIAMART\b/g, "IndiaMART");
+}
+
 export function polishAgentText(text: string, lang: LanguageCode, gender: VoiceGender): string {
-  return fixFirstPersonGender(helpAssistantWording(text), lang, gender);
+  return fixFirstPersonGender(helpAssistantWording(brandName(text)), lang, gender);
 }

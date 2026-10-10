@@ -442,6 +442,7 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
       ? "The seller just asked for a change in how you speak. It is ALREADY applied — don't talk about it; at most a 1–2 word acknowledgement, then continue." : "",
     signals.some((s) => s.type === "off_topic") ? "The seller's last message looks unrelated to IndiaMART — apply the OFF-TOPIC RULE." : "",
     "Never ask for OTPs, passwords or bank details.",
+    "If the seller asked for their own account details (GLID, mobile number, name, plan…), the system has already read them out — that is NOT an issue; don't mention it again, just continue.",
     `OUTPUT: reply with ONLY a JSON object, no other text:`,
     `{"reply": "<the words to speak, in ${languageName(lang)} (${lang}) script${p.languageStyle.value === "code-mixed" ? ", everyday English business words may stay in English" : ""}>", "stage": "<stage you are in AFTER this reply: ${CALL_STAGES.join("|")}>", "issue": "<short English summary of an IndiaMART problem the seller described in their LAST message, else null>", "escalated": <true if this reply tells them you are escalating an issue>, "meeting_time": "<day/time the seller agreed for the meeting, else null>", "off_topic": <true if the seller's last message was unrelated to IndiaMART>, "seller_name": "<the seller's name if they stated it in their LAST message, else null>", "company": "<their company/firm name if they stated it in their LAST message, else null>"}`,
   ].filter(Boolean).join("\n");

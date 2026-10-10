@@ -65,14 +65,19 @@
   "buyLeads": [],
   "preferences": {
     "language": {
-      "value": "hi-IN",
-      "source": "metadata",
-      "confidence": 0.5,
+      "value": "ml-IN",
+      "source": "manual",
+      "confidence": 1,
       "observations": 0,
       "tally": {},
-      "reason": "Registry language hint for a seller based in Bangalore, Karnataka (Hindi). Not yet confirmed on a call.",
-      "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "reason": "Manual override by operator: seller is from banglore",
+      "evidence": [
+        {
+          "at": "2026-10-10T08:15:31.422Z",
+          "note": "Manual override (hi-IN → ml-IN): seller is from banglore"
+        }
+      ],
+      "updatedAt": "2026-10-10T08:15:31.422Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -82,7 +87,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "voiceGender": {
       "value": "female",
@@ -92,7 +97,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "tone": {
       "value": "warm",
@@ -102,7 +107,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "formality": {
       "value": "formal",
@@ -112,7 +117,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "pace": {
       "value": "normal",
@@ -122,7 +127,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -132,7 +137,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -142,7 +147,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -152,7 +157,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -162,7 +167,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -172,84 +177,23 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV21J6ZEIU1GN, web): 4 seller turns, 0 adaptations, languages: Hindi. Outcome: 1 issue(s) raised.",
-    "traits": [
-      "Has raised issues with IndiaMART",
-      "Has shown frustration with repeated calls"
-    ]
+    "summary": "No conversations recorded yet.",
+    "traits": []
   },
-  "memory": [
-    {
-      "id": "MEM_MV1Z09LFGL049",
-      "at": "2026-10-10T05:45:27.699Z",
-      "interactionId": "INT_MV1YV3R5RUZI4",
-      "category": "complaint",
-      "fact": "Issue raised: BuyLeads not received for Power Bike (Royal Enfield) and other listed products. (escalated 2026-10-10)",
-      "quote": "जी मुझे बहुत परेशानी हो रही है मेरे parts कामधेनु TMT बार और बासमती राइस की तो lead आ रही है लेकिन जो मैंने दूसरे अपने product list कर रखे हैं जैसे कि Royal Enfield bikes इन सब की मेरे को buy leads नहीं मिल रही है",
-      "source": "learned"
-    },
-    {
-      "id": "MEM_MV1Z09LFG37JP",
-      "at": "2026-10-10T05:45:27.699Z",
-      "interactionId": "INT_MV1YV3R5RUZI4",
-      "category": "complaint",
-      "fact": "Issue raised: Seller is not receiving BuyLeads for Power Bike (Royal Enfield bikes) while receiving leads for other categories like TMT Bars and Basmati Rice. (escalated 2026-10-10)",
-      "quote": "जी, आप शायद गलत बोल रहे हैं। Lead Manager पर Violet check नहीं होती है। Lead Manager पर तो buyer और seller आपस में बात करते हैं like WhatsApp chatting। और जो actual Violet purchase करते हैं, वो Violet section होता है app का, उससे consume करते हैं।",
-      "source": "learned"
-    },
-    {
-      "id": "MEM_MV1Z09LFIWU73",
-      "at": "2026-10-10T05:45:27.699Z",
-      "interactionId": "INT_MV1YV3R5RUZI4",
-      "category": "complaint",
-      "fact": "Issue raised: Seller is not receiving BuyLeads for Power Bikes (Royal Enfield) while other categories like 1121 Basmati Rice and Kamdhenu TMT Bars are working fine. (escalated 2026-10-10)",
-      "quote": "आपको मेरा issue समझ में आया? अगर आया तो बताइए क्या issue है मेरा।",
-      "source": "learned"
-    },
-    {
-      "id": "MEM_MV21KI68NTTHI",
-      "at": "2026-10-10T06:57:11.167Z",
-      "interactionId": "INT_MV21J6ZEIU1GN",
-      "category": "complaint",
-      "fact": "Issue raised: Seller wants to know their GL ID.",
-      "quote": "हाँ मुझे अपनी GL ID जानना है।",
-      "source": "learned"
-    }
-  ],
-  "status": "Provisional",
-  "interactionCount": 2,
-  "lastInteractionAt": "2026-10-10T06:57:11.147Z",
-  "createdAt": "2026-09-10T05:40:52.484Z",
-  "updatedAt": "2026-10-10T06:57:11.168Z",
-  "history": [
-    {
-      "interactionId": "INT_MV1YV3R5RUZI4",
-      "at": "2026-10-10T05:45:27.699Z",
-      "mode": "web",
-      "outcome": "3 issue(s) escalated",
-      "adaptations": 8,
-      "languagesUsed": [
-        "hi-IN"
-      ]
-    },
-    {
-      "interactionId": "INT_MV21J6ZEIU1GN",
-      "at": "2026-10-10T06:57:11.167Z",
-      "mode": "web",
-      "outcome": "1 issue(s) raised",
-      "adaptations": 0,
-      "languagesUsed": [
-        "hi-IN"
-      ]
-    }
-  ],
+  "memory": [],
+  "status": "New",
+  "interactionCount": 0,
+  "lastInteractionAt": null,
+  "createdAt": "2026-09-10T08:14:41.195Z",
+  "updatedAt": "2026-10-10T08:15:31.422Z",
+  "history": [],
   "changeLog": [
     {
-      "at": "2026-09-10T05:40:52.484Z",
+      "at": "2026-09-10T08:14:41.195Z",
       "field": "profile",
       "from": "-",
       "to": "New",
@@ -257,23 +201,12 @@
       "source": "metadata"
     },
     {
-      "at": "2026-10-10T05:45:27.699Z",
-      "interactionId": "INT_MV1YV3R5RUZI4",
-      "field": "profile",
-      "from": "New",
-      "to": "Provisional",
-      "reason": "1 recorded interaction(s).",
-      "source": "learned"
-    },
-    {
-      "at": "2026-10-10T06:57:11.167Z",
-      "interactionId": "INT_MV21J6ZEIU1GN",
-      "field": "companyName",
-      "from": "unknown",
-      "to": "Equinox",
-      "reason": "Stated by the seller on the call.",
-      "source": "learned"
+      "at": "2026-10-10T08:15:31.422Z",
+      "field": "language",
+      "from": "hi-IN",
+      "to": "ml-IN",
+      "reason": "Manual override: seller is from banglore",
+      "source": "manual"
     }
-  ],
-  "companyName": "Equinox"
+  ]
 }

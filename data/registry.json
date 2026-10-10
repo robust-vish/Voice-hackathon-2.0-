@@ -175,6 +175,7 @@
       "isDemo": false,
       "mobile": "8697871282",
       "displayName": "Soumya Sarkar",
+      "contactPerson": "Soumya Sarkar",
       "category": "Stationery, Books & Jeans",
       "city": "Kolkata",
       "state": "West Bengal",
@@ -191,8 +192,7 @@
         "Jeans",
         "Notebooks"
       ],
-      "leadCategories": [],
-      "contactPerson": "Soumya Sarkar"
+      "leadCategories": []
     },
     {
       "glid": "90000001",

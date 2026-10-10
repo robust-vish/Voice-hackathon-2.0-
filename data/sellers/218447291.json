@@ -3,6 +3,7 @@
   "glid": "218447291",
   "isDemo": false,
   "displayName": "Soumya Sarkar",
+  "contactPerson": "Soumya Sarkar",
   "category": "Stationery, Books & Jeans",
   "subCategories": [],
   "city": "Kolkata",
@@ -28,22 +29,13 @@
   "preferences": {
     "language": {
       "value": "hi-IN",
-      "source": "learned",
+      "source": "metadata",
       "confidence": 0.5,
-      "observations": 1,
-      "tally": {
-        "hi-IN": 1
-      },
-      "reason": "Seller switched to Hindi — replying in Hindi during call INT_MV20VCDULB1IG.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV20VCDULB1IG",
-          "at": "2026-10-10T06:44:44.294Z",
-          "note": "Seller switched to Hindi — replying in Hindi during call INT_MV20VCDULB1IG.",
-          "quote": "हरियाणी में बात करो।"
-        }
-      ],
-      "updatedAt": "2026-10-10T06:44:44.294Z"
+      "observations": 0,
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Hindi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -53,26 +45,17 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "voiceGender": {
       "value": "female",
-      "source": "learned",
-      "confidence": 0.6,
-      "observations": 1,
-      "tally": {
-        "female": 1
-      },
-      "reason": "Seller asked for a female voice during call INT_MV20VCDULB1IG.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV20VCDULB1IG",
-          "at": "2026-10-10T06:44:44.294Z",
-          "note": "Seller asked for a female voice during call INT_MV20VCDULB1IG.",
-          "quote": "Female"
-        }
-      ],
-      "updatedAt": "2026-10-10T06:44:44.294Z"
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "tone": {
       "value": "warm",
@@ -82,7 +65,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "formality": {
       "value": "formal",
@@ -92,7 +75,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "pace": {
       "value": "normal",
@@ -102,7 +85,7 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "responseLength": {
       "value": "balanced",
@@ -112,7 +95,7 @@
       "tally": {},
       "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "explanationDetail": {
       "value": "medium",
@@ -122,7 +105,7 @@
       "tally": {},
       "reason": "Default level of explanation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -132,7 +115,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -142,7 +125,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -152,70 +135,28 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T05:40:52.484Z"
+      "updatedAt": "2026-09-10T08:14:41.195Z"
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV20VCDULB1IG, web): 24 seller turns, 7 adaptations, languages: Hindi, English, Gujarati, Marathi. Outcome: 1 issue(s) raised.",
+    "summary": "No conversations recorded yet.",
     "traits": []
   },
-  "memory": [
-    {
-      "id": "MEM_MV214HVTZMJM4",
-      "at": "2026-10-10T06:44:44.294Z",
-      "interactionId": "INT_MV20VCDULB1IG",
-      "category": "complaint",
-      "fact": "Issue raised: Seller is unable to find stationery leads because their catalog is not fully updated.",
-      "quote": "वहां मैं गया था लेकिन मेरे को stationery के",
-      "source": "learned"
-    }
-  ],
-  "status": "Provisional",
-  "interactionCount": 1,
-  "lastInteractionAt": "2026-10-10T06:44:44.268Z",
-  "createdAt": "2026-09-10T05:40:52.484Z",
-  "updatedAt": "2026-10-10T06:44:44.298Z",
-  "history": [
-    {
-      "interactionId": "INT_MV20VCDULB1IG",
-      "at": "2026-10-10T06:44:44.294Z",
-      "mode": "web",
-      "outcome": "1 issue(s) raised",
-      "adaptations": 7,
-      "languagesUsed": [
-        "hi-IN",
-        "en-IN",
-        "gu-IN",
-        "mr-IN"
-      ]
-    }
-  ],
+  "memory": [],
+  "status": "New",
+  "interactionCount": 0,
+  "lastInteractionAt": null,
+  "createdAt": "2026-09-10T08:14:41.195Z",
+  "updatedAt": "2026-09-10T08:14:41.195Z",
+  "history": [],
   "changeLog": [
     {
-      "at": "2026-09-10T05:40:52.484Z",
+      "at": "2026-09-10T08:14:41.195Z",
       "field": "profile",
       "from": "-",
       "to": "New",
       "reason": "Profile created from registry metadata.",
       "source": "metadata"
-    },
-    {
-      "at": "2026-10-10T06:21:21.048Z",
-      "field": "contactPerson",
-      "from": "unknown",
-      "to": "Soumya Sarkar",
-      "reason": "Seller name provided by the IndiaMART team.",
-      "source": "metadata"
-    },
-    {
-      "at": "2026-10-10T06:44:44.294Z",
-      "interactionId": "INT_MV20VCDULB1IG",
-      "field": "profile",
-      "from": "New",
-      "to": "Provisional",
-      "reason": "1 recorded interaction(s).",
-      "source": "learned"
     }
-  ],
-  "contactPerson": "Soumya Sarkar"
+  ]
 }

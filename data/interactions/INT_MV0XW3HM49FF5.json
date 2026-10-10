@@ -1,0 +1,461 @@
+{
+  "id": "INT_MV0XW3HM49FF5",
+  "glid": "DEMO_GLID_003",
+  "sellerName": "Kolkata Jute Crafts",
+  "mode": "web",
+  "provider": "web+sarvam",
+  "status": "Completed",
+  "statusHistory": [
+    {
+      "status": "Preparing",
+      "at": "2026-10-09T12:26:27.370Z",
+      "note": "Pre-call checks passed"
+    },
+    {
+      "status": "Initiating",
+      "at": "2026-10-09T12:26:29.420Z",
+      "note": "Opening browser audio session"
+    },
+    {
+      "status": "Connected",
+      "at": "2026-10-09T12:26:29.421Z",
+      "note": "Browser microphone session connected (not PSTN)"
+    },
+    {
+      "status": "In Progress",
+      "at": "2026-10-09T12:26:30.473Z"
+    },
+    {
+      "status": "Ending",
+      "at": "2026-10-09T12:27:44.533Z",
+      "note": "Ended by agent"
+    },
+    {
+      "status": "Completed",
+      "at": "2026-10-09T12:27:44.533Z"
+    }
+  ],
+  "createdAt": "2026-10-09T12:26:27.370Z",
+  "checks": [
+    {
+      "id": "glid",
+      "label": "Validate GLID",
+      "status": "ok",
+      "detail": "DEMO_GLID_003"
+    },
+    {
+      "id": "profile",
+      "label": "Fetch seller profile",
+      "status": "ok",
+      "detail": "Kolkata Jute Crafts · New · updated 2026-09-09T12:17:42.269Z"
+    },
+    {
+      "id": "pns",
+      "label": "Resolve contact via PNS mapping",
+      "status": "ok",
+      "detail": "PNS mapped (+91-80XXXXX155); 1 registered number(s). Full number is never shown."
+    },
+    {
+      "id": "persona",
+      "label": "Generate persona & conversation plan",
+      "status": "ok",
+      "detail": "Bengali (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace"
+    },
+    {
+      "id": "interaction",
+      "label": "Initialise interaction ID",
+      "status": "ok",
+      "detail": "INT_MV0XW3HM49FF5"
+    },
+    {
+      "id": "binding",
+      "label": "Bind GLID + persona to agent",
+      "status": "ok",
+      "detail": "Agent context bound to DEMO_GLID_003 (profile version 2026-09-09T12:17:42.269Z)."
+    },
+    {
+      "id": "provider",
+      "label": "Check voice provider",
+      "status": "ok",
+      "detail": "Operator's browser mic plays the seller. Speech → Sarvam STT, replies → Sarvam Bulbul TTS. Not a PSTN phone call."
+    }
+  ],
+  "profileVersionAt": "2026-09-09T12:17:42.269Z",
+  "initialPersona": {
+    "glid": "DEMO_GLID_003",
+    "generatedAt": "2026-10-09T12:26:27.366Z",
+    "agentName": "Priya",
+    "voiceSpeaker": "priya",
+    "language": {
+      "value": "bn-IN",
+      "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Bengali). Not yet confirmed on a call.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "metadata"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "voiceGender": {
+      "value": "female",
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidenceCount": 0,
+      "confidence": 0.3,
+      "source": "default"
+    },
+    "tone": {
+      "value": "warm",
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "formality": {
+      "value": "formal",
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "default"
+    },
+    "pace": {
+      "value": "normal",
+      "reason": "Default speaking pace.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "reason": "Default level of explanation.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "summary": "Bengali (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace"
+  },
+  "currentPersona": {
+    "glid": "DEMO_GLID_003",
+    "generatedAt": "2026-10-09T12:26:27.366Z",
+    "agentName": "Priya",
+    "voiceSpeaker": "priya",
+    "language": {
+      "value": "hi-IN",
+      "reason": "Seller explicitly asked to continue in Hindi.",
+      "evidenceCount": 1,
+      "confidence": 0.9,
+      "source": "call-override"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "voiceGender": {
+      "value": "female",
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidenceCount": 0,
+      "confidence": 0.3,
+      "source": "default"
+    },
+    "tone": {
+      "value": "warm",
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "formality": {
+      "value": "formal",
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidenceCount": 0,
+      "confidence": 0.5,
+      "source": "default"
+    },
+    "pace": {
+      "value": "normal",
+      "reason": "Default speaking pace.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "reason": "Default level of explanation.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidenceCount": 0,
+      "confidence": 0.4,
+      "source": "default"
+    },
+    "summary": "Hindi (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace"
+  },
+  "overrides": {
+    "language": "hi-IN"
+  },
+  "plan": {
+    "objective": "Complete pricing for Jute Wine Bottle Bag and capture BuyLead preferences.",
+    "steps": [
+      {
+        "id": "open",
+        "title": "Opening",
+        "goal": "Greet the seller by name, introduce yourself from IndiaMART and ask if it is a good time."
+      },
+      {
+        "id": "purpose",
+        "title": "Purpose: catalog health",
+        "goal": "Explain that 1 product(s) have no price, which reduces buyer enquiries."
+      },
+      {
+        "id": "collect",
+        "title": "Collect missing info",
+        "goal": "Ask for the price of \"Jute Wine Bottle Bag\" (per piece)."
+      },
+      {
+        "id": "buylead",
+        "title": "BuyLead preferences",
+        "goal": "Ask which BuyLeads in Jute Bags the seller wants (locations / order size)."
+      },
+      {
+        "id": "close",
+        "title": "Close",
+        "goal": "Summarise what was noted, confirm next step and thank the seller."
+      }
+    ],
+    "talkingPoints": [
+      "Products with a price get more buyer enquiries than those without (general guidance; no specific statistics).",
+      "Replies to enquiries can be managed from the Lead Manager in the IndiaMART seller app.",
+      "Buyer calls reach the seller through the PNS (Preferred Number Service) number."
+    ],
+    "avoid": [
+      "Inventing statistics, prices or buyer names",
+      "Asking for OTPs, passwords or bank details",
+      "Pushing paid packages unless the seller asks"
+    ]
+  },
+  "planStep": 4,
+  "beat": 5,
+  "turns": [
+    {
+      "id": "T_MV0XW5VTHMU2B",
+      "at": "2026-10-09T12:26:30.473Z",
+      "speaker": "agent",
+      "text": "নমস্কার Subhash! আমি IndiaMART seller support থেকে Priya বলছি। আপনার catalog improve করার জন্য আমার দু'minute লাগবে। এখন কি আপনার একটু free time?",
+      "language": "bn-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV0XWAKS88R8G",
+      "at": "2026-10-09T12:26:36.556Z",
+      "speaker": "seller",
+      "text": "Hello",
+      "language": "en-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV0XWAW1HCLCT",
+      "at": "2026-10-09T12:26:36.961Z",
+      "speaker": "agent",
+      "text": "নমস্কার, আমি IndiaMART seller support থেকে Priya বলছি। Subhash বাবু, আপনার catalog optimize করার জন্য আমার দু'minute লাগবে। এখন কি আপনার একটু free time আছে?",
+      "language": "bn-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV0XWK6QLLHPU",
+      "at": "2026-10-09T12:26:49.010Z",
+      "speaker": "seller",
+      "text": "Hello, I want to talk in Hindi.",
+      "language": "en-IN",
+      "signals": [
+        "language_switch"
+      ]
+    },
+    {
+      "id": "T_MV0XWKKU0G8CS",
+      "at": "2026-10-09T12:26:49.518Z",
+      "speaker": "agent",
+      "text": "ज़रूर, हम हिंदी में बात करेंगे। Subhash जी, मैं IndiaMART seller support से Priya हूँ। आपके catalog को बेहतर बनाने के लिए मुझे कुछ जानकारी चाहिए, क्या अभी बात हो सकती है?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV0XWXP8LV6I4",
+      "at": "2026-10-09T12:27:06.524Z",
+      "speaker": "seller",
+      "text": "जी अभी मेरे पास समय नहीं है।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV0XWY14A6QF1",
+      "at": "2026-10-09T12:27:06.952Z",
+      "speaker": "agent",
+      "text": "ठीक है, मैं समझ गई। कोई बात नहीं। जब भी आपके पास समय हो, आप मुझे कॉल कर सकते हैं। मैं आपकी catalog के बारे में बात करने के लिए तैयार हूँ।",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV0XX3AX9E178",
+      "at": "2026-10-09T12:27:13.785Z",
+      "speaker": "seller",
+      "text": "आगे बढ़िए।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV0XX6GAVWSP0",
+      "at": "2026-10-09T12:27:17.866Z",
+      "speaker": "agent",
+      "text": "धन्यवाद। मैंने देखा कि आपके catalog में एक product है, जिसका price आपके Customized Printed Jute Shopping Bag और Jute Wine Bottle Bag के लिए ₹45 और missing है। क्या हम इस missing price को update कर सकते हैं?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    },
+    {
+      "id": "T_MV0XXJ7OW2W9Z",
+      "at": "2026-10-09T12:27:34.404Z",
+      "speaker": "seller",
+      "text": "बड़ी जल्दी बोलिए, मेरे पास समय नहीं है।",
+      "language": "hi-IN",
+      "signals": []
+    },
+    {
+      "id": "T_MV0XXJI9XUDJ4",
+      "at": "2026-10-09T12:27:34.785Z",
+      "speaker": "agent",
+      "text": "समझ गई, मैं जल्दी बताती हूँ। आपके Jute Wine Bottle Bag का price missing है, तो क्या हम इसे catalog में update कर सकते हैं?",
+      "language": "hi-IN",
+      "voice": {
+        "gender": "female",
+        "speaker": "priya"
+      }
+    }
+  ],
+  "switchLog": [
+    {
+      "id": "SW_MV0XWK6RR98O4",
+      "at": "2026-10-09T12:26:49.010Z",
+      "turnId": "T_MV0XWK6QLLHPU",
+      "signalType": "language_switch",
+      "signal": "Seller asked to talk in Hindi",
+      "quote": "Hello, I want to talk in Hindi.",
+      "dimension": "language",
+      "previous": "Bengali",
+      "next": "Hindi",
+      "reason": "Seller explicitly asked to continue in Hindi.",
+      "scope": "persistent-candidate"
+    }
+  ],
+  "signals": [
+    {
+      "type": "language_switch",
+      "label": "Seller asked to talk in Hindi",
+      "quote": "Hello, I want to talk in Hindi.",
+      "value": "hi-IN",
+      "explicit": true,
+      "persistentCandidate": true,
+      "confidence": 0.9,
+      "turnId": "T_MV0XWK6QLLHPU",
+      "at": "2026-10-09T12:26:49.010Z"
+    }
+  ],
+  "engineNotes": [],
+  "postCall": {
+    "status": "done",
+    "summary": {
+      "interactionId": "INT_MV0XW3HM49FF5",
+      "durationSec": 75,
+      "outcome": "Completed",
+      "initialPersonaSummary": "Bengali (code-mixed) · female voice \"Priya\" · warm, formal · balanced answers · normal pace",
+      "adaptations": 1,
+      "observations": [
+        "Seller asked to talk in Hindi — “Hello, I want to talk in Hindi.”"
+      ],
+      "updates": [
+        {
+          "field": "language",
+          "from": "bn-IN",
+          "to": "hi-IN",
+          "reason": "Seller asked to talk in Hindi during call INT_MV0XW3HM49FF5."
+        }
+      ],
+      "rejected": [],
+      "memoryAdded": [],
+      "profileUpdatedAt": "2026-10-09T12:27:44.539Z"
+    },
+    "attempts": 1
+  },
+  "startedAt": "2026-10-09T12:26:29.421Z",
+  "lastSignal": {
+    "type": "language_switch",
+    "label": "Seller asked to talk in Hindi",
+    "quote": "Hello, I want to talk in Hindi.",
+    "value": "hi-IN",
+    "explicit": true,
+    "persistentCandidate": true,
+    "confidence": 0.9
+  },
+  "agentEnded": true,
+  "endedAt": "2026-10-09T12:27:44.533Z",
+  "durationSec": 75,
+  "outcome": "Completed"
+}

@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 1,
+  "glid": "DEMO_GLID_005",
+  "isDemo": true,
+  "displayName": "Deccan PET Packaging",
+  "contactPerson": "Kiran Reddy",
+  "companyName": "Deccan PET Packaging Pvt Ltd",
+  "category": "PET Bottles & Jars",
+  "subCategories": [
+    "Pharma Bottles",
+    "Food Jars"
+  ],
+  "city": "Hyderabad",
+  "state": "Telangana",
+  "membership": "IM Star (demo)",
+  "trustSeal": true,
+  "gstVerified": true,
+  "yearEstablished": 2012,
+  "secondaryLanguage": "en-IN",
+  "contact": {
+    "pnsMapped": true,
+    "pnsNumberMasked": "+91-80XXXXX620",
+    "registeredNumbers": 2
+  },
+  "catalog": [
+    {
+      "offerId": "DEMO_OFR_5001",
+      "name": "100 ml Amber PET Bottle",
+      "price": 4.5,
+      "unit": "piece",
+      "moq": "5000 pieces"
+    },
+    {
+      "offerId": "DEMO_OFR_5002",
+      "name": "500 ml Wide Mouth PET Jar",
+      "price": 9,
+      "unit": "piece",
+      "moq": "2000 pieces"
+    },
+    {
+      "offerId": "DEMO_OFR_5003",
+      "name": "Child Resistant Cap",
+      "price": null,
+      "unit": "piece",
+      "moq": "10000 pieces"
+    }
+  ],
+  "buyLeadInterests": [
+    "Pharma companies",
+    "Nutraceutical brands"
+  ],
+  "preferences": {
+    "language": {
+      "value": "en-IN",
+      "source": "learned",
+      "confidence": 0.84,
+      "observations": 4,
+      "tally": {
+        "en-IN": 4
+      },
+      "reason": "Seller switched to English — replying in English during call INT_MV1WHPG36UIL8.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_005_1",
+          "at": "2026-09-15T12:17:42.269Z",
+          "note": "Seller switched to English in 3 earlier (synthetic) calls.",
+          "quote": "Let's continue in English, please."
+        },
+        {
+          "interactionId": "SEED_INT_005_2",
+          "at": "2026-09-21T12:17:42.269Z",
+          "note": "Seller switched to English in 3 earlier (synthetic) calls.",
+          "quote": "Let's continue in English, please."
+        },
+        {
+          "interactionId": "SEED_INT_005_3",
+          "at": "2026-09-27T12:17:42.269Z",
+          "note": "Seller switched to English in 3 earlier (synthetic) calls.",
+          "quote": "Let's continue in English, please."
+        },
+        {
+          "interactionId": "INT_MV1WHPG36UIL8",
+          "at": "2026-10-10T04:39:44.511Z",
+          "note": "Seller switched to English — replying in English during call INT_MV1WHPG36UIL8.",
+          "quote": "Okay please cut the call."
+        }
+      ],
+      "updatedAt": "2026-10-10T04:39:44.511Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "tone": {
+      "value": "direct",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "direct": 2
+      },
+      "reason": "Seller responded best to direct, numbers-first answers.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_005_1",
+          "at": "2026-09-15T12:17:42.269Z",
+          "note": "Seller responded best to direct, numbers-first answers."
+        },
+        {
+          "interactionId": "SEED_INT_005_2",
+          "at": "2026-09-21T12:17:42.269Z",
+          "note": "Seller responded best to direct, numbers-first answers."
+        }
+      ],
+      "updatedAt": "2026-09-21T12:17:42.269Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "objectionHandling": {
+      "value": "data-backed",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "data-backed": 2
+      },
+      "reason": "Seller asked for data (lead counts, response rates) before agreeing.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_005_1",
+          "at": "2026-09-15T12:17:42.269Z",
+          "note": "Seller asked for data (lead counts, response rates) before agreeing."
+        },
+        {
+          "interactionId": "SEED_INT_005_2",
+          "at": "2026-09-21T12:17:42.269Z",
+          "note": "Seller asked for data (lead counts, response rates) before agreeing."
+        }
+      ],
+      "updatedAt": "2026-09-21T12:17:42.269Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Last call (INT_MV1WHPG36UIL8, web): 15 seller turns, 5 adaptations, languages: English, Hindi, Gujarati. Outcome: 1 issue(s) raised.",
+    "traits": [
+      "Data-driven",
+      "Decisive",
+      "Prefers English"
+    ]
+  },
+  "memory": [
+    {
+      "id": "MEM_MV0XKUBR64DQE",
+      "at": "2026-10-03T12:17:42.269Z",
+      "category": "business",
+      "fact": "Has an in-house sales team that handles the Lead Manager (LMS) inbox.",
+      "source": "learned",
+      "interactionId": "SEED_INT_005_1"
+    },
+    {
+      "id": "MEM_MV0XKUBREKNP6",
+      "at": "2026-10-03T12:17:42.269Z",
+      "category": "availability",
+      "fact": "Factory closed on Sundays.",
+      "source": "learned",
+      "interactionId": "SEED_INT_005_1"
+    },
+    {
+      "id": "MEM_MV1WNR0H1OTDG",
+      "at": "2026-10-10T04:39:44.511Z",
+      "interactionId": "INT_MV1WHPG36UIL8",
+      "category": "complaint",
+      "fact": "Issue raised: none",
+      "quote": "Yes, you are speaking to the right person.",
+      "source": "learned"
+    }
+  ],
+  "status": "Established",
+  "interactionCount": 5,
+  "lastInteractionAt": "2026-10-10T04:39:44.486Z",
+  "createdAt": "2026-09-09T12:17:42.269Z",
+  "updatedAt": "2026-10-10T04:39:44.514Z",
+  "history": [
+    {
+      "interactionId": "SEED_INT_005_1",
+      "at": "2026-09-15T12:17:42.269Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "te-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_005_2",
+      "at": "2026-09-21T12:17:42.269Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "te-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_005_3",
+      "at": "2026-09-27T12:17:42.269Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "te-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_005_4",
+      "at": "2026-10-03T12:17:42.269Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "te-IN"
+      ]
+    },
+    {
+      "interactionId": "INT_MV1WHPG36UIL8",
+      "at": "2026-10-10T04:39:44.511Z",
+      "mode": "web",
+      "outcome": "1 issue(s) raised",
+      "adaptations": 5,
+      "languagesUsed": [
+        "en-IN",
+        "hi-IN",
+        "gu-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-09T12:17:42.269Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-09-15T12:17:42.269Z",
+      "interactionId": "SEED_INT_005_1",
+      "field": "language",
+      "from": "te-IN",
+      "to": "en-IN",
+      "reason": "Seller switched to English in 3 earlier (synthetic) calls.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-09-15T12:17:42.269Z",
+      "interactionId": "SEED_INT_005_1",
+      "field": "tone",
+      "from": "warm",
+      "to": "direct",
+      "reason": "Seller responded best to direct, numbers-first answers.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-09-15T12:17:42.269Z",
+      "interactionId": "SEED_INT_005_1",
+      "field": "objectionHandling",
+      "from": "acknowledge-and-reassure",
+      "to": "data-backed",
+      "reason": "Seller asked for data (lead counts, response rates) before agreeing.",
+      "source": "learned"
+    }
+  ]
+}

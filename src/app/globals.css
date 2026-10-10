@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #fff1f2;
+  --color-brand-100: #ffe1e3;
+  --color-brand-200: #ffc7cc;
+  --color-brand-500: #e1252f;
+  --color-brand-600: #c8102e;
+  --color-brand-700: #a50d26;
+  --color-ink: #1f2430;
+  --font-sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", "Noto Sans", "Noto Sans Devanagari", "Noto Sans Tamil", sans-serif;
+}
+
+html, body {
+  background: #ffffff;
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-600);
+  outline-offset: 2px;
+}
+
+.md-view h1 { font-size: 1.35rem; font-weight: 700; margin: 0.5rem 0 0.75rem; }
+.md-view h2 { font-size: 1.1rem; font-weight: 700; margin: 1.25rem 0 0.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.25rem; }
+.md-view h3 { font-size: 0.95rem; font-weight: 600; margin: 0.9rem 0 0.25rem; }
+.md-view p, .md-view li { font-size: 0.875rem; line-height: 1.55; }
+.md-view ul { list-style: disc; padding-left: 1.25rem; }
+.md-view blockquote { border-left: 3px solid var(--color-brand-500); background: var(--color-brand-50); padding: 0.4rem 0.75rem; margin: 0.5rem 0; font-size: 0.85rem; }
+.md-view table { border-collapse: collapse; margin: 0.5rem 0; font-size: 0.8rem; }
+.md-view th, .md-view td { border: 1px solid #e5e7eb; padding: 0.3rem 0.55rem; text-align: left; }
+.md-view code { background: #f3f4f6; padding: 0 0.25rem; border-radius: 4px; }
+
+@keyframes pulse-ring { 0% { transform: scale(0.9); opacity: 0.7 } 100% { transform: scale(1.6); opacity: 0 } }
+.pulse-ring::before { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: currentColor; animation: pulse-ring 1.4s ease-out infinite; }

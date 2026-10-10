@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "glid": "DEMO_GLID_003",
+  "isDemo": true,
+  "displayName": "Kolkata Jute Crafts",
+  "contactPerson": "Subhash Mondal",
+  "companyName": "Kolkata Jute Crafts",
+  "category": "Jute Bags",
+  "subCategories": [
+    "Shopping Bags",
+    "Promotional Bags"
+  ],
+  "city": "Kolkata",
+  "state": "West Bengal",
+  "membership": "Free listing (demo)",
+  "trustSeal": false,
+  "gstVerified": false,
+  "yearEstablished": 2019,
+  "secondaryLanguage": "hi-IN",
+  "contact": {
+    "pnsMapped": true,
+    "pnsNumberMasked": "+91-80XXXXX155",
+    "registeredNumbers": 1
+  },
+  "catalog": [
+    {
+      "offerId": "DEMO_OFR_3001",
+      "name": "Printed Jute Shopping Bag",
+      "price": 45,
+      "unit": "piece",
+      "moq": "500 pieces"
+    },
+    {
+      "offerId": "DEMO_OFR_3002",
+      "name": "Jute Wine Bottle Bag",
+      "price": null,
+      "unit": "piece",
+      "moq": "1000 pieces"
+    }
+  ],
+  "buyLeadInterests": [
+    "Corporate gifting",
+    "Retail chains"
+  ],
+  "preferences": {
+    "language": {
+      "value": "hi-IN",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "hi-IN": 1
+      },
+      "reason": "Seller asked to talk in Hindi during call INT_MV0XW3HM49FF5.",
+      "evidence": [
+        {
+          "interactionId": "INT_MV0XW3HM49FF5",
+          "at": "2026-10-09T12:27:44.539Z",
+          "note": "Seller asked to talk in Hindi during call INT_MV0XW3HM49FF5.",
+          "quote": "Hello, I want to talk in Hindi."
+        }
+      ],
+      "updatedAt": "2026-10-09T12:27:44.539Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "tone": {
+      "value": "warm",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-09T12:17:42.269Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Last call (INT_MV0XW3HM49FF5, web): 5 seller turns, 1 adaptations, languages: Bengali, Hindi. Outcome: Completed.",
+    "traits": []
+  },
+  "memory": [],
+  "status": "Provisional",
+  "interactionCount": 1,
+  "lastInteractionAt": "2026-10-09T12:27:44.533Z",
+  "createdAt": "2026-09-09T12:17:42.269Z",
+  "updatedAt": "2026-10-09T12:27:44.539Z",
+  "history": [
+    {
+      "interactionId": "INT_MV0XW3HM49FF5",
+      "at": "2026-10-09T12:27:44.539Z",
+      "mode": "web",
+      "outcome": "Completed",
+      "adaptations": 1,
+      "languagesUsed": [
+        "bn-IN",
+        "hi-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-09T12:17:42.269Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-10-09T12:27:44.539Z",
+      "interactionId": "INT_MV0XW3HM49FF5",
+      "field": "language",
+      "from": "bn-IN",
+      "to": "hi-IN",
+      "reason": "Seller asked to talk in Hindi during call INT_MV0XW3HM49FF5.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-10-09T12:27:44.539Z",
+      "interactionId": "INT_MV0XW3HM49FF5",
+      "field": "profile",
+      "from": "New",
+      "to": "Provisional",
+      "reason": "1 recorded interaction(s).",
+      "source": "learned"
+    }
+  ]
+}

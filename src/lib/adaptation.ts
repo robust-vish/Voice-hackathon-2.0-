@@ -1,7 +1,7 @@
-import { languageName } from "./languages";
+import { agentNameFor, languageName, nextSpeaker } from "./languages";
 import { makeId } from "./profile";
-import { withOverride } from "./persona";
-import type { Interaction, PersonaDimensionKey, Signal, SwitchLogEntry, Turn } from "./types";
+import { speakerForSeller, withOverride, withSpeaker } from "./persona";
+import type { Interaction, PersonaDimensionKey, SellerProfile, Signal, SwitchLogEntry, Turn, VoiceGender } from "./types";
 
 interface Change { key: PersonaDimensionKey; value: string; reason: string }
 
@@ -62,20 +62,31 @@ const PLAN_SIGNALS: Partial<Record<Signal["type"], (s: Signal) => { next: string
 };
 
 /** Applies detected signals to the live interaction: call-scoped overrides + switch log. */
-export function applySignals(interaction: Interaction, signals: Signal[], turn: Turn): SwitchLogEntry[] {
+export function applySignals(interaction: Interaction, signals: Signal[], turn: Turn, profile?: SellerProfile | null): SwitchLogEntry[] {
   const entries: SwitchLogEntry[] = [];
   const at = new Date().toISOString();
   for (const s of signals) {
+    if (s.type === "voice_change") {
+      // Same gender, another voice: "Neha" -> "Priya". The rejected voice is never offered again this call.
+      const p = interaction.currentPersona;
+      const g = p.voiceGender.value;
+      interaction.rejectedSpeakers = Array.from(new Set([...(interaction.rejectedSpeakers ?? []), p.voiceSpeaker]));
+      const next = nextSpeaker(g, p.voiceSpeaker, interaction.rejectedSpeakers);
+      interaction.currentPersona = withSpeaker(p, next, `Seller didn't like the voice "${p.agentName}"; switched to "${agentNameFor(next)}".`);
+      entries.push({ id: makeId("SW"), at, turnId: turn.id, signalType: s.type, signal: s.label, quote: s.quote, dimension: "voice", previous: `${g} · ${p.agentName}`, next: `${g} · ${agentNameFor(next)}`, reason: "Seller asked for a different voice.", scope: "persistent-candidate" });
+      continue;
+    }
     for (const c of changesFor(s)) {
       const previous = String(interaction.currentPersona[c.key].value);
       if (previous === c.value) continue;
-      interaction.currentPersona = withOverride(interaction.currentPersona, c.key, c.value, c.reason);
+      const speaker = c.key === "voiceGender" ? speakerForSeller(profile, c.value as VoiceGender, interaction.rejectedSpeakers) : undefined;
+      interaction.currentPersona = withOverride(interaction.currentPersona, c.key, c.value, c.reason, speaker);
       interaction.overrides[c.key] = c.value;
       entries.push({
         id: makeId("SW"), at, turnId: turn.id, signalType: s.type, signal: s.label, quote: s.quote,
         dimension: c.key,
         previous: c.key === "language" ? languageName(previous) : previous,
-        next: c.key === "language" ? languageName(c.value) : c.value,
+        next: c.key === "language" ? languageName(c.value) : c.key === "voiceGender" ? `${c.value} · ${interaction.currentPersona.agentName}` : c.value,
         reason: c.reason,
         scope: s.persistentCandidate ? "persistent-candidate" : "temporary",
       });

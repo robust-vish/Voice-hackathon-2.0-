@@ -1,5 +1,5 @@
 import type { LanguageCode, VoiceGender } from "./types";
-import { speakerFor } from "./languages";
+import { isSpeakerFor, speakerFor } from "./languages";
 
 // Thin client for Sarvam AI REST APIs (https://docs.sarvam.ai).
 // The API key never leaves the server.
@@ -27,9 +27,9 @@ async function errorText(res: Response) {
   return `Sarvam ${res.status}: ${t.slice(0, 300)}`;
 }
 
-export async function sarvamTts(text: string, language: LanguageCode, gender: VoiceGender, pace = 1.0): Promise<{ audioBase64: string; mime: string; model: string; speaker: string }> {
+export async function sarvamTts(text: string, language: LanguageCode, gender: VoiceGender, pace = 1.0, voice?: string): Promise<{ audioBase64: string; mime: string; model: string; speaker: string }> {
   const model = ttsModel();
-  const speaker = speakerFor(model, gender);
+  const speaker = isSpeakerFor(gender, voice) ? voice : speakerFor(model, gender);
   const res = await fetch(`${BASE}/text-to-speech`, {
     method: "POST",
     headers: headers(),

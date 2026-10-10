@@ -1,16 +1,16 @@
 import { applySignals } from "./adaptation";
 import { PACE_TO_TTS, composeReply, openingLine, stageIndex, type ComposedReply } from "./agent";
-import { polishAgentText } from "./grammar";
-import { detectScriptLanguage, hasNonLatinIndicScript, isLanguageCode, languageName } from "./languages";
+import { polishAgentText, startsWithFiller, tameFillers } from "./grammar";
+import { agentNameFor, detectScriptLanguage, hasNonLatinIndicScript, isLanguageCode, isSpeakerFor, languageName, speakerFor } from "./languages";
 import { generatePersona, generatePlan, missingPriceProducts } from "./persona";
 import { computeStatus, GLID_HINT, isValidGlid, learnPreference, makeId, normalizeGlid, nowIso } from "./profile";
-import { sarvamConfigured, sarvamTranslate } from "./sarvam";
+import { sarvamConfigured, sarvamTranslate, ttsModel } from "./sarvam";
 import { detectSignals, extractFacts, looksEnglish, looksHinglish, saysAlways } from "./signals";
 import { bumpMetric, getInteraction, getOrInitProfile, getProfile, listInteractions, saveInteraction, saveProfile } from "./store";
 import { providerStatus } from "./telephony";
 import type {
   CallMode, CallStatus, Interaction, LanguageCode, PostCallSummary, PrecallCheck, PreferenceKey, ProfileUpdate,
-  Signal, SignalType, SwitchLogEntry, Turn,
+  Signal, SignalType, SwitchLogEntry, Turn, VoiceGender,
 } from "./types";
 
 export class CallError extends Error {
@@ -143,7 +143,6 @@ function nameFromText(text: string): string | undefined {
   return n[0].toUpperCase() + n.slice(1);
 }
 
-const STYLE_SIGNALS: SignalType[] = ["language_switch", "voice_gender", "shorter", "hurry", "more_detail", "slower", "faster", "formal", "informal"];
 
 /**
  * Which language the seller is speaking in this utterance, if it should make the agent switch.
@@ -176,12 +175,13 @@ export async function sellerTurn(id: string, rawText: string, stt?: { languageCo
   const turn: Turn = { id: makeId("T"), at: nowIso(), speaker: "seller", text, language: mirror?.lang ?? current };
   i.turns.push(turn);
 
-  let signals: Signal[] = detectSignals(text, current);
+  const gender = i.currentPersona.voiceGender.value;
+  let signals: Signal[] = detectSignals(text, current, gender);
   // Native-script utterances: also translate to English and run the same rules.
   if (hasNonLatinIndicScript(text) && sarvamConfigured()) {
     try {
-      const en = await sarvamTranslate(text, "auto", "en-IN", i.currentPersona.voiceGender.value);
-      for (const s of detectSignals(en, current)) if (!signals.some((x) => x.type === s.type)) signals.push({ ...s, quote: text, label: `${s.label} (via translation: “${en}”)` });
+      const en = await sarvamTranslate(text, "auto", "en-IN", gender);
+      for (const s of detectSignals(en, current, gender)) if (!signals.some((x) => x.type === s.type)) signals.push({ ...s, quote: text, label: `${s.label} (via translation: “${en}”)` });
     } catch { /* rules on original text only */ }
   }
   const explicitLang = signals.find((s) => s.type === "language_switch");
@@ -192,7 +192,7 @@ export async function sellerTurn(id: string, rawText: string, stt?: { languageCo
   }
 
   turn.signals = signals.map((s) => s.type);
-  const entries: SwitchLogEntry[] = applySignals(i, signals, turn);
+  const entries: SwitchLogEntry[] = applySignals(i, signals, turn, profile);
   for (const s of signals) i.signals.push({ ...s, turnId: turn.id, at: turn.at });
   if (signals.length) i.lastSignal = signals[0];
 
@@ -203,10 +203,10 @@ export async function sellerTurn(id: string, rawText: string, stt?: { languageCo
     i.callbackRequested = undefined;
   }
 
-  const facts = extractFacts(text, profile.catalog.map((c) => c.name));
-  const styleOnly = signals.length > 0 && signals.every((s) => STYLE_SIGNALS.includes(s.type)) && facts.length === 0 && i.beat > 1;
-
-  const reply = await composeReply({ profile, interaction: i, signals, sellerText: text, beat: i.beat, repeatBeat: styleOnly, fillerSpoken: !!stt?.fillerSpoken });
+  const prevAgent = [...i.turns].reverse().find((t) => t.speaker === "agent")?.text;
+  const reply = await composeReply({ profile, interaction: i, signals, sellerText: text, beat: i.beat, fillerSpoken: !!stt?.fillerSpoken });
+  // Don't pile up "अच्छा / हाँ जी" — at most one, never twice in a row or right after a spoken filler.
+  if (!reply.endCall) reply.text = tameFillers(reply.text, { dropLeading: !!stt?.fillerSpoken || startsWithFiller(prevAgent) });
   const aTurn = agentTurn(reply);
   i.turns.push(aTurn);
   noteEngine(i, reply);
@@ -403,6 +403,22 @@ export async function runPostCall(id: string): Promise<Interaction> {
         updates.push(r.update);
         if (r.update.from !== r.update.to) profile.changeLog.push({ at, interactionId: i.id, field, from: r.update.from, to: r.update.to, reason: r.update.reason, source: "learned" });
       } else rejected.push(r.rejected);
+    }
+
+    // Seller asked for a different voice: per gender, remember the last voice they kept talking to.
+    const rejectedVoices = i.rejectedSpeakers ?? [];
+    const lastKept = new Map<VoiceGender, string>();
+    for (const t of i.turns) if (t.speaker === "agent" && t.voice && !rejectedVoices.includes(t.voice.speaker)) lastKept.set(t.voice.gender, t.voice.speaker);
+    for (const [gender, speaker] of lastKept) {
+      const disliked = rejectedVoices.filter((r) => isSpeakerFor(gender, r));
+      if (!disliked.length) continue; // seller never asked to replace a voice of this gender
+      const from = profile.preferredSpeakers?.[gender] ?? "default";
+      const isDefault = from === "default" && speaker === speakerFor(ttsModel(), gender);
+      if (from === speaker || isDefault) continue;
+      profile.preferredSpeakers = { ...profile.preferredSpeakers, [gender]: speaker };
+      const reason = `Seller asked for a different voice (didn't like ${disliked.map(agentNameFor).join(", ")}); next call uses "${agentNameFor(speaker)}".`;
+      profile.changeLog.push({ at, interactionId: i.id, field: `preferredSpeakers.${gender}`, from, to: speaker, reason, source: "learned" });
+      updates.push({ field: `Preferred ${gender} voice`, from: from === "default" ? "default" : agentNameFor(from), to: agentNameFor(speaker), reason });
     }
 
     // Facts the seller communicated -> memory (+ fill a missing catalog price when quoted for that product).

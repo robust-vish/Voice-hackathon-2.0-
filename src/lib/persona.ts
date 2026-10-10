@@ -1,4 +1,4 @@
-import { AGENT_NAMES, languageName, speakerFor } from "./languages";
+import { agentNameFor, isSpeakerFor, languageName, nextSpeaker, speakerFor } from "./languages";
 import { tenure } from "./profile";
 import { ttsModel } from "./sarvam";
 import type {
@@ -20,14 +20,23 @@ export function personaSummary(p: Persona): string {
   return parts.join(" · ");
 }
 
+/** The seller's preferred voice for a gender (from an earlier "different voice" request), else the default. */
+export function speakerForSeller(profile: Pick<SellerProfile, "preferredSpeakers"> | null | undefined, gender: VoiceGender, avoid: string[] = []): string {
+  const pref = profile?.preferredSpeakers?.[gender];
+  if (isSpeakerFor(gender, pref) && !avoid.includes(pref)) return pref;
+  const def = speakerFor(ttsModel(), gender);
+  return avoid.includes(def) ? nextSpeaker(gender, def, avoid) : def;
+}
+
 /** Builds the call persona from the seller's stored profile. */
 export function generatePersona(profile: SellerProfile): Persona {
   const pr = profile.preferences;
+  const speaker = speakerForSeller(profile, pr.voiceGender.value);
   const persona: Persona = {
     glid: profile.glid,
     generatedAt: new Date().toISOString(),
-    agentName: AGENT_NAMES[pr.voiceGender.value],
-    voiceSpeaker: speakerFor(ttsModel(), pr.voiceGender.value),
+    agentName: agentNameFor(speaker),
+    voiceSpeaker: speaker,
     language: dim(pr.language),
     languageStyle: dim(pr.languageStyle),
     voiceGender: dim(pr.voiceGender),
@@ -48,14 +57,25 @@ export function generatePersona(profile: SellerProfile): Persona {
   return persona;
 }
 
-/** Applies a call-scoped override to a persona (returns a new persona). */
-export function withOverride(p: Persona, key: PersonaDimensionKey, value: string, reason: string): Persona {
+/** Applies a call-scoped override to a persona (returns a new persona). `speaker` picks the voice on a gender change. */
+export function withOverride(p: Persona, key: PersonaDimensionKey, value: string, reason: string, speaker?: string): Persona {
   const next: Persona = JSON.parse(JSON.stringify(p));
   (next[key] as PersonaDimension<string>) = { value, reason, evidenceCount: 1, confidence: 0.9, source: "call-override" };
   if (key === "voiceGender") {
-    next.agentName = AGENT_NAMES[value as VoiceGender];
-    next.voiceSpeaker = speakerFor(ttsModel(), value as VoiceGender);
+    const s = isSpeakerFor(value as VoiceGender, speaker) ? speaker : speakerFor(ttsModel(), value as VoiceGender);
+    next.voiceSpeaker = s;
+    next.agentName = agentNameFor(s);
   }
+  next.summary = personaSummary(next);
+  return next;
+}
+
+/** Same gender, different voice (and name): "Neha" -> "Priya". */
+export function withSpeaker(p: Persona, speaker: string, reason: string): Persona {
+  const next: Persona = JSON.parse(JSON.stringify(p));
+  next.voiceSpeaker = speaker;
+  next.agentName = agentNameFor(speaker);
+  next.voiceGender = { ...next.voiceGender, reason, confidence: 0.9, source: "call-override" };
   next.summary = personaSummary(next);
   return next;
 }

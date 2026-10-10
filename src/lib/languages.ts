@@ -83,19 +83,45 @@ export function languageName(code: string): string {
   return l ? l.name : code;
 }
 
-/** Agent display names per voice gender. */
-export const AGENT_NAMES: Record<VoiceGender, string> = { female: "Priya", male: "Rahul" };
-
 /**
- * Sarvam Bulbul v3 speakers per gender (bulbul:v2 is deprecated by Sarvam).
- * Override with SARVAM_FEMALE_SPEAKER / SARVAM_MALE_SPEAKER, e.g. "simran", "kavya", "shubh", "aditya".
+ * Sarvam Bulbul v3 voices the agent can use, per gender, in the order they are offered when a
+ * seller asks for "a different voice" (bulbul:v2 is deprecated by Sarvam). The agent introduces
+ * itself by the voice's name, so "Neha" -> "Priya" is a different person to the seller.
+ * The first entry is the default; override it with SARVAM_FEMALE_SPEAKER / SARVAM_MALE_SPEAKER.
  */
-export const SARVAM_SPEAKERS: Record<VoiceGender, string> = { female: "priya", male: "rahul" };
+export const VOICE_ROSTER: Record<VoiceGender, string[]> = {
+  female: ["neha", "priya", "simran", "kavya", "ritu", "shreya", "pooja"],
+  male: ["rahul", "aditya", "rohan", "amit", "kabir", "varun", "shubh"],
+};
+/** Every speaker Bulbul v3 accepts (from the API), so env overrides can use any of them. */
+const BULBUL_V3: Record<VoiceGender, string[]> = {
+  female: ["ritu", "priya", "neha", "pooja", "simran", "kavya", "ishita", "shreya", "roopa", "tanya", "shruti", "suhani", "kavitha", "rupali"],
+  male: ["aditya", "ashutosh", "rahul", "rohan", "amit", "dev", "ratan", "varun", "manan", "sumit", "kabir", "aayan", "shubh", "advait", "anand", "tarun", "sunny", "mani", "gokul", "vijay", "mohit", "rehan", "soham"],
+};
 
+export function isSpeakerFor(gender: VoiceGender, speaker: string | undefined | null): speaker is string {
+  return !!speaker && BULBUL_V3[gender].includes(speaker);
+}
+
+/** Default speaker for a gender (env override if valid). */
 export function speakerFor(_model: string, gender: VoiceGender): string {
   const env = typeof process !== "undefined" ? process.env?.[gender === "male" ? "SARVAM_MALE_SPEAKER" : "SARVAM_FEMALE_SPEAKER"]?.trim().toLowerCase() : undefined;
-  return env || SARVAM_SPEAKERS[gender];
+  return isSpeakerFor(gender, env) ? env : VOICE_ROSTER[gender][0];
 }
+
+/** The next voice of the same gender, skipping ones the seller already rejected. */
+export function nextSpeaker(gender: VoiceGender, current: string, avoid: string[] = []): string {
+  const roster = VOICE_ROSTER[gender];
+  const start = Math.max(0, roster.indexOf(current));
+  for (let k = 1; k <= roster.length; k++) {
+    const s = roster[(start + k) % roster.length];
+    if (s !== current && !avoid.includes(s)) return s;
+  }
+  return roster[(start + 1) % roster.length];
+}
+
+/** "neha" -> "Neha": the agent's name is the voice's name. */
+export const agentNameFor = (speaker: string) => speaker.charAt(0).toUpperCase() + speaker.slice(1);
 
 const SCRIPT_RANGES: [number, number, LanguageCode][] = [
   [0x0900, 0x097f, "hi-IN"], // Devanagari (Hindi / Marathi)

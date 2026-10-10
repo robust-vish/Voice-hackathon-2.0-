@@ -63,8 +63,8 @@ export function splitSentences(text: string): string[] {
   return out.flatMap((s) => (s.length <= 450 ? [s] : s.match(/.{1,450}(\s|$)/g) ?? [s]));
 }
 
-async function fetchTts(text: string, lang: LanguageCode, gender: VoiceGender, pace: number, signal?: AbortSignal) {
-  const res = await fetch("/api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, language: lang, gender, pace }), signal });
+async function fetchTts(text: string, lang: LanguageCode, gender: VoiceGender, pace: number, speaker?: string, signal?: AbortSignal) {
+  const res = await fetch("/api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, language: lang, gender, speaker, pace }), signal });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error ?? `TTS ${res.status}`);
   return data as { audioBase64: string; mime: string; speaker: string; model: string };
@@ -109,11 +109,12 @@ function schedule(buf: AudioBuffer, isCancelled: () => boolean): Promise<void> {
   });
 }
 
-// ---- Natural acknowledgement fillers ("जी…", "अच्छा…") played while the agent thinks ----
+// ---- Natural acknowledgement fillers ("जी…", "हम्म…") played while the agent thinks ----
+// Sparingly: a filler on every turn sounds robotic, so at most one every third seller turn.
 
 const FILLER_WORDS: Record<LanguageCode, string[]> = {
-  "hi-IN": ["जी।", "अच्छा।", "हाँ जी।"],
-  "en-IN": ["Okay.", "Right.", "Mm, okay."],
+  "hi-IN": ["जी।", "हम्म।", "ठीक है।"],
+  "en-IN": ["Mm-hmm.", "Okay.", "Right."],
   "bn-IN": ["আচ্ছা।", "হ্যাঁ।"],
   "ta-IN": ["சரி.", "ஆமா."],
   "te-IN": ["సరే.", "అలాగే."],
@@ -127,18 +128,21 @@ const FILLER_WORDS: Record<LanguageCode, string[]> = {
 const fillerCache = new Map<string, Promise<AudioBuffer[]>>();
 
 /** Pre-synthesises filler clips for a language/voice so they can play instantly. */
-export function prefetchFillers(lang: LanguageCode, gender: VoiceGender, pace: number) {
-  const key = `${lang}|${gender}`;
+export function prefetchFillers(lang: LanguageCode, gender: VoiceGender, pace: number, speaker?: string) {
+  const key = `${lang}|${gender}|${speaker ?? ""}`;
   if (fillerCache.has(key)) return;
-  const p = Promise.all(FILLER_WORDS[lang].map(async (w) => decode((await fetchTts(w, lang, gender, pace)).audioBase64))).catch(() => []);
+  const p = Promise.all(FILLER_WORDS[lang].map(async (w) => decode((await fetchTts(w, lang, gender, pace, speaker)).audioBase64))).catch(() => []);
   fillerCache.set(key, p);
 }
 
 let fillerTurn = 0;
-/** Plays a short acknowledgement if one is ready. Returns true if it played. */
-export async function playFiller(lang: LanguageCode, gender: VoiceGender): Promise<boolean> {
-  const clips = await fillerCache.get(`${lang}|${gender}`);
+let turnsSinceFiller = 99;
+/** Plays a short acknowledgement if one is ready and none was played in the last two turns. Returns true if it played. */
+export async function playFiller(lang: LanguageCode, gender: VoiceGender, speaker?: string): Promise<boolean> {
+  if (++turnsSinceFiller < 3) return false;
+  const clips = await fillerCache.get(`${lang}|${gender}|${speaker ?? ""}`);
   if (!clips?.length) return false;
+  turnsSinceFiller = 0;
   void schedule(clips[fillerTurn++ % clips.length], () => false);
   return true;
 }
@@ -179,7 +183,7 @@ function speakBrowser(text: string, lang: LanguageCode, gender: VoiceGender, pac
  * Speaks text. With Sarvam: every chunk is synthesised in parallel, decoded, and scheduled
  * gap-lessly in order. A filler that is still playing is allowed to finish first.
  */
-export function speak(text: string, lang: LanguageCode, gender: VoiceGender, pace: number, engine: Engine): Speech {
+export function speak(text: string, lang: LanguageCode, gender: VoiceGender, pace: number, engine: Engine, speaker?: string): Speech {
   active?.cancel();
   active = null;
   if (engine === "browser") {
@@ -204,7 +208,7 @@ export function speak(text: string, lang: LanguageCode, gender: VoiceGender, pac
     });
     let detail = "";
     const jobs = chunks.map((s) => limit(async () => {
-      const a = await fetchTts(s, lang, gender, pace, ctrl.signal);
+      const a = await fetchTts(s, lang, gender, pace, speaker, ctrl.signal);
       detail = `${a.model} · ${a.speaker}`;
       return decode(a.audioBase64);
     }));
@@ -291,7 +295,7 @@ export class MicSession {
   private noiseFloor = 0.004;
   agentSpeaking = false;
   bargeIn = true;
-  silenceMs = 750;
+  silenceMs = 600; // end-of-turn pause: short enough to reply instantly, long enough for a breath mid-sentence
 
   constructor(private cb: MicCallbacks) {}
 

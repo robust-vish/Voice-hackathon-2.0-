@@ -6,10 +6,10 @@ import { useState, type ReactNode } from "react";
 
 export function Card({ children, className = "", title, action, padded = true }: { children: ReactNode; className?: string; title?: ReactNode; action?: ReactNode; padded?: boolean }) {
   return (
-    <section className={`rounded-2xl border border-gray-200/70 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04)] ${className}`}>
+    <section className={`animate-fade-up rounded-2xl border border-gray-200/70 bg-white shadow-[0_1px_3px_rgba(16,24,40,0.05)] ${className}`}>
       {(title || action) && (
         <header className="flex items-center justify-between gap-3 px-5 pt-4">
-          <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+          <h2 className="text-[15px] font-bold tracking-tight text-gray-900">{title}</h2>
           {action}
         </header>
       )}
@@ -65,7 +65,7 @@ export function Tabs<T extends string>({ tabs, value, onChange }: { tabs: { id: 
     <div role="tablist" className="flex gap-1 overflow-x-auto border-b border-gray-200">
       {tabs.map((t) => (
         <button key={t.id} role="tab" aria-selected={value === t.id} onClick={() => onChange(t.id)}
-          className={`-mb-px whitespace-nowrap border-b-2 px-3 py-2 text-sm transition ${value === t.id ? "border-brand-600 font-semibold text-gray-900" : "border-transparent text-gray-500 hover:text-gray-800"}`}>
+          className={`press -mb-px whitespace-nowrap border-b-2 px-3 py-2 text-sm transition-colors duration-200 ${value === t.id ? "border-brand-600 font-semibold text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-800"}`}>
           {t.label}{t.count != null && <span className="ml-1.5 rounded-full bg-gray-100 px-1.5 text-[11px] text-gray-600">{t.count}</span>}
         </button>
       ))}
@@ -108,15 +108,17 @@ export function Empty({ title, children }: { title: string; children?: ReactNode
 type BtnProps = { children: ReactNode; onClick?: () => void; disabled?: boolean; variant?: "primary" | "secondary" | "ghost" | "danger"; className?: string; type?: "button" | "submit"; title?: string; "aria-label"?: string; size?: "sm" | "md" };
 
 const VARIANTS = {
-  primary: "bg-brand-600 text-white shadow-sm hover:bg-brand-700 disabled:bg-brand-200",
-  secondary: "bg-white text-gray-800 ring-1 ring-gray-200 hover:bg-gray-50 disabled:text-gray-400",
+  primary: "bg-gradient-to-b from-brand-500 to-brand-600 text-white shadow-sm shadow-brand-600/25 hover:-translate-y-px hover:shadow-md hover:shadow-brand-600/30 hover:from-brand-600 hover:to-brand-700 disabled:from-brand-200 disabled:to-brand-200 disabled:shadow-none disabled:translate-y-0",
+  secondary: "bg-white text-gray-800 ring-1 ring-gray-200 hover:bg-gray-50 hover:ring-gray-300 disabled:text-gray-400",
   ghost: "text-gray-600 hover:bg-gray-100 disabled:text-gray-300",
-  danger: "bg-gray-900 text-white hover:bg-black disabled:bg-gray-300",
+  danger: "bg-gray-900 text-white shadow-sm hover:-translate-y-px hover:bg-black hover:shadow-md disabled:bg-gray-300",
 };
+// "press": tactile scale-down on click (globals.css).
+const BASE = "press inline-flex select-none items-center justify-center gap-1.5 rounded-xl font-semibold transition-all duration-150 disabled:cursor-not-allowed";
 
 export function Button({ children, onClick, disabled, variant = "primary", className = "", type = "button", size = "md", ...rest }: BtnProps) {
   return (
-    <button type={type} onClick={onClick} disabled={disabled} className={`inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition disabled:cursor-not-allowed ${size === "sm" ? "px-2.5 py-1.5 text-xs" : "px-3.5 py-2 text-sm"} ${VARIANTS[variant]} ${className}`} {...rest}>
+    <button type={type} onClick={onClick} disabled={disabled} className={`${BASE} ${size === "sm" ? "px-2.5 py-1.5 text-xs" : "px-4 py-2 text-sm"} ${VARIANTS[variant]} ${className}`} {...rest}>
       {children}
     </button>
   );
@@ -124,7 +126,7 @@ export function Button({ children, onClick, disabled, variant = "primary", class
 
 export function LinkButton({ href, children, variant = "secondary", className = "", size = "md" }: { href: string; children: ReactNode; variant?: keyof typeof VARIANTS; className?: string; size?: "sm" | "md" }) {
   return (
-    <Link href={href} className={`inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition ${size === "sm" ? "px-2.5 py-1.5 text-xs" : "px-3.5 py-2 text-sm"} ${VARIANTS[variant]} ${className}`}>
+    <Link href={href} className={`${BASE} ${size === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm"} ${VARIANTS[variant]} ${className}`}>
       {children}
     </Link>
   );
@@ -153,9 +155,9 @@ export function ConfidenceBar({ value }: { value: number }) {
 
 export function PageHeader({ title, subtitle, action }: { title: ReactNode; subtitle?: ReactNode; action?: ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div className="animate-fade-up mb-6 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-gray-900">{title}</h1>
+        <h1 className="text-[28px] font-extrabold tracking-tight text-gray-900">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-gray-500">{subtitle}</p>}
       </div>
       {action}

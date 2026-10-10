@@ -244,7 +244,7 @@ export function SellerDetail({ glid, initialTab = "overview" }: { glid: string; 
 
       {tab === "profile" && (
         <div className="space-y-6">
-          <Card title="Markdown profile" action={<span className="font-mono text-xs text-gray-400">data/sellers/{p.glid}.md</span>}>
+          <Card>
             {md ? <Markdown source={md} /> : <Spinner />}
           </Card>
           <Card title="JSON profile" action={<button className="text-xs font-medium text-brand-700 hover:underline" onClick={() => setShowJson((s) => !s)}>{showJson ? "Hide" : "Show"}</button>}>

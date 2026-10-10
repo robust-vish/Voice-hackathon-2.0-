@@ -166,13 +166,13 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
     setInteraction(r.interaction);
     setLiveSeller(null);
     if (r.scenario) setScenario(r.scenario);
-    if (engine === "sarvam" && r.interaction.mode === "web") prefetchFillers(r.reply.language, r.reply.voice.gender, r.reply.ttsPace);
+    if (engine === "sarvam" && r.interaction.mode === "web") prefetchFillers(r.reply.language, r.reply.voice.gender, r.reply.ttsPace, r.reply.voice.speaker);
     let interrupted = false;
     if (r.interaction.mode === "web" || playAudio) {
       setPhase("speaking");
       const mic = micRef.current;
       if (mic) { mic.disarm(); mic.agentSpeaking = true; }
-      const s = speak(r.reply.text, r.reply.language, r.reply.voice.gender, r.reply.ttsPace, engine);
+      const s = speak(r.reply.text, r.reply.language, r.reply.voice.gender, r.reply.ttsPace, engine, r.reply.voice.speaker);
       speechRef.current = s;
       const v = await s.done;
       if (speechRef.current === s) speechRef.current = null;
@@ -214,7 +214,7 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
     const cur = iRef.current;
     // A quick, natural "जी…" right away so there is no dead air while we transcribe + think.
     const fillerPromise = fillersRef.current && cur && engine === "sarvam"
-      ? playFiller(cur.currentPersona.language.value, cur.currentPersona.voiceGender.value)
+      ? playFiller(cur.currentPersona.language.value, cur.currentPersona.voiceGender.value, cur.currentPersona.voiceSpeaker)
       : Promise.resolve(false);
     try {
       const fd = new FormData();
@@ -279,32 +279,45 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
     return () => clearTimeout(t);
   }, [simAuto, isLive, interaction?.mode, interaction?.turns.length, pending, speaking, simulateStep]);
 
-  const prepare = async () => {
-    if (busyRef.current || !seller) return;
+  /** Creates the interaction (pre-call checks run server-side). Returns it, or null if a check failed. */
+  const prepare = async (): Promise<Interaction | null> => {
+    if (busyRef.current || !seller) return null;
     busyRef.current = true;
     setError(null);
     setScenario(null);
     setInteraction(null);
     setChecks(null);
-    setPending("Running pre-call checks…");
+    setPending("Connecting…");
     try {
       const r = await api<{ interaction: Interaction; checks: PrecallCheck[] }>("/api/calls", { method: "POST", json: { glid: seller.glid, mode } });
       setChecks(r.checks);
+      iRef.current = r.interaction;
       setInteraction(r.interaction);
+      return r.interaction;
     } catch (e) {
       const err = e as ApiError;
       setChecks((err.body?.checks as PrecallCheck[]) ?? null);
       if (err.status === 409 && err.body?.existing) {
         const r = await api<{ interaction: Interaction }>(`/api/calls/${err.body.existing}`);
+        iRef.current = r.interaction;
         setInteraction(r.interaction);
         setChecks(r.interaction.checks);
         setMode(r.interaction.mode);
-        setError("An active call already exists for this seller — resumed it instead of starting a duplicate.");
-      } else setError(err.message);
+        return r.interaction.status === "Preparing" ? r.interaction : null;
+      }
+      setError(err.message);
+      return null;
     } finally {
       busyRef.current = false;
       setPending(null);
     }
+  };
+
+  /** One click: run the checks and, if they pass, connect the call immediately. */
+  const startNow = async () => {
+    unlockAudio(); // synchronously inside the click, so the browser allows the agent's audio later
+    const i = await prepare();
+    if (i) await start();
   };
 
   const openMic = async () => {
@@ -334,7 +347,7 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
     unlockAudio(); // inside the click, so the browser allows the agent's audio
     busyRef.current = true;
     setPending("Connecting…");
-    if (engine === "sarvam") prefetchFillers(cur.currentPersona.language.value, cur.currentPersona.voiceGender.value, 1.15);
+    if (engine === "sarvam") prefetchFillers(cur.currentPersona.language.value, cur.currentPersona.voiceGender.value, 1.15, cur.currentPersona.voiceSpeaker);
     if (cur.mode === "web") {
       if (engine === "sarvam") await openMic();
       else if (!browserRecognitionAvailable()) setError("This browser has no speech recognition — type the seller's replies in the box below (Chrome or Edge recommended).");
@@ -426,57 +439,39 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
       <div className="grid gap-6 lg:grid-cols-5">
         {/* Left: call surface */}
         <div className="space-y-5 lg:col-span-3">
-          {(!interaction || ended) && !summary && (
-            <Card title="Start a call">
-              <fieldset className="grid gap-3 sm:grid-cols-2" disabled={!!pending}>
-                <legend className="sr-only">Call mode</legend>
-                {([
-                  { m: "web" as CallMode, title: "Web voice call", desc: config?.voiceProvider.configured ? "Talk as the seller through your mic. Sarvam voices; language & voice switch live." : "Talk as the seller through your mic (browser speech; add a Sarvam key for better voices)." },
-                  { m: "simulated" as CallMode, title: "Simulated call", desc: "A scripted seller runs through the real persona, adaptation and profile-update logic." },
-                ]).map((o) => (
-                  <label key={o.m} className={`flex cursor-pointer gap-3 rounded-xl border p-4 transition ${mode === o.m ? "border-brand-500 bg-brand-50/60 ring-2 ring-brand-100" : "border-gray-200 hover:border-gray-300"}`}>
-                    <input type="radio" name="mode" className="mt-0.5 accent-brand-600" checked={mode === o.m} onChange={() => setMode(o.m)} />
-                    <span><span className="block text-sm font-semibold">{o.title}</span><span className="mt-0.5 block text-xs text-gray-500">{o.desc}</span></span>
-                  </label>
-                ))}
-              </fieldset>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <Button onClick={prepare} disabled={!!pending}><Phone className="h-4 w-4" aria-hidden />Prepare call</Button>
-                <span className="text-xs text-gray-400" title={pstn?.detail}>Phone (PSTN) calling isn&apos;t connected yet</span>
-              </div>
-            </Card>
-          )}
-
-          {checks && (!interaction || interaction.status === "Preparing") && (
-            <Card>
-              {(() => {
-                const failed = checks.filter((c) => c.status === "fail").length;
-                const warned = checks.filter((c) => c.status === "warn").length;
-                return (
-                  <details open={failed > 0}>
-                    <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium">
-                      {failed ? <XCircle className="h-4 w-4 text-brand-600" /> : <CheckCircle2 className="h-4 w-4 text-emerald-600" />}
-                      {failed ? `${failed} check${failed > 1 ? "s" : ""} failed` : `${checks.length} pre-call checks passed`}{warned ? ` · ${warned} note${warned > 1 ? "s" : ""}` : ""}
-                      <span className="ml-auto text-xs font-normal text-gray-400">details</span>
-                    </summary>
-                    <ul className="mt-3 space-y-2 border-t border-gray-100 pt-3">
-                      {checks.map((c) => (
-                        <li key={c.id} className="flex items-start gap-2 text-sm">
-                          <CheckIcon s={c.status} />
-                          <div><div className="font-medium">{c.label}</div><div className="text-xs text-gray-500">{c.detail}</div></div>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                );
-              })()}
-              {interaction?.status === "Preparing" && (
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <Button onClick={start} disabled={!!pending}><Play className="h-4 w-4" aria-hidden />{interaction.mode === "simulated" ? "Start simulated call" : "Start call"}</Button>
-                  <Button variant="secondary" onClick={() => finish("operator")} disabled={!!pending}>Cancel</Button>
+          {((!interaction || ended) && !summary || interaction?.status === "Preparing") && (
+            <section className="animate-fade-up relative overflow-hidden rounded-2xl border border-gray-200/70 bg-white p-6 shadow-[0_1px_3px_rgba(16,24,40,0.05)] sm:p-8">
+              <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brand-500/10 blur-3xl" />
+              <div className="relative flex flex-col items-center text-center">
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-600/30">
+                  <Phone className="h-7 w-7" aria-hidden />
+                </span>
+                <h2 className="mt-4 text-xl font-extrabold tracking-tight text-gray-900">Call {p.contactPerson ?? p.displayName}</h2>
+                <p className="mt-1 max-w-sm text-sm text-gray-500">
+                  {config?.voiceProvider.configured ? "Talk as the seller through your mic. Language and voice can be switched live during the call." : "Talk as the seller through your mic (browser speech — add a Sarvam key for better voices)."}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                  <button type="button" onClick={interaction?.status === "Preparing" ? () => { unlockAudio(); void start(); } : startNow} disabled={!!pending}
+                    className={`press inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-brand-500 to-brand-600 px-7 py-3 text-[15px] font-bold text-white shadow-lg shadow-brand-600/30 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-wait disabled:opacity-70 ${pending ? "" : "animate-ring"}`}>
+                    {pending ? <Loader2 className="h-5 w-5 animate-spin" aria-hidden /> : <Play className="h-5 w-5" aria-hidden />}
+                    {pending ? "Connecting…" : "Start call"}
+                  </button>
+                  {interaction?.status === "Preparing" && <Button variant="secondary" onClick={() => finish("operator")} disabled={!!pending}>Cancel</Button>}
                 </div>
+                <span className="mt-3 text-[11px] text-gray-400" title={pstn?.detail}>Web voice call · phone (PSTN) calling isn&apos;t connected yet</span>
+              </div>
+              {/* Pre-call checks run silently; they're only shown when one fails. */}
+              {checks?.some((c) => c.status === "fail") && (
+                <ul className="relative mt-6 space-y-2 border-t border-gray-100 pt-4">
+                  {checks.filter((c) => c.status !== "ok").map((c) => (
+                    <li key={c.id} className="flex items-start gap-2 text-sm">
+                      <CheckIcon s={c.status} />
+                      <div><div className="font-medium">{c.label}</div><div className="text-xs text-gray-500">{c.detail}</div></div>
+                    </li>
+                  ))}
+                </ul>
               )}
-            </Card>
+            </section>
           )}
 
           {interaction && interaction.status !== "Preparing" && (
@@ -599,7 +594,7 @@ export default function CallPage({ params }: { params: Promise<{ glid: string }>
                 </div>
               )}
               <div className="mt-4 flex flex-wrap gap-2">
-                <Button onClick={prepare} disabled={!!pending}><RotateCcw className="h-4 w-4" aria-hidden />Call again (uses updated profile)</Button>
+                <Button onClick={startNow} disabled={!!pending}><RotateCcw className="h-4 w-4" aria-hidden />Call again (uses updated profile)</Button>
                 <LinkButton href={`/sellers/${p.glid}/persona`}>View updated persona <ArrowRight className="h-4 w-4" aria-hidden /></LinkButton>
                 <LinkButton href={`/interactions/${interaction.id}`}>Interaction details</LinkButton>
               </div>

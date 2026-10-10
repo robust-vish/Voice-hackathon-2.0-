@@ -25,6 +25,7 @@ interface Ctx {
   name?: string; // first name, if known
   company?: string; // company, if known
   cats?: string; // top BuyLead categories / what they deal in (for natural mentions)
+  catsHi?: string; // same, joined with "और"
   catalogEmpty: boolean;
   dealsIn?: string;
   agent: string;
@@ -46,6 +47,17 @@ interface Ctx {
 
 const hiG = (g: VoiceGender, f: string, m: string) => (g === "female" ? f : m);
 
+const HI_DAYS: Record<string, string> = { Monday: "सोमवार", Tuesday: "मंगलवार", Wednesday: "बुधवार", Thursday: "गुरुवार", Friday: "शुक्रवार", Saturday: "शनिवार", Sunday: "रविवार" };
+/** "tomorrow evening after 5 PM" -> "कल शाम 5 बजे के बाद" (times are stored in English). */
+function hiWhen(s?: string): string | undefined {
+  if (!s) return s;
+  let t = s.replace(/\btomorrow\b/i, "कल").replace(/\btoday\b/i, "आज").replace(/\bevening\b/i, "शाम").replace(/\bmorning\b/i, "सुबह")
+    .replace(/\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/, (d) => HI_DAYS[d]);
+  t = t.replace(/(\d{1,2})\s*(?:o'clock|PM|AM)/i, "$1 बजे");
+  if (/\bafter\b/i.test(t)) t = `${t.replace(/\bafter\s*/i, "").trim()} के बाद`;
+  return t.replace(/\s+/g, " ").trim();
+}
+
 type Lines = { en: (c: Ctx) => string; hi: (c: Ctx) => string };
 
 const by = (len: ResponseLength, concise: string, balanced: string, detailed: string) => (len === "concise" ? concise : len === "detailed" ? detailed : balanced);
@@ -61,19 +73,19 @@ const FEEDBACK: Lines = {
     ? `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. Last time you mentioned "${c.openIssue}" — has that been sorted out, or are you still facing it?`
     : by(c.len,
       `Thanks! ${c.agent} from IndiaMART. You've been with us ${c.tenureEn} — any issues lately?`,
-      `Thank you${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. You've been using IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""} — how has your experience been? Are you facing any issues?`,
+      `Thank you! I'm ${c.agent}, your IndiaMART seller help assistant. How has IndiaMART been for you — any issues?`,
       `Thank you so much${c.name ? `, ${c.name} ji` : ""}! I'm ${c.agent}, your IndiaMART seller help assistant. You've been with IndiaMART for ${c.tenureEn} now${c.cats ? `, taking BuyLeads for ${c.cats}` : ""}, and we'd really like your honest feedback — how has the experience been, and is anything troubling you, like leads, enquiries or your listings?`),
   hi: (c) => c.openIssue
     ? `जी धन्यवाद! मैं ${c.agent}, IndiaMART से। पिछली बार आपने "${c.openIssue}" के बारे में बताया था — क्या वो solve हो गया, या अभी भी दिक्कत आ रही है?`
     : by(c.len,
       `जी धन्यवाद! मैं ${c.agent}, IndiaMART से। ${c.tenureHi} से आप हमारे साथ हैं — कोई दिक्कत?`,
-      `जी धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant, बोल ${hiG(c.g, "रही", "रहा")} हूँ। आप पिछले ${c.tenureHi} से IndiaMART use कर रहे हैं${c.cats ? `, ${c.cats} के BuyLeads ले रहे हैं` : ""} — आपका experience कैसा रहा? कोई दिक्कत तो नहीं आ रही?`,
-      `जी बहुत धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant, बोल ${hiG(c.g, "रही", "रहा")} हूँ। आप पिछले ${c.tenureHi} से IndiaMART के साथ हैं${c.cats ? ` और ${c.cats} के BuyLeads ले रहे हैं` : ""}, तो हम आपका honest feedback जानना चाहते हैं — experience कैसा रहा? Leads, enquiries या listing में कोई परेशानी तो नहीं?`),
+      `धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant। IndiaMART के साथ अनुभव कैसा रहा — कोई दिक्कत?`,
+      `जी बहुत धन्यवाद! मैं ${c.agent}, IndiaMART ${hiG(c.g, "की", "का")} seller help assistant, बोल ${hiG(c.g, "रही", "रहा")} हूँ। आप पिछले ${c.tenureHi} से IndiaMART के साथ हैं${c.cats ? ` और ${c.catsHi} के BuyLeads ले रहे हैं` : ""}, तो हम आपका honest feedback जानना चाहते हैं — experience कैसा रहा? Leads, enquiries या listing में कोई परेशानी तो नहीं?`),
 };
 
 const ESCALATE: Lines = {
-  en: () => `I'm really sorry you're facing this — we truly apologise. I'm escalating it to our senior team right away so it gets resolved as soon as possible.`,
-  hi: (c) => `इस परेशानी के लिए हमें सच में बहुत खेद है। मैं इसे अभी अपनी senior team को escalate कर ${hiG(c.g, "रही", "रहा")} हूँ, ताकि जल्द से जल्द solve हो जाए।`,
+  en: () => `I'm really sorry about this. I'm escalating it to our senior team right away to fix it ASAP.`,
+  hi: (c) => `इस परेशानी के लिए हमें बहुत खेद है। मैं इसे अभी senior team को escalate कर ${hiG(c.g, "रही", "रहा")} हूँ, ताकि जल्दी solve हो।`,
 };
 /** "6601433" -> "6 6 0 1 4 3 3" so the voice reads digits one by one. */
 const spell = (digits: string) => digits.replace(/\D/g, "").split("").join(" ");
@@ -125,43 +137,45 @@ const GLAD: Lines = {
   hi: () => `ये सुनकर बहुत अच्छा लगा!`,
 };
 const MEETING_ASK: Lines = {
-  en: (c) => by(c.len, `Could we set up a short meeting? When are you free?`, `Could you spare a little time for a short meeting with our team? When would you be free?`, `We'd love to sit with you for a short meeting to understand your business better and help you grow on IndiaMART. Could you spare some time — when would you be free?`),
-  hi: (c) => by(c.len, `एक छोटी meeting रख लें? आप कब free हैं?`, `क्या आप हमारी team के साथ एक छोटी सी meeting के लिए थोड़ा समय निकाल सकते हैं? आप कब free रहेंगे?`, `हम आपके business को और अच्छे से समझकर IndiaMART पर grow करने में मदद करना चाहते हैं। क्या एक छोटी सी meeting के लिए थोड़ा समय निकाल सकते हैं? आप कब free रहेंगे?`),
+  en: (c) => by(c.len, `Could we set up a short meeting? When are you free?`, `Can we set up a short meeting with our team? When are you free?`, `We'd love to sit with you for a short meeting to understand your business better and help you grow on IndiaMART. Could you spare some time — when would you be free?`),
+  hi: (c) => by(c.len, `एक छोटी meeting रख लें? आप कब free हैं?`, `हमारी team के साथ एक छोटी meeting रख लें? आप कब free हैं?`, `हम आपके business को और अच्छे से समझकर IndiaMART पर grow करने में मदद करना चाहते हैं। क्या एक छोटी सी meeting के लिए थोड़ा समय निकाल सकते हैं? आप कब free रहेंगे?`),
 };
 const MEETING_OK: Lines = {
   en: (c) => (c.meeting ? `Perfect, I've noted ${c.meeting} for the meeting.` : `No problem at all.`),
-  hi: (c) => (c.meeting ? `बढ़िया, meeting के लिए ${c.meeting} note कर ${hiG(c.g, "लिया", "लिया")}।` : `कोई बात नहीं।`),
+  hi: (c) => (c.meeting ? `बढ़िया, meeting के लिए ${hiWhen(c.meeting)} note कर लिया।` : `कोई बात नहीं।`),
 };
 const PITCH: Lines = {
   en: (c) => c.paid
-    ? by(c.len, `Upgrading your ${c.membership} plan gets you more BuyLeads and top visibility. Interested?`, `And since you're on ${c.membership}, an upgrade would bring you even more BuyLeads and top visibility in search results. Would you like to hear more about it?`, `And since you're already on ${c.membership}, upgrading would bring you even more BuyLeads every week to expand your business, top placement in search results, and dedicated account support. Would you like to hear more about it?`)
-    : by(c.len, `With a paid plan you get many more BuyLeads to grow your business. Interested?`, `By the way, with a paid IndiaMART subscription you get many more BuyLeads${c.cats ? ` in ${c.cats}` : ""}, which you can use to really expand your business — plus better visibility in search and a verified TrustSEAL badge buyers trust. Would you like to know more?`, `By the way, with a paid IndiaMART subscription you get many more BuyLeads every week that you can use to expand your business, much better visibility when buyers search, a verified TrustSEAL badge that builds buyer trust, and dedicated support. Would you like to know more?`),
+    ? by(c.len, `Upgrading your ${c.membership} plan gets you more BuyLeads and top visibility. Interested?`, `An upgrade from ${c.membership} gets you more BuyLeads and top visibility. Want to know more?`, `And since you're already on ${c.membership}, upgrading would bring you even more BuyLeads every week to expand your business, top placement in search results, and dedicated account support. Would you like to hear more about it?`)
+    : by(c.len, `With a paid plan you get many more BuyLeads to grow your business. Interested?`, `A paid IndiaMART plan gets you many more BuyLeads${c.cats ? ` in ${c.cats}` : ""} and better visibility. Want to know more?`, `By the way, with a paid IndiaMART subscription you get many more BuyLeads every week that you can use to expand your business, much better visibility when buyers search, a verified TrustSEAL badge that builds buyer trust, and dedicated support. Would you like to know more?`),
   hi: (c) => c.paid
-    ? by(c.len, `${c.membership} upgrade करने पर और ज़्यादा BuyLeads और top visibility मिलेगी। जानना चाहेंगे?`, `और आप ${c.membership} पर हैं, तो upgrade करने से आपको और भी ज़्यादा BuyLeads और search में top visibility मिलेगी। इसके बारे में बताऊँ?`, `और आप पहले से ${c.membership} पर हैं, तो upgrade करने से हर हफ्ते और ज़्यादा BuyLeads, search में top position और dedicated support मिलेगा — जिससे business बढ़ाना आसान होगा। इसके बारे में detail में बताऊँ?`)
-    : by(c.len, `Paid plan में बहुत ज़्यादा BuyLeads मिलते हैं, business बढ़ाने के लिए। जानना चाहेंगे?`, `और एक बात — IndiaMART के paid subscription में आपको ${c.cats ? `${c.cats} के ` : ""}बहुत ज़्यादा BuyLeads मिलते हैं, जिनसे आप अपना business अच्छे से बढ़ा सकते हैं। साथ में search में बेहतर visibility और verified TrustSEAL badge भी। जानना चाहेंगे?`, `और एक बात — IndiaMART के paid subscription में आपको हर हफ्ते बहुत ज़्यादा BuyLeads मिलते हैं, जिनसे business expand कर सकते हैं; buyers के search में आपकी listing ऊपर आती है, verified TrustSEAL badge से buyers का भरोसा बढ़ता है, और dedicated support भी मिलता है। जानना चाहेंगे?`),
+    ? by(c.len, `${c.membership} upgrade करने पर और ज़्यादा BuyLeads और top visibility मिलेगी। जानना चाहेंगे?`, `${c.membership} से upgrade करने पर और ज़्यादा BuyLeads और top visibility मिलेगी। बताऊँ?`, `और आप पहले से ${c.membership} पर हैं, तो upgrade करने से हर हफ्ते और ज़्यादा BuyLeads, search में top position और dedicated support मिलेगा — जिससे business बढ़ाना आसान होगा। इसके बारे में detail में बताऊँ?`)
+    : by(c.len, `Paid plan में बहुत ज़्यादा BuyLeads मिलते हैं, business बढ़ाने के लिए। जानना चाहेंगे?`, `Paid plan में आपको ${c.cats ? `${c.catsHi} के ` : ""}कहीं ज़्यादा BuyLeads और बेहतर visibility मिलती है। जानना चाहेंगे?`, `और एक बात — IndiaMART के paid subscription में आपको हर हफ्ते बहुत ज़्यादा BuyLeads मिलते हैं, जिनसे business expand कर सकते हैं; buyers के search में आपकी listing ऊपर आती है, verified TrustSEAL badge से buyers का भरोसा बढ़ता है, और dedicated support भी मिलता है। जानना चाहेंगे?`),
 };
 const CATALOG: Lines = {
   en: (c) => (c.missing && c.product ? `One quick thing — ${c.product} doesn't have a price on your listing yet. What's your rate per ${c.unit}?` : c.catalogEmpty ? `Which main products would you like listed on IndiaMART${c.dealsIn ? ` — ${c.dealsIn}` : ""}?` : `Is there anything new you'd like to add to your catalog?`),
   hi: (c) => (c.missing && c.product ? `एक छोटी सी बात — ${c.product} पर अभी price नहीं लिखा है। इसका per ${c.unit} rate क्या रहेगा?` : c.catalogEmpty ? `आप IndiaMART पर कौन-कौन से main products list करना चाहेंगे${c.dealsIn ? ` — ${c.dealsIn}` : ""}?` : `Catalog में कुछ नया जोड़ना चाहेंगे?`),
 };
 const OPEN: Lines = {
-  en: (c) => pick([`Sure. Anything else I can help with?`, `Okay, noted. Anything else on your mind?`, `Got it. Anything else regarding IndiaMART?`], c.turn),
-  hi: (c) => pick([`जी, ठीक है। और कुछ?`, `अच्छा, note कर लिया। और कुछ बताना चाहेंगे?`, `जी ${hiG(c.g, "समझ गई", "समझ गया")}। IndiaMART से जुड़ी और कोई बात?`], c.turn),
+  en: (c) => pick([`Anything else I can help with?`, `Noted. Anything else on your mind?`, `Got it. Anything else regarding IndiaMART?`], c.turn),
+  hi: (c) => pick([`ठीक है। और कुछ?`, `Note कर लिया। और कुछ बताना चाहेंगे?`, `${hiG(c.g, "समझ गई", "समझ गया")}। IndiaMART से जुड़ी और कोई बात?`], c.turn),
 };
 const REFUSE: Lines = {
-  en: () => `Sorry, I can only help you with IndiaMART-related things — that's all I'm meant to assist with.`,
-  hi: (c) => `माफ़ कीजिए, मैं सिर्फ़ IndiaMART से जुड़ी बातों में ही आपकी मदद कर ${hiG(c.g, "सकती", "सकता")} हूँ — हमें बस इसी के लिए रखा गया है।`,
+  en: () => `Sorry, I can only help with IndiaMART-related things.`,
+  hi: (c) => `माफ़ कीजिए, मैं सिर्फ़ IndiaMART से जुड़ी बातों में मदद कर ${hiG(c.g, "सकती", "सकता")} हूँ।`,
 };
 
 const ACK: Record<string, Lines> = {
-  voice_gender: { en: () => `Sure!`, hi: () => `जी ज़रूर!` },
+  // A new voice is a new person on the line: introduce the name once.
+  voice_gender: { en: (c) => `Sure! This is ${c.agent} now.`, hi: (c) => `जी ज़रूर! अब मैं ${c.agent} आपसे बात ${hiG(c.g, "करूँगी", "करूँगा")}।` },
+  voice_change: { en: (c) => `Sure! This is ${c.agent} now.`, hi: (c) => `जी ज़रूर! अब मैं ${c.agent} आपसे बात ${hiG(c.g, "करूँगी", "करूँगा")}।` },
   shorter: { en: () => `Sure, quickly then.`, hi: (c) => `जी, short में ${hiG(c.g, "बताती", "बताता")} हूँ।` },
   hurry: { en: () => `Sure, I'll be quick.`, hi: (c) => `जी, जल्दी से ${hiG(c.g, "बताती", "बताता")} हूँ।` },
   more_detail: { en: () => `Sure, let me explain properly.`, hi: (c) => `जी ज़रूर, ठीक से ${hiG(c.g, "समझाती", "समझाता")} हूँ।` },
   slower: { en: () => `Of course.`, hi: () => `जी, ज़रूर।` },
   faster: { en: () => `Sure!`, hi: () => `जी, ठीक है!` },
   frustration: { en: () => `I'm really sorry about that.`, hi: () => `माफ़ कीजिए, परेशानी हुई।` },
-  generic: { en: (c) => pick([`Okay, got it.`, `Right, noted.`, `Sure, makes sense.`], c.turn), hi: (c) => pick([`जी, ठीक है।`, `अच्छा, ${hiG(c.g, "समझ गई", "समझ गया")}।`, `हाँ जी, बिल्कुल।`], c.turn) },
+  generic: { en: (c) => pick([`Got it.`, `Noted.`, `Makes sense.`], c.turn), hi: (c) => pick([`ठीक है।`, `${hiG(c.g, "समझ गई", "समझ गया")}।`, `बिल्कुल।`], c.turn) },
 };
 
 const BUSY: Lines = {
@@ -170,7 +184,7 @@ const BUSY: Lines = {
 };
 const CALLBACK_OK: Lines = {
   en: (c) => `Perfect, I'll call you ${c.callback}. Anything else for now?`,
-  hi: (c) => `ठीक है, फिर ${c.callback} call ${hiG(c.g, "करती", "करता")} हूँ। अभी और कुछ?`,
+  hi: (c) => `ठीक है, फिर ${hiWhen(c.callback)} call ${hiG(c.g, "करती", "करता")} हूँ। अभी और कुछ?`,
 };
 const NOT_INTERESTED: Lines = {
   en: () => `Totally understand, I won't take more of your time. Thank you so much, have a lovely day!`,
@@ -178,7 +192,7 @@ const NOT_INTERESTED: Lines = {
 };
 const GOODBYE: Lines = {
   en: (c) => `Thank you so much${c.name ? `, ${c.name} ji` : ""}${c.meeting ? ` — see you at the meeting ${c.meeting}` : c.callback ? ` — talk to you ${c.callback}` : ""}. Have a great day!`,
-  hi: (c) => `बहुत-बहुत धन्यवाद${c.name ? ` ${c.name} जी` : ""}${c.meeting ? `, ${c.meeting} meeting में मिलते हैं` : c.callback ? `, फिर ${c.callback} बात करते हैं` : ""}। आपका दिन शुभ हो!`,
+  hi: (c) => `बहुत-बहुत धन्यवाद${c.name ? ` ${c.name} जी` : ""}${c.meeting ? `, ${hiWhen(c.meeting)} meeting में मिलते हैं` : c.callback ? `, फिर ${hiWhen(c.callback)} बात करते हैं` : ""}। आपका दिन शुभ हो!`,
 };
 
 /** "TMT Steel Bars and Basmati Rice" — the seller's main BuyLead categories (or what they deal in). */
@@ -198,6 +212,7 @@ function ctxFor(profile: SellerProfile, interaction: Interaction): Ctx {
     name: profile.contactPerson?.split(" ").filter((w) => !/^[A-Z]\.$/.test(w))[0],
     company: profile.companyName,
     cats: topCategories(profile),
+    catsHi: topCategories(profile)?.replace(" and ", " और "),
     catalogEmpty: profile.catalog.length === 0,
     dealsIn: profile.dealsIn?.length ? profile.dealsIn.slice(0, 4).join(", ") : undefined,
     agent: p.agentName,
@@ -238,8 +253,7 @@ export interface TurnContext {
   interaction: Interaction;
   signals: Signal[];
   sellerText: string;
-  beat: number; // next beat to deliver
-  repeatBeat: boolean; // seller only asked for a style change -> re-deliver the current content
+  beat: number; // next beat to deliver (never re-asked: an unanswered question is left behind)
   fillerSpoken?: boolean; // the client already played a short "जी…" while we were thinking
 }
 
@@ -269,9 +283,9 @@ export async function composeReply(tc: TurnContext): Promise<ComposedReply> {
   const canEscalate = escalationAllowed(tc);
   const helpLine = (iss: string) => (canEscalate ? ESCALATE : tipLines(iss));
 
-  // Only the SELLER ends the call: an explicit goodbye / "end the call", or "not interested".
+  // Only the SELLER ends the call: "call cut kar dijiye" / goodbye -> one short thank-you and hang up.
+  if (has("end_call")) return done(await render([GOODBYE], c, lang), lang, voice, true, LAST_BEAT, { issue });
   if (has("not_interested")) return done(await render([NOT_INTERESTED], c, lang), lang, voice, true, LAST_BEAT, { issue });
-  if (has("end_call")) return done(await render([...(issue && canEscalate ? [ESCALATE] : []), GOODBYE], c, lang), lang, voice, true, LAST_BEAT, { issue, escalated: !!issue && canEscalate });
   // Seller asked for their own details (GLID, mobile, …): answer exactly from the record, no LLM.
   const pq = signals.find((s) => s.type === "profile_query");
   if (pq?.value) {
@@ -283,18 +297,42 @@ export async function composeReply(tc: TurnContext): Promise<ComposedReply> {
   if (has("callback_time") && !meetingJustSet) return done(await render([CALLBACK_OK], c, lang), lang, voice, false, tc.beat, {});
 
   const busy = has("busy");
-  let nextBeat = tc.repeatBeat || has("off_topic") ? Math.max(1, tc.beat - 1) : tc.beat;
+  // Always move forward: a question the seller didn't answer is not asked again.
+  let nextBeat = tc.beat;
   if (BEAT_STAGE[nextBeat] === "catalog" && !c.missing) nextBeat++; // nothing to fix in the catalog
   nextBeat = Math.min(nextBeat, LAST_BEAT);
   const advance = Math.min(nextBeat + 1, LAST_BEAT);
+
+  // Voice change ("I don't like your voice" / "male se baat karaiye"): applied at once, a fixed short
+  // intro in the new voice, then straight on to the next step — the unanswered question isn't repeated.
+  const voiceTurn = has("voice_gender") || has("voice_change");
+  if (voiceTurn && !issue && !has("off_topic") && !has("callback_time")) {
+    const nb = beatAfter(interaction.stage ?? "identity", c, interaction);
+    const parts: Lines[] = [ACK[has("voice_change") ? "voice_change" : "voice_gender"]];
+    if (busy) parts.push(BUSY);
+    else parts.push(questionOnly(nb));
+    const r = withSwitch(await render(parts, c, lang), signals.some((s) => s.type === "language_switch" && s.explicit), lang, c.g);
+    return done(r, lang, voice, false, busy ? tc.beat : Math.min(nb + 1, LAST_BEAT), { stage: BEAT_STAGE[nb] });
+  }
 
   if (sarvamConfigured() && process.env.DISABLE_LLM !== "1") {
     try {
       const r = await llmReply(tc, busy);
       if (r?.reply) {
+        const original = r.reply;
+        r.reply = dropRepeatedSentences(r.reply, interaction.turns.filter((t) => t.speaker === "agent").map((t) => t.text));
+        // A repeated question was cut and nothing is left to keep the call moving: ask the next step's question.
+        if (r.reply && r.reply !== original && !/[?？]/.test(r.reply) && !busy && !r.offTopic) {
+          const nb = beatAfter(r.stage ?? interaction.stage ?? "feedback", c, interaction);
+          r.reply = `${r.reply} ${(await render([questionOnly(nb)], c, lang)).text}`;
+          r.stage = BEAT_STAGE[nb];
+        }
+      }
+      if (r?.reply) {
         return {
           text: r.reply, language: lang, voice, engine: "llm", endCall: false,
-          nextBeat: busy || r.offTopic ? tc.beat : advance,
+          // Keep the template beat in step with the stage the LLM says it reached.
+          nextBeat: busy || r.offTopic ? tc.beat : r.stage ? Math.min(beatOf(r.stage) + 1, LAST_BEAT) : advance,
           meta: { stage: r.stage, issue: r.issue ?? issue, escalated: r.escalated, meetingTime: r.meetingTime, offTopic: r.offTopic || has("off_topic"), sellerName: r.sellerName, company: r.company },
         };
       }
@@ -306,13 +344,13 @@ export async function composeReply(tc: TurnContext): Promise<ComposedReply> {
   // ---------- deterministic template path ----------
   const parts: Lines[] = [];
   const languageSwitched = has("language_switch");
-  for (const t of ["voice_gender", "hurry", "frustration", "shorter", "more_detail", "slower", "faster"] as const) {
+  for (const t of ["voice_gender", "voice_change", "hurry", "frustration", "shorter", "more_detail", "slower", "faster"] as const) {
     if (has(t)) { parts.push(ACK[t]); break; }
   }
   if (has("off_topic")) {
     parts.push(REFUSE);
-    parts.push(questionLine(Math.max(0, tc.beat - 1))); // politely return to where we were
-    return done(withSwitch(await render(parts, c, lang), languageSwitched, lang, c.g), lang, voice, false, tc.beat, { offTopic: true });
+    if (!busy) parts.push(...beatLines(nextBeat, c, null)); // carry on with the next step (no re-asking)
+    return done(withSwitch(await render(parts, c, lang), languageSwitched, lang, c.g), lang, voice, false, busy ? tc.beat : advance, { offTopic: true, stage: BEAT_STAGE[nextBeat] });
   }
   const facts = extractFacts(tc.sellerText, profile.catalog.map((x) => x.name));
   const price = facts.find((f) => f.category === "pricing");
@@ -343,9 +381,19 @@ function beatLines(beat: number, c: Ctx, issue: string | null, canEscalate = fal
   }
 }
 
-/** Just the question of a beat (used to steer back after an off-topic question). */
-function questionLine(beat: number): Lines {
-  return { identity: IDENTITY, feedback: FEEDBACK, resolve: MEETING_ASK, meeting: MEETING_ASK, pitch: PITCH, catalog: CATALOG, open: OPEN }[BEAT_STAGE[beat]];
+const beatOf = (s: CallStage) => (s === "resolve" ? 1 : Math.max(0, BEAT_STAGE.indexOf(s)));
+
+/** The step after `stage` (skipping a meeting already booked and a complete catalog). */
+function beatAfter(stage: CallStage, c: Ctx, i: Interaction): number {
+  let b = beatOf(stage) + 1;
+  if (BEAT_STAGE[b] === "meeting" && i.meetingTime) b++;
+  if (BEAT_STAGE[b] === "catalog" && !c.missing) b++;
+  return Math.min(b, LAST_BEAT);
+}
+
+/** Just the next step's question, without reacting to an answer the seller didn't give. */
+function questionOnly(beat: number): Lines {
+  return { identity: FEEDBACK, feedback: FEEDBACK, resolve: MEETING_ASK, meeting: MEETING_ASK, pitch: PITCH, catalog: CATALOG, open: OPEN }[BEAT_STAGE[beat]];
 }
 
 function withSwitch(r: { text: string; translated: boolean; untranslated: boolean }, switched: boolean, lang: LanguageCode, g: VoiceGender) {
@@ -376,13 +424,34 @@ export async function openingLine(profile: SellerProfile, interaction: Interacti
 
 // ---------------- LLM path ----------------
 
-const LEN_WORDS: Record<ResponseLength, number> = { concise: 18, balanced: 32, detailed: 60 };
+// Spoken replies stay short: shorter text = faster LLM + faster speech = no dead air on the call.
+const LEN_WORDS: Record<ResponseLength, number> = { concise: 12, balanced: 20, detailed: 40 };
+const MAX_SENTENCES: Record<ResponseLength, number> = { concise: 2, balanced: 2, detailed: 4 };
+const MAX_TOKENS: Record<ResponseLength, number> = { concise: 260, balanced: 320, detailed: 480 };
+
+/** Hard cap on reply length (the LLM sometimes ignores the word limit). Keeps a question if one was cut. */
+export function capLength(reply: string, len: ResponseLength): string {
+  const sentences = sentencesOf(reply).map((s) => s.trim()).filter(Boolean);
+  const max = MAX_SENTENCES[len];
+  if (sentences.length <= max) return reply.trim();
+  const kept = sentences.slice(0, max);
+  const question = sentences.slice(max).reverse().find((s) => /[?？]$/.test(s));
+  if (question && !kept.some((s) => /[?？]$/.test(s))) {
+    // A short closing question is kept on top of the content; a long one replaces the last sentence.
+    if (question.split(/\s+/).length <= 10) kept.push(question);
+    else kept[kept.length - 1] = question;
+  }
+  return kept.join(" ");
+}
 
 const HUMAN_STYLE = [
   "HOW TO SOUND HUMAN (very important):",
   "- Talk like a friendly, experienced Indian customer-success executive on a real phone call, not like a chatbot or an email.",
-  "- Short, natural spoken sentences. Use everyday words and natural fillers where they fit (Hindi: \"अच्छा\", \"हाँ जी\", \"बिल्कुल\", \"अरे वाह\", \"देखिए\"; English: \"oh nice\", \"right\", \"sure\").",
-  "- First react to what the seller actually said (warmth, interest, empathy, a little delight), then move on. Vary your phrasing; never repeat a sentence or question word-for-word.",
+  "- KEEP IT SHORT: this is a phone call. 1–2 short sentences per reply — one point, then at most one question. No long explanations, no lists, no repeating what the seller said. Shorter is always better.",
+  "- Natural spoken sentences with everyday words.",
+  "- FILLERS: acknowledgement words like \"अच्छा\", \"हाँ जी\", \"जी\", \"ओके\" sound robotic when overused. Use at most ONE per reply, and NOT in two replies in a row — most replies should start directly with the actual content. Never stack them (\"अच्छा, हाँ जी, …\").",
+  "- React to what the seller actually said (warmth, interest, empathy) in a few words, then move on.",
+  "- NO REPEATS: never say a sentence you already said in this call, and never ask a question you already asked — not even reworded. If the seller didn't answer a question (they talked about something else, asked for a change, or ignored it), DON'T ask it again: move on to the next stage. If they ask to hear more, give NEW details instead of repeating the same points.",
   "- Never mention or describe your voice, language, speed or style. When the seller asks for a change (voice, language, shorter, slower), just say \"जी ज़रूर!\" / \"Sure!\" and continue in the new style.",
   "  Bad: \"ठीक है, मैं अब male voice में बात कर रहा हूँ।\"  Good: \"जी ज़रूर! तो Subhash जी, ...\"",
   "- Address the seller with the respectful plural (Hindi: \"आप … सकते हैं / बताइए / कीजिए\").",
@@ -401,7 +470,7 @@ function scriptFor(profile: SellerProfile, c: Ctx): string {
     `2. feedback — Introduce yourself (${c.agent}, IndiaMART). Mention they have been using IndiaMART for ${c.tenureEn}${c.cats ? ` and taking BuyLeads for ${c.cats}` : ""}. Ask how their experience has been and whether they face any issues.${c.openIssue ? ` They earlier reported: "${c.openIssue}" — ask whether it got resolved.` : ""}`,
     "3. resolve — If they report an issue: empathise briefly, then SOLVE it with concrete guidance from the INDIAMART KNOWLEDGE (which section/tab/button to use). If it is not covered there, say you have noted it and will check. Follow the ESCALATION line for whether escalating is allowed. If they have no issues, say you are glad to hear it.",
     "4. meeting — Politely ask when they could spare some time for a short meeting with the IndiaMART team (get a day and time).",
-    `5. pitch — ${c.paid ? `They are on ${c.membership}: explain that upgrading brings even more BuyLeads to expand the business and top visibility in search.` : "Explain paid-subscription benefits: many more BuyLeads they can use to expand their business, better visibility in buyer searches, verified TrustSEAL badge that buyers trust, dedicated support."} No invented numbers or prices. Only these plan names exist — never invent others: Maximiser Pro, IM Star Pro, IM Leader Pro, IM Industry Leader, TrustSEAL.`,
+    `5. pitch — ${c.paid ? `They are on ${c.membership}: explain that upgrading brings even more BuyLeads to expand the business and top visibility in search.` : "Explain paid-subscription benefits: many more BuyLeads they can use to expand their business, better visibility in buyer searches, verified TrustSEAL badge that buyers trust, dedicated support."} No invented numbers or prices. Talk about the benefits, not a list of plans: name a plan only if the seller asks, and then only these exist (never invent others): Maximiser Pro, IM Star Pro, IM Leader Pro, IM Industry Leader, TrustSEAL. Plan names are proper nouns — write them exactly like this in English letters in every language (Hindi too: "IM Leader", never "IM नेता" or "आईएम लीडर").`,
     `6. catalog — ${c.missing && c.product ? `Ask for the price of "${c.product}" (per ${c.unit}), which is missing on their listing.` : "Skip (catalog is complete)."}`,
     "7. open — Answer any IndiaMART questions; otherwise ask if there is anything else. Do NOT say goodbye.",
     "OFF-TOPIC RULE: If the seller asks anything unrelated to IndiaMART or their business on IndiaMART (general knowledge like \"what is the capital of India\", news, sports, jokes, maths, etc.), do NOT answer it. Politely say you can only help with IndiaMART-related things because that is all you are meant to do, then return to the current stage. Set \"off_topic\": true.",
@@ -425,7 +494,7 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
     `Catalog: ${profile.catalog.map((x) => `${x.name} [${x.price != null ? `₹${x.price}/${x.unit}` : "price missing"}]`).join("; ")}.`,
     profile.memory.length ? `Things this seller told us before (use naturally if relevant): ${profile.memory.slice(-5).map((m) => m.fact).join(" | ")}` : "",
     interaction.meetingTime ? `Meeting already agreed: ${interaction.meetingTime}.` : "",
-    `PERSONA: language=${languageName(lang)}, style=${p.languageStyle.value}, tone=${p.tone.value}, formality=${p.formality.value}, length=${p.responseLength.value} (at most ~${LEN_WORDS[p.responseLength.value]} words), explanation detail=${p.explanationDetail.value}.`,
+    `PERSONA: language=${languageName(lang)}, style=${p.languageStyle.value}, tone=${p.tone.value}, formality=${p.formality.value}, length=${p.responseLength.value} (HARD LIMIT: ${MAX_SENTENCES[p.responseLength.value]} sentences, about ${LEN_WORDS[p.responseLength.value]} words), explanation detail=${p.explanationDetail.value}.`,
     HUMAN_STYLE,
     scriptFor(profile, c),
     knowledgePrompt(tc.sellerText, current),
@@ -438,8 +507,11 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
     lang === "en-IN" ? "LANGUAGE: reply entirely in plain English — no Hindi words, not even in English letters (no \"ji\" filler sentences like \"main sirf…\")." : "",
     `You are ${p.voiceGender.value === "male" ? "a MAN" : "a WOMAN"}: always use ${p.voiceGender.value} first-person grammar (Hindi "${p.voiceGender.value === "male" ? "करूँगा / समझ गया / बोल रहा" : "करूँगी / समझ गई / बोल रही"}"), even if earlier turns used the other gender.`,
     tc.fillerSpoken ? "You already said a quick acknowledgement (like \"जी\") a moment ago, so don't start with a bare filler word." : "",
-    signals.some((s) => ["language_switch", "voice_gender", "shorter", "hurry", "slower", "faster", "more_detail"].includes(s.type))
-      ? "The seller just asked for a change in how you speak. It is ALREADY applied — don't talk about it; at most a 1–2 word acknowledgement, then continue." : "",
+    signals.some((s) => s.type === "voice_gender" || s.type === "voice_change")
+      ? `The seller asked for a different voice, so a different colleague — you, ${p.agentName} — is now on the line. Start with a very short "${lang === "en-IN" ? `Sure! This is ${p.agentName}.` : `जी ज़रूर! मैं ${p.agentName}।`}" (nothing about voices), then continue with the NEXT stage.`
+      : signals.some((s) => ["language_switch", "shorter", "hurry", "slower", "faster", "more_detail"].includes(s.type))
+        ? "The seller just asked for a change in how you speak. It is ALREADY applied — don't talk about it; at most a 1–2 word acknowledgement, then continue with the NEXT stage (don't repeat your previous question)." : "",
+    askedQuestions(interaction).length ? `QUESTIONS YOU ALREADY ASKED (never ask these again, even reworded): ${askedQuestions(interaction).map((q) => `"${q}"`).join(" | ")}` : "",
     signals.some((s) => s.type === "off_topic") ? "The seller's last message looks unrelated to IndiaMART — apply the OFF-TOPIC RULE." : "",
     "Never ask for OTPs, passwords or bank details.",
     "If the seller asked for their own account details (GLID, mobile number, name, plan…), the system has already read them out — that is NOT an issue; don't mention it again, just continue.",
@@ -448,14 +520,14 @@ async function llmReply(tc: TurnContext, busy: boolean): Promise<LlmOut | null> 
   ].filter(Boolean).join("\n");
   const history: ChatMessage[] = interaction.turns
     .filter((t) => t.speaker !== "system")
-    .slice(-12)
+    .slice(-8)
     // Long digit runs (mobile numbers read out on request) never go to the LLM.
     .map((t) => ({ role: t.speaker === "agent" ? "assistant" : "user", content: t.text.replace(/(\d[\s-]?){8,}/g, "[number]") }));
-  const raw = await sarvamChat([{ role: "system", content: system }, ...history], 700, 0.7, true);
+  const raw = await sarvamChat([{ role: "system", content: system }, ...history], MAX_TOKENS[p.responseLength.value], 0.7, true);
   const parsed = parseLlm(raw);
   if (process.env.DEBUG_LLM === "1") console.log("[llm raw]", raw.slice(0, 400));
   if (!parsed?.reply) return null;
-  let reply = parsed.reply.replace(/\*+/g, "").replace(/\s*\n+\s*/g, " ").trim();
+  let reply = capLength(parsed.reply.replace(/\*+/g, "").replace(/\s*\n+\s*/g, " ").trim(), p.responseLength.value);
   if (!escalationAllowed(tc)) {
     reply = stripEscalation(reply);
     parsed.escalated = false;
@@ -492,6 +564,44 @@ function countScripts(text: string): Partial<Record<LanguageCode, number>> {
     for (const [lo, hi, code] of SCRIPT_BLOCKS) if (cp >= lo && cp <= hi) out[code] = (out[code] ?? 0) + 1;
   }
   return out;
+}
+
+const sentencesOf = (text: string) => text.match(/[^.!?।॥]+[.!?।॥]*\s*/g) ?? [text];
+
+/** Sentence fingerprint: no punctuation, case, spaces or leading acknowledgement words. */
+function norm(s: string): string {
+  return s.toLowerCase()
+    .replace(/^[\s,]*((अच्छा|हाँ|हां|जी|ठीक है|okay|ok|sure|right|so|तो)[\s,!।.]*)+/i, "")
+    .replace(/[\s.,!?।॥"'“”‘’—–-]+/g, "");
+}
+
+/** Questions the agent has already asked this call (most recent last). */
+function askedQuestions(i: Interaction): string[] {
+  const qs = i.turns.filter((t) => t.speaker === "agent").flatMap((t) => sentencesOf(t.text).map((s) => s.trim()).filter((s) => s.endsWith("?")));
+  return Array.from(new Set(qs)).slice(-6);
+}
+
+/** Content words with Hindi gender/number endings stripped, so "सकती हैं" ≈ "सकते हैं", "रहेंगी" ≈ "रहेंगे". */
+function stems(s: string): string[] {
+  const words = s.toLowerCase().replace(/[.,!?।॥"'“”‘’—–-]+/g, " ").split(/\s+/).filter(Boolean);
+  const out = words.map((w) => w.replace(/[ािीुूेैोौंँ]+$/u, "")).filter((w) => w.length > 1 && !/^(जी|अच्छा|तो|ok|okay|sure|so|the|a|to)$/.test(w));
+  return Array.from(new Set(out));
+}
+
+function isRepeat(s: string, prev: string): boolean {
+  const a = norm(s), b = norm(prev);
+  if (a.length >= 12 && (a === b || (a.length >= 20 && b.length >= 20 && (a.includes(b) || b.includes(a))))) return true;
+  const x = stems(s), y = new Set(stems(prev));
+  if (x.length < 4 || y.size < 4) return false;
+  const shared = x.filter((w) => y.has(w)).length;
+  return shared / Math.min(x.length, y.size) >= 0.75;
+}
+
+/** Drops sentences the agent already said earlier in the call (exact, near-exact or reworded repeats). */
+export function dropRepeatedSentences(reply: string, previous: string[]): string {
+  const prior = previous.flatMap((t) => sentencesOf(t)).filter((s) => norm(s).length >= 8);
+  const kept = sentencesOf(reply).filter((s) => norm(s).length < 12 || !prior.some((p) => isRepeat(s, p)));
+  return kept.join("").trim();
 }
 
 /** Removes "I'll escalate it to the senior team" sentences when escalation isn't warranted. */

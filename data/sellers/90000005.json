@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "glid": "90000005",
+  "isDemo": true,
+  "displayName": "Pink City Handicrafts",
+  "contactPerson": "Anjali Sharma",
+  "companyName": "Pink City Handicrafts",
+  "category": "Blue Pottery & Home Decor",
+  "subCategories": [
+    "Blue Pottery",
+    "Wooden Handicrafts"
+  ],
+  "city": "Jaipur",
+  "state": "Rajasthan",
+  "membership": "Free listing (demo)",
+  "trustSeal": false,
+  "gstVerified": true,
+  "yearEstablished": 2016,
+  "memberSince": "2022-01",
+  "secondaryLanguage": "en-IN",
+  "location": "Jaipur",
+  "contact": {
+    "pnsMapped": false,
+    "registeredNumbers": 1
+  },
+  "catalog": [
+    {
+      "productId": 70000501,
+      "name": "Blue Pottery Vase 10 inch",
+      "price": 650,
+      "unit": "piece",
+      "moq": "20 pieces"
+    },
+    {
+      "productId": 70000502,
+      "name": "Hand-painted Wooden Elephant",
+      "price": null,
+      "unit": "piece",
+      "moq": "50 pieces"
+    }
+  ],
+  "buyLeadInterests": [
+    "Gift shops",
+    "Hotel interior buyers"
+  ],
+  "dealsIn": [],
+  "leadCategories": [
+    {
+      "mcatId": 90051,
+      "name": "Blue Pottery",
+      "count": 2,
+      "grade": "B"
+    }
+  ],
+  "buyLeads": [
+    {
+      "offerId": 880000041,
+      "title": "Blue pottery vases, 100 pcs, Delhi",
+      "mcatId": 90051,
+      "status": "active"
+    }
+  ],
+  "preferences": {
+    "language": {
+      "value": "hi-IN",
+      "source": "metadata",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Jaipur, Rajasthan (Hindi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "tone": {
+      "value": "warm",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "formal": 1
+      },
+      "reason": "Seller used respectful 'aap' throughout.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_005_1",
+          "at": "2026-09-16T12:19:35.551Z",
+          "note": "Seller used respectful 'aap' throughout."
+        }
+      ],
+      "updatedAt": "2026-09-16T12:19:35.551Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "explanationDetail": {
+      "value": "high",
+      "source": "learned",
+      "confidence": 0.6,
+      "observations": 1,
+      "tally": {
+        "high": 1
+      },
+      "reason": "New to IndiaMART; asked for step-by-step help in the app.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_005_1",
+          "at": "2026-09-16T12:19:35.551Z",
+          "note": "New to IndiaMART; asked for step-by-step help in the app.",
+          "quote": "Thoda detail mein samjhaiye, main naya hoon."
+        }
+      ],
+      "updatedAt": "2026-09-16T12:19:35.551Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.551Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Synthetic seed behaviour from 1 prior demo call(s).",
+    "traits": [
+      "New to the seller app",
+      "Needs step-by-step guidance",
+      "Price-sensitive"
+    ]
+  },
+  "memory": [
+    {
+      "id": "MEM_MV2D34E7JR2ZT",
+      "at": "2026-09-16T12:19:35.551Z",
+      "category": "business",
+      "fact": "Small family workshop; wants more hotel and gift-shop buyers.",
+      "source": "learned",
+      "interactionId": "SEED_INT_005_1"
+    }
+  ],
+  "status": "Provisional",
+  "interactionCount": 1,
+  "lastInteractionAt": "2026-09-16T12:19:35.551Z",
+  "createdAt": "2026-09-10T12:19:35.551Z",
+  "updatedAt": "2026-09-16T12:19:35.551Z",
+  "history": [
+    {
+      "interactionId": "SEED_INT_005_1",
+      "at": "2026-09-16T12:19:35.551Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "hi-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-10T12:19:35.551Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-09-16T12:19:35.551Z",
+      "interactionId": "SEED_INT_005_1",
+      "field": "explanationDetail",
+      "from": "medium",
+      "to": "high",
+      "reason": "New to IndiaMART; asked for step-by-step help in the app.",
+      "source": "learned"
+    }
+  ]
+}

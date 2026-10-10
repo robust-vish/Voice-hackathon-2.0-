@@ -124,6 +124,8 @@ export interface SellerProfile {
   leadCategories: LeadCategory[];
   buyLeads: BuyLead[];
   preferences: Preferences;
+  /** Voice the seller settled on per gender after asking for a different voice (Bulbul speaker id). */
+  preferredSpeakers?: Partial<Record<VoiceGender, string>>;
   behaviour: { summary: string; traits: string[] };
   memory: MemoryNote[];
   status: ProfileStatus;
@@ -240,7 +242,7 @@ export type CallStatus =
 export type SignalType =
   | "language_switch" | "voice_gender" | "shorter" | "more_detail" | "slower" | "faster"
   | "formal" | "informal" | "busy" | "callback_time" | "frustration" | "not_interested" | "end_call"
-  | "hurry" | "off_topic" | "issue" | "urgent" | "profile_query";
+  | "hurry" | "off_topic" | "issue" | "urgent" | "profile_query" | "voice_change";
 
 export interface Signal {
   type: SignalType;
@@ -270,7 +272,7 @@ export interface SwitchLogEntry {
   signalType: SignalType;
   signal: string;
   quote: string;
-  dimension: PersonaDimensionKey | "plan";
+  dimension: PersonaDimensionKey | "plan" | "voice";
   previous: string;
   next: string;
   reason: string;
@@ -328,6 +330,7 @@ export interface Interaction {
   stage?: CallStage; // where the conversation is in the call script
   stagesVisited?: CallStage[];
   explicitLanguage?: boolean; // seller explicitly chose a language this call (beats implicit mirroring)
+  rejectedSpeakers?: string[]; // voices the seller asked to replace this call (never offered again)
   issues?: { at: string; turnId: string; issue: string }[];
   escalations?: { at: string; turnId: string; issue: string }[];
   meetingTime?: string;

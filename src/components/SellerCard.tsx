@@ -29,12 +29,12 @@ export function SellerRow({ s, compact = false }: { s: SellerSummary; compact?: 
   }, [menu]);
   const cats = s.leadCategories.length ? s.leadCategories : s.dealsIn;
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5 transition hover:bg-gray-50/70">
+    <div className="group flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3.5 transition-colors duration-200 hover:bg-gray-50/80">
       <Link href={`/sellers/${s.glid}`} className="flex min-w-0 flex-1 items-center gap-3">
-        <Avatar name={s.contactPerson ?? s.displayName} seed={s.glid} />
+        <span className="transition-transform duration-300 group-hover:scale-110"><Avatar name={s.contactPerson ?? s.displayName} seed={s.glid} /></span>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="truncate text-sm font-semibold text-gray-900">{sellerLabel(s)}</span>
+            <span className="truncate text-sm font-semibold text-gray-900 transition-colors group-hover:text-brand-700">{sellerLabel(s)}</span>
             {s.isDemo && <Badge>Demo</Badge>}
           </div>
           <div className="flex flex-wrap items-center gap-x-2 text-xs text-gray-500">
@@ -57,9 +57,9 @@ export function SellerRow({ s, compact = false }: { s: SellerSummary; compact?: 
         {!compact && (
           <>
             <button type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu((m) => !m)}
-              className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><MoreHorizontal className="h-4 w-4" /></button>
+              className="press rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"><MoreHorizontal className="h-4 w-4" /></button>
             {menu && (
-              <div role="menu" className="absolute right-0 top-9 z-50 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-lg">
+              <div role="menu" className="animate-fade-up absolute right-0 top-9 z-50 w-40 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 text-sm shadow-xl" style={{ animationDuration: "0.18s" }}>
                 <button type="button" role="menuitem" className="block w-full px-3 py-2 text-left hover:bg-gray-50" onClick={() => go(`/sellers/${s.glid}?tab=profile`)}>View profile</button>
                 <button type="button" role="menuitem" className="block w-full px-3 py-2 text-left hover:bg-gray-50" onClick={() => go(`/sellers/${s.glid}/persona`)}>View persona</button>
               </div>

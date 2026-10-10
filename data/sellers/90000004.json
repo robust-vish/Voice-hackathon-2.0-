@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "glid": "90000004",
+  "isDemo": true,
+  "displayName": "Punjab Agro Implements",
+  "contactPerson": "Gurpreet Singh",
+  "companyName": "Punjab Agro Implements",
+  "category": "Agricultural Implements",
+  "subCategories": [
+    "Rotavators",
+    "Tractor Trolleys"
+  ],
+  "city": "Ludhiana",
+  "state": "Punjab",
+  "membership": "IM Star (demo)",
+  "trustSeal": true,
+  "gstVerified": true,
+  "yearEstablished": 1998,
+  "memberSince": "2015-03",
+  "secondaryLanguage": "hi-IN",
+  "location": "Ludhiana",
+  "contact": {
+    "pnsMapped": true,
+    "pnsNumberMasked": "+91-80XXXXX518",
+    "registeredNumbers": 2
+  },
+  "catalog": [
+    {
+      "productId": 70000401,
+      "name": "6 Feet Rotavator",
+      "price": 98000,
+      "unit": "piece",
+      "moq": "1 piece"
+    },
+    {
+      "productId": 70000402,
+      "name": "Hydraulic Tractor Trolley",
+      "price": null,
+      "unit": "piece",
+      "moq": "1 piece"
+    }
+  ],
+  "buyLeadInterests": [
+    "Farmers in UP and Haryana",
+    "Dealers"
+  ],
+  "dealsIn": [],
+  "leadCategories": [
+    {
+      "mcatId": 90041,
+      "name": "Rotavators",
+      "count": 11,
+      "grade": "A"
+    },
+    {
+      "mcatId": 90042,
+      "name": "Tractor Trolleys",
+      "count": 4,
+      "grade": "A"
+    }
+  ],
+  "buyLeads": [
+    {
+      "offerId": 880000031,
+      "title": "Rotavator 6 ft, 3 units, Meerut",
+      "mcatId": 90041,
+      "status": "expired",
+      "consumedAt": "2026-09-30T06:15:00.000Z"
+    },
+    {
+      "offerId": 880000032,
+      "title": "Tractor trolley, 2 units, Karnal",
+      "mcatId": 90042,
+      "status": "active"
+    }
+  ],
+  "preferences": {
+    "language": {
+      "value": "pa-IN",
+      "source": "metadata",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Registry language hint for a seller based in Ludhiana, Punjab (Punjabi). Not yet confirmed on a call.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "voiceGender": {
+      "value": "male",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "male": 2
+      },
+      "reason": "Seller asked for a male voice twice.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_004_1",
+          "at": "2026-09-16T12:19:35.548Z",
+          "note": "Seller asked for a male voice twice.",
+          "quote": "Male voice vich gall karo."
+        },
+        {
+          "interactionId": "SEED_INT_004_2",
+          "at": "2026-09-22T12:19:35.548Z",
+          "note": "Seller asked for a male voice twice.",
+          "quote": "Male voice vich gall karo."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.548Z"
+    },
+    "tone": {
+      "value": "direct",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "direct": 2
+      },
+      "reason": "Seller responds best to direct, no-nonsense answers.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_004_1",
+          "at": "2026-09-16T12:19:35.548Z",
+          "note": "Seller responds best to direct, no-nonsense answers."
+        },
+        {
+          "interactionId": "SEED_INT_004_2",
+          "at": "2026-09-22T12:19:35.548Z",
+          "note": "Seller responds best to direct, no-nonsense answers."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.548Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "responseLength": {
+      "value": "concise",
+      "source": "learned",
+      "confidence": 0.84,
+      "observations": 3,
+      "tally": {
+        "concise": 3
+      },
+      "reason": "Seller wanted short answers in 3 earlier (synthetic) calls.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_004_1",
+          "at": "2026-09-16T12:19:35.548Z",
+          "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
+          "quote": "Seedhi gall karo ji."
+        },
+        {
+          "interactionId": "SEED_INT_004_2",
+          "at": "2026-09-22T12:19:35.548Z",
+          "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
+          "quote": "Seedhi gall karo ji."
+        },
+        {
+          "interactionId": "SEED_INT_004_3",
+          "at": "2026-09-28T12:19:35.548Z",
+          "note": "Seller wanted short answers in 3 earlier (synthetic) calls.",
+          "quote": "Seedhi gall karo ji."
+        }
+      ],
+      "updatedAt": "2026-09-28T12:19:35.548Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.548Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Synthetic seed behaviour from 3 prior demo call(s).",
+    "traits": [
+      "Busy, time-conscious",
+      "Direct",
+      "Prefers a male voice"
+    ]
+  },
+  "memory": [
+    {
+      "id": "MEM_MV2D34E51B4WN",
+      "at": "2026-09-28T12:19:35.548Z",
+      "category": "availability",
+      "fact": "Busy at the workshop till 2 PM; free in the afternoon.",
+      "source": "learned",
+      "interactionId": "SEED_INT_004_1"
+    }
+  ],
+  "status": "Established",
+  "interactionCount": 3,
+  "lastInteractionAt": "2026-09-28T12:19:35.548Z",
+  "createdAt": "2026-09-10T12:19:35.548Z",
+  "updatedAt": "2026-09-28T12:19:35.548Z",
+  "history": [
+    {
+      "interactionId": "SEED_INT_004_1",
+      "at": "2026-09-16T12:19:35.548Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "pa-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_004_2",
+      "at": "2026-09-22T12:19:35.548Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "pa-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_004_3",
+      "at": "2026-09-28T12:19:35.548Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "pa-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-10T12:19:35.548Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-09-16T12:19:35.548Z",
+      "interactionId": "SEED_INT_004_1",
+      "field": "responseLength",
+      "from": "balanced",
+      "to": "concise",
+      "reason": "Seller wanted short answers in 3 earlier (synthetic) calls.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-09-16T12:19:35.548Z",
+      "interactionId": "SEED_INT_004_1",
+      "field": "tone",
+      "from": "warm",
+      "to": "direct",
+      "reason": "Seller responds best to direct, no-nonsense answers.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-09-16T12:19:35.548Z",
+      "interactionId": "SEED_INT_004_1",
+      "field": "voiceGender",
+      "from": "female",
+      "to": "male",
+      "reason": "Seller asked for a male voice twice.",
+      "source": "learned"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { LANGUAGES } from "./languages";
-import type { LanguageCode, Signal } from "./types";
+import type { LanguageCode, Signal, VoiceGender } from "./types";
 
 // Deterministic, explainable detection of behavioural signals in a seller utterance.
 // Works on English, romanised Hindi (Hinglish) and Devanagari, plus a few
@@ -20,6 +20,17 @@ const ALWAYS_WORDS = ["always", "hamesha", "humesha", "हमेशा", "every 
 
 // STT may write English words in Devanagari ("मेल वॉइस"), so those spellings are included too.
 const VOICE_WORDS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस","awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର", "speaker", "agent", "baat karo", "bole", "bolo"];
+// Strictly "the voice" (no "bolo"/"agent"-style context words) — for "I don't like your voice".
+const VOICE_NOUNS = ["voice", "वॉइस", "वॉयस", "वोइस", "वायस", "awaaz", "awaz", "aawaz", "aawaaz", "avaaz", "aavaz", "आवाज़", "आवाज", "குரல்", "గొంతు", "స్వరం", "ಧ್ವನಿ", "ശബ്ദ", "কণ্ঠ", "গলা", "ਆਵਾਜ਼", "અવાજ", "ସ୍ୱର"];
+const VOICE_DISLIKE = [
+  "don't like", "dont like", "do not like", "not like", "not good", "not nice", "bad", "irritat", "annoying", "hate",
+  "change", "badlo", "badal", "badliye", "badaliye", "switch", "another", "different", "other", "new ",
+  "pasand nahi", "pasand nahin", "achhi nahi", "acchi nahi", "achi nahi", "achha nahi", "accha nahi", "theek nahi lag", "thik nahi lag", "bekar", "bekaar",
+  "dusri", "doosri", "dusra", "doosra", "koi aur", "kisi aur", "aur koi",
+  "पसंद नहीं", "अच्छी नहीं", "अच्छा नहीं", "ठीक नहीं लग", "बेकार", "बदल", "बदलो", "बदलिए", "दूसरी", "दूसरा", "कोई और", "किसी और", "चेंज",
+];
+// "I want to talk to a male / kisi ladki se baat karaiye" — a gender request without the word "voice".
+const TALK_TO = ["talk to", "talk with", "speak to", "speak with", "baat kar", "baat karn", "baat karw", "baat kara", "se baat", "connect", "transfer", "से बात", "बात कर", "बात करा", "बात करनी"];
 const MALE_WORDS = ["male", "मेल ", "जेंट्स","man ", "man's", "gents", "aadmi", "admi", "purush", "ladka", "ladke", "mard", "bhaiya", "boy", "पुरुष", "आदमी", "लड़के", "लड़का", "मर्द", "ஆண்", "మగ", "పురుష", "ಗಂಡು", "ಪುರುಷ", "ആണ്", "പുരുഷ", "পুরুষ", "ছেলে", "ਮਰਦ", "ਆਦਮੀ", "પુરુષ", "ପୁରୁଷ"];
 const FEMALE_WORDS = ["female", "फीमेल", "फ़ीमेल", "लेडी","woman", "lady", "ladies", "aurat", "mahila", "ladki", "girl", "didi", "महिला", "औरत", "लड़की", "स्त्री", "பெண்", "ఆడ", "స్త్రీ", "ಹೆಣ್ಣು", "ಮಹಿಳ", "സ്ത്രീ", "പെണ്", "মহিলা", "মেয়ে", "ਔਰਤ", "ਜ਼ਨਾਨੀ", "સ્ત્રી", "મહિલા", "ମହିଳା"];
 
@@ -62,10 +73,17 @@ export function profileQueryFields(t: string): ProfileField[] {
 const URGENT = ["urgent", "asap", "turant", "jaldi solve", "jaldi theek", "jaldi thik", "jaldi se solve", "abhi tak solve nahi", "abhi tak theek nahi", "still not resolved", "still not solved", "not resolved yet", "kab tak", "how long", "kitni baar bola", "fix it now", "solve karo", "solve kijiye", "theek karo", "तुरंत", "जल्दी ठीक", "जल्दी solve", "अभी तक", "कब तक"];
 const NO_ISSUE = ["no issue", "no issues", "no problem", "koi issue nahi", "koi problem nahi", "koi dikkat nahi", "sab theek", "sab thik", "everything is fine", "all good", "कोई दिक्कत नहीं", "कोई समस्या नहीं", "सब ठीक"];
 const NEGATION = ["don't like", "dont like", "do not like", "not ", "no ", "nahi", "nahin", "pasand nahi", "mat ", "hate", "नहीं", "नही", "पसंद नहीं", "मत "];
-const CLAUSE_SPLIT = /,|;|\bbut\b|\band\b|\blekin\b|\baur\b|और|लेकिन|\bcan you\b|\bplease\b|\binstead\b|\bswitch\b|\bkar do\b|\bkar dijiye\b/;
 const FRUSTRATION = ["irritat", "pareshan", "baar baar", "again and again", "bekaar", "bekar", "faltu", "spam", "kitni baar", "annoying", "waste of time", "परेशान", "बार बार", "बेकार", "फालतू", "useless"];
 const NOT_INTERESTED = ["not interested", "no interest", "nahi chahiye", "nahin chahiye", "interest nahi", "interested nahi", "mat karo call", "don't call", "dont call", "नहीं चाहिए", "जरूरत नहीं", "ज़रूरत नहीं"];
-const END_CALL = ["bye", "बाय", "call end", "end the call", "end call", "call cut", "call band", "call khatam", "hang up", "disconnect", "कॉल एंड", "कॉल बंद", "कॉल काट", "कॉल खत्म", "फ़ोन रख","goodbye", "call end", "end the call", "rakhta hoon", "rakhti hoon", "rakhta hu", "phone rakh", "chalo theek hai bye", "alvida", "बाय", "फोन रख", "रखता हूँ", "रखती हूँ", "நன்றி வணக்கம்"];
+const END_CALL = [
+  "bye", "goodbye", "alvida", "hang up", "disconnect", "end call", "end the call", "call end", "stop the call", "finish the call",
+  "cut call", "cut the call", "cut this call", "call cut", "call kaat", "phone cut", "phone kaat", "phone rakh", "rakhta hoon", "rakhti hoon", "rakhta hu", "rakhti hu",
+  "chalo theek hai bye",
+  "बाय", "अलविदा", "कॉल एंड", "कॉल बंद", "कॉल काट", "कॉल कट", "कॉल खत्म", "कॉल ख़त्म",
+  "फ़ोन रख", "फोन रख", "फोन काट", "फ़ोन काट", "फोन कट", "फ़ोन कट", "रखता हूँ", "रखती हूँ", "நன்றி வணக்கம்",
+];
+// "call ko cut kar dijiye", "phone abhi band karo", "कॉल को काट दीजिए": call/phone + (up to 2 words) + cut/end verb.
+const END_CALL_RE = /(?:call|phone|कॉल|फ़ोन|फोन)\s+(?:\S+\s+){0,2}?(?:cut|kaat|kat|band|khatam|khatm|end|disconnect|कट|काट|बंद|खत्म|ख़त्म|रख)(?=\s|$)/;
 
 const CALLBACK_RE = /(\d{1,2})\s*(baje|bje|बजे|pm|p\.m\.|am|a\.m\.|o'?clock)|after\s+\d{1,2}|(\d{1,2})\s*ke\s*baad|kal\s+(subah|shaam|sham|dopahar)|tomorrow|evening|shaam|sham ko|शाम|सुबह|subah|कल|चार बजे|पांच बजे|छह बजे|monday|tuesday|wednesday|thursday|friday|saturday|sunday|somvar|mangalvar|budhvar|guruvar|shukravar|shanivar|ravivar|सोमवार|मंगलवार|बुधवार|गुरुवार|शुक्रवार|शनिवार|रविवार/i;
 
@@ -77,25 +95,50 @@ const WEEKDAYS: Record<string, string> = {
   "सोमवार": "Monday", "मंगलवार": "Tuesday", "बुधवार": "Wednesday", "गुरुवार": "Thursday", "शुक्रवार": "Friday", "शनिवार": "Saturday", "रविवार": "Sunday",
 };
 
+// Words that mark a gender mention as WANTED ("talk to a male", "female chahiye").
+const WANT_CUES = ["want", "talk to", "talk with", "speak to", "speak with", "switch to", "change to", "give me", "prefer", "please", "chahiye", "chaiye", "karo", "kariye", "kijiye", "dijiye", "se baat", "mein baat", "me baat", "चाहिए", "कीजिए", "करो", "करिए", "दीजिए", "से बात", "में बात"];
+
+/** Distance from a gender word to the nearest cue word just before (within 30 chars) or after (within 25). */
+function nearest(t: string, start: number, end: number, cues: string[]): number {
+  const before = t.slice(Math.max(0, start - 30), start);
+  const after = t.slice(end, end + 25);
+  let best = Infinity;
+  for (const c of cues) {
+    const b = before.lastIndexOf(c);
+    if (b >= 0) best = Math.min(best, before.length - (b + c.length));
+    const a = after.indexOf(c);
+    if (a >= 0) best = Math.min(best, a);
+  }
+  return best;
+}
+
 /**
- * Which voice the seller wants. Handles negation per clause:
- * "I don't like the male voice, switch to female" -> female; "female voice pasand nahi" -> male.
+ * Which voice the seller wants. Each "male"/"female" mention counts as wanted or rejected by
+ * whichever cue is closest to it, so these all work without commas (STT rarely adds them):
+ * "I don't like your voice I want to talk to male" -> male; "female voice pasand nahi male chahiye"
+ * -> male; "don't like the male voice switch to female" -> female; "male voice nahi chahiye" -> female.
  */
 function requestedGender(t: string): { value: "male" | "female"; negated: boolean } | null {
-  const scrub = (s: string) => s.replace(/female|woman|फ़?ीमेल|फ़ीमेल|फीमेल/g, "######");
+  // Blank out "female"/"woman" (same length) so "male"/"man" inside them don't match.
+  const scrubbed = t.replace(/female|woman|फ़ीमेल|फीमेल/g, (m) => "#".repeat(m.length));
+  const mentions: { g: "male" | "female"; at: number; end: number }[] = [];
+  const find = (src: string, words: string[], g: "male" | "female") => {
+    for (const w of words) for (let i = src.indexOf(w); i >= 0; i = src.indexOf(w, i + 1)) mentions.push({ g, at: i, end: i + w.length });
+  };
+  find(scrubbed, MALE_WORDS, "male");
+  find(t, FEMALE_WORDS, "female");
+  if (!mentions.length) return null;
+  mentions.sort((a, b) => a.at - b.at);
   let want: "male" | "female" | null = null;
-  let negated: "male" | "female" | null = null;
-  for (const clause of t.split(CLAUSE_SPLIT)) {
-    const m = has(scrub(clause), MALE_WORDS);
-    const f = has(clause, FEMALE_WORDS);
-    if (!m && !f) continue;
-    const g: "male" | "female" = m && !f ? "male" : f && !m ? "female" : scrub(clause).lastIndexOf("male") > clause.lastIndexOf("female") ? "male" : "female";
-    if (has(` ${clause} `, NEGATION)) negated = g;
-    else want = g;
+  let rejected: "male" | "female" | null = null;
+  for (const m of mentions) {
+    const neg = nearest(t, m.at, m.end, NEGATION);
+    const pos = nearest(t, m.at, m.end, WANT_CUES);
+    if (neg < pos) rejected = m.g;
+    else want = m.g; // last wanted mention wins
   }
-  if (want) return { value: want, negated: !!negated && negated !== want };
-  if (negated) return { value: negated === "male" ? "female" : "male", negated: true };
-  return null;
+  if (want) return { value: want, negated: !!rejected && rejected !== want };
+  return { value: rejected === "male" ? "female" : "male", negated: true };
 }
 
 // ---- Language mirroring helpers (Latin-script utterances) ----
@@ -156,7 +199,7 @@ export function requestedLanguage(text: string): LanguageCode | null {
   return best;
 }
 
-export function detectSignals(text: string, currentLanguage: LanguageCode): Signal[] {
+export function detectSignals(text: string, currentLanguage: LanguageCode, currentGender?: VoiceGender): Signal[] {
   const original = text;
   const t = ` ${text.toLowerCase().replace(/[.,!?।]/g, " ")} `;
   const out: Signal[] = [];
@@ -168,10 +211,14 @@ export function detectSignals(text: string, currentLanguage: LanguageCode): Sign
     out.push({ type: "language_switch", label: `Seller asked to talk in ${LANGUAGES.find((l) => l.code === lang)!.name}`, quote, value: lang, explicit: true, persistentCandidate: true, confidence: 0.9 });
   }
 
-  const voiceCtx = has(t, VOICE_WORDS) || has(t, ["change", "badlo", "badal", "बदल", "switch"]);
+  const voiceCtx = has(t, VOICE_WORDS) || has(t, TALK_TO) || has(t, ["change", "badlo", "badal", "बदल", "switch"]);
+  const dislikesVoice = has(t, VOICE_NOUNS) && has(t, VOICE_DISLIKE);
   const gender = requestedGender(t);
-  if (gender && (voiceCtx || t.trim().split(/\s+/).length <= 4)) {
+  if (gender && (voiceCtx || t.trim().split(/\s+/).length <= 4) && gender.value !== currentGender) {
     out.push({ type: "voice_gender", label: `Seller asked for a ${gender.value} voice${gender.negated ? ` (doesn't like the ${gender.value === "male" ? "female" : "male"} voice)` : ""}`, quote, value: gender.value, explicit: true, persistentCandidate: true, confidence: 0.9 });
+  } else if (dislikesVoice && !(gender?.negated && gender.value === currentGender)) {
+    // "I don't like your voice" / "awaaz badliye" / "dusri female voice" -> another voice of the same gender.
+    out.push({ type: "voice_change", label: "Seller doesn't like this voice — switching to a different voice", quote, explicit: true, persistentCandidate: true, confidence: 0.85 });
   }
 
   if (has(t, SHORTER)) out.push({ type: "shorter", label: "Seller asked for shorter, to-the-point answers", quote, value: "concise", explicit: true, persistentCandidate: true, confidence: 0.85 });
@@ -206,7 +253,7 @@ export function detectSignals(text: string, currentLanguage: LanguageCode): Sign
     }
   }
 
-  if (has(t, END_CALL)) out.push({ type: "end_call", label: "Seller is ending the call", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
+  if (has(t, END_CALL) || END_CALL_RE.test(t)) out.push({ type: "end_call", label: "Seller is ending the call", quote, explicit: true, persistentCandidate: false, confidence: 0.8 });
 
   if (always) for (const s of out) if (s.persistentCandidate) { s.confidence = Math.max(s.confidence, 0.95); s.label += " (said this should always apply)"; }
   return out;

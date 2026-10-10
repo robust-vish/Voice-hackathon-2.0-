@@ -35,7 +35,7 @@
       "tally": {},
       "reason": "Registry language hint for a seller based in Kolkata, West Bengal (Hindi). Not yet confirmed on a call.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "languageStyle": {
       "value": "code-mixed",
@@ -45,7 +45,7 @@
       "tally": {},
       "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "voiceGender": {
       "value": "female",
@@ -55,7 +55,7 @@
       "tally": {},
       "reason": "Default agent voice; no stated preference yet.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "tone": {
       "value": "warm",
@@ -65,7 +65,7 @@
       "tally": {},
       "reason": "Default: warm and helpful until the seller's style is known.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "formality": {
       "value": "formal",
@@ -75,7 +75,7 @@
       "tally": {},
       "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "pace": {
       "value": "normal",
@@ -85,45 +85,27 @@
       "tally": {},
       "reason": "Default speaking pace.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "responseLength": {
-      "value": "detailed",
-      "source": "learned",
-      "confidence": 0.6,
-      "observations": 1,
-      "tally": {
-        "detailed": 1
-      },
-      "reason": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV274DX08MU6N",
-          "at": "2026-10-10T09:36:26.142Z",
-          "note": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-          "quote": "समझा रहे हैं रात को बोल नहीं करना होता है। मना करना होता है। तो ये भी है। और ये जो जी अच्छा बोल रही है मतलब फिर sentence में जी बोल रही है। मतलब repetitive लग रहा है। लग रहा है कि यार मेरी बात को acknowledge मतलब"
-        }
-      ],
-      "updatedAt": "2026-10-10T09:36:26.142Z"
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "explanationDetail": {
-      "value": "high",
-      "source": "learned",
-      "confidence": 0.6,
-      "observations": 1,
-      "tally": {
-        "high": 1
-      },
-      "reason": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-      "evidence": [
-        {
-          "interactionId": "INT_MV274DX08MU6N",
-          "at": "2026-10-10T09:36:26.142Z",
-          "note": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-          "quote": "समझा रहे हैं रात को बोल नहीं करना होता है। मना करना होता है। तो ये भी है। और ये जो जी अच्छा बोल रही है मतलब फिर sentence में जी बोल रही है। मतलब repetitive लग रहा है। लग रहा है कि यार मेरी बात को acknowledge मतलब"
-        }
-      ],
-      "updatedAt": "2026-10-10T09:36:26.142Z"
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "openingStyle": {
       "value": "greeting-first",
@@ -133,7 +115,7 @@
       "tally": {},
       "reason": "Default: greet, introduce, then state purpose.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "objectionHandling": {
       "value": "acknowledge-and-reassure",
@@ -143,7 +125,7 @@
       "tally": {},
       "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     },
     "bestTimeToCall": {
       "value": "unknown",
@@ -153,97 +135,28 @@
       "tally": {},
       "reason": "Seller has not told us a preferred calling time.",
       "evidence": [],
-      "updatedAt": "2026-09-10T09:31:03.951Z"
+      "updatedAt": "2026-09-10T12:19:35.538Z"
     }
   },
   "behaviour": {
-    "summary": "Last call (INT_MV274DX08MU6N, web): 18 seller turns, 10 adaptations, languages: Hindi. Outcome: Meeting booked (tomorrow 12:01 AM); 1 issue(s) escalated.",
-    "traits": [
-      "Has raised issues with IndiaMART",
-      "Has shown frustration with repeated calls",
-      "Likes detailed explanations"
-    ]
+    "summary": "No conversations recorded yet.",
+    "traits": []
   },
-  "memory": [
-    {
-      "id": "MEM_MV279AU74J1EW",
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "category": "business",
-      "fact": "Agreed to a meeting with the IndiaMART team: tomorrow 12:01 AM (booked 2026-10-10)",
-      "source": "learned"
-    },
-    {
-      "id": "MEM_MV279AU7OB2YT",
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "category": "complaint",
-      "fact": "Issue raised: Seller reported issues with IndiaMART but did not specify the exact problem. (escalated 2026-10-10)",
-      "quote": "नहीं बहुत दिक्कत है।",
-      "source": "learned"
-    },
-    {
-      "id": "MEM_MV279AU7YRF4Q",
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "category": "complaint",
-      "fact": "Issue raised: Seller is unable to open the app due to weather and is highly distressed; needs a callback resolution.",
-      "quote": "भी नहीं है मेरे परेशानी का कोई हल ही नहीं है।",
-      "source": "learned"
-    }
-  ],
-  "status": "Provisional",
-  "interactionCount": 1,
-  "lastInteractionAt": "2026-10-10T09:36:26.126Z",
-  "createdAt": "2026-09-10T09:31:03.951Z",
-  "updatedAt": "2026-10-10T09:36:26.144Z",
-  "history": [
-    {
-      "interactionId": "INT_MV274DX08MU6N",
-      "at": "2026-10-10T09:36:26.142Z",
-      "mode": "web",
-      "outcome": "Meeting booked (tomorrow 12:01 AM); 1 issue(s) escalated",
-      "adaptations": 10,
-      "languagesUsed": [
-        "hi-IN"
-      ]
-    }
-  ],
+  "memory": [],
+  "status": "New",
+  "interactionCount": 0,
+  "lastInteractionAt": null,
+  "createdAt": "2026-09-10T12:19:35.538Z",
+  "updatedAt": "2026-09-10T12:19:35.538Z",
+  "history": [],
   "changeLog": [
     {
-      "at": "2026-09-10T09:31:03.951Z",
+      "at": "2026-09-10T12:19:35.538Z",
       "field": "profile",
       "from": "-",
       "to": "New",
       "reason": "Profile created from registry metadata.",
       "source": "metadata"
-    },
-    {
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "field": "responseLength",
-      "from": "balanced",
-      "to": "detailed",
-      "reason": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-      "source": "learned"
-    },
-    {
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "field": "explanationDetail",
-      "from": "medium",
-      "to": "high",
-      "reason": "Seller asked for a more detailed explanation during call INT_MV274DX08MU6N.",
-      "source": "learned"
-    },
-    {
-      "at": "2026-10-10T09:36:26.142Z",
-      "interactionId": "INT_MV274DX08MU6N",
-      "field": "profile",
-      "from": "New",
-      "to": "Provisional",
-      "reason": "1 recorded interaction(s).",
-      "source": "learned"
     }
   ]
 }

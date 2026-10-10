@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "glid": "90000006",
+  "isDemo": true,
+  "displayName": "Sai Electricals & Switchgear",
+  "contactPerson": "Prakash Patil",
+  "companyName": "Sai Electricals & Switchgear",
+  "category": "Switchgear & Electrical Panels",
+  "subCategories": [
+    "MCB",
+    "Distribution Boards"
+  ],
+  "city": "Pune",
+  "state": "Maharashtra",
+  "membership": "IM Leader (demo)",
+  "trustSeal": true,
+  "gstVerified": true,
+  "yearEstablished": 2007,
+  "memberSince": "2014-11",
+  "secondaryLanguage": "hi-IN",
+  "location": "Pune",
+  "contact": {
+    "pnsMapped": true,
+    "pnsNumberMasked": "+91-80XXXXX902",
+    "registeredNumbers": 3
+  },
+  "catalog": [
+    {
+      "productId": 70000601,
+      "name": "32A Double Pole MCB",
+      "price": 410,
+      "unit": "piece",
+      "moq": "50 pieces"
+    },
+    {
+      "productId": 70000602,
+      "name": "8 Way Distribution Board",
+      "price": 1850,
+      "unit": "piece",
+      "moq": "10 pieces"
+    },
+    {
+      "productId": 70000603,
+      "name": "LT Control Panel",
+      "price": null,
+      "unit": "piece",
+      "moq": "1 piece"
+    }
+  ],
+  "buyLeadInterests": [
+    "Builders in Pune & Mumbai",
+    "Electrical contractors"
+  ],
+  "dealsIn": [],
+  "leadCategories": [
+    {
+      "mcatId": 90061,
+      "name": "MCB",
+      "count": 9,
+      "grade": "A"
+    },
+    {
+      "mcatId": 90062,
+      "name": "Electrical Panels",
+      "count": 5,
+      "grade": "A"
+    }
+  ],
+  "buyLeads": [
+    {
+      "offerId": 880000051,
+      "title": "32A MCB, 500 pcs, Mumbai",
+      "mcatId": 90061,
+      "status": "expired",
+      "consumedAt": "2026-09-26T11:40:00.000Z"
+    },
+    {
+      "offerId": 880000052,
+      "title": "LT panel, 2 units, Nashik",
+      "mcatId": 90062,
+      "status": "active"
+    }
+  ],
+  "preferences": {
+    "language": {
+      "value": "mr-IN",
+      "source": "learned",
+      "confidence": 0.84,
+      "observations": 3,
+      "tally": {
+        "mr-IN": 3
+      },
+      "reason": "Seller switched to Marathi in 3 earlier (synthetic) calls.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_006_1",
+          "at": "2026-09-16T12:19:35.553Z",
+          "note": "Seller switched to Marathi in 3 earlier (synthetic) calls.",
+          "quote": "मराठीत बोला."
+        },
+        {
+          "interactionId": "SEED_INT_006_2",
+          "at": "2026-09-22T12:19:35.553Z",
+          "note": "Seller switched to Marathi in 3 earlier (synthetic) calls.",
+          "quote": "मराठीत बोला."
+        },
+        {
+          "interactionId": "SEED_INT_006_3",
+          "at": "2026-09-28T12:19:35.553Z",
+          "note": "Seller switched to Marathi in 3 earlier (synthetic) calls.",
+          "quote": "मराठीत बोला."
+        }
+      ],
+      "updatedAt": "2026-09-28T12:19:35.553Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "tone": {
+      "value": "warm",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "pace": {
+      "value": "normal",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default speaking pace.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.553Z"
+    },
+    "objectionHandling": {
+      "value": "data-backed",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "data-backed": 2
+      },
+      "reason": "Seller asked for lead counts before discussing an upgrade.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_006_1",
+          "at": "2026-09-16T12:19:35.553Z",
+          "note": "Seller asked for lead counts before discussing an upgrade."
+        },
+        {
+          "interactionId": "SEED_INT_006_2",
+          "at": "2026-09-22T12:19:35.553Z",
+          "note": "Seller asked for lead counts before discussing an upgrade."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.553Z"
+    },
+    "bestTimeToCall": {
+      "value": "after 6 PM",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "after 6 PM": 2
+      },
+      "reason": "Seller asked to be called after 6 PM.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_006_1",
+          "at": "2026-09-16T12:19:35.553Z",
+          "note": "Seller asked to be called after 6 PM.",
+          "quote": "Sandhyakali 6 nantar phone kara."
+        },
+        {
+          "interactionId": "SEED_INT_006_2",
+          "at": "2026-09-22T12:19:35.553Z",
+          "note": "Seller asked to be called after 6 PM.",
+          "quote": "Sandhyakali 6 nantar phone kara."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.553Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Synthetic seed behaviour from 4 prior demo call(s).",
+    "traits": [
+      "Prefers Marathi",
+      "Data-driven",
+      "Call after 6 PM"
+    ]
+  },
+  "memory": [
+    {
+      "id": "MEM_MV2D34EAZ22QP",
+      "at": "2026-10-04T12:19:35.553Z",
+      "category": "business",
+      "fact": "Supplies MCBs and panels to builders in Pune and Mumbai.",
+      "source": "learned",
+      "interactionId": "SEED_INT_006_1"
+    },
+    {
+      "id": "MEM_MV2D34EAODOZI",
+      "at": "2026-10-04T12:19:35.553Z",
+      "category": "availability",
+      "fact": "On site visits during the day; reachable after 6 PM.",
+      "source": "learned",
+      "interactionId": "SEED_INT_006_1"
+    }
+  ],
+  "status": "Established",
+  "interactionCount": 4,
+  "lastInteractionAt": "2026-10-04T12:19:35.553Z",
+  "createdAt": "2026-09-10T12:19:35.553Z",
+  "updatedAt": "2026-10-04T12:19:35.553Z",
+  "history": [
+    {
+      "interactionId": "SEED_INT_006_1",
+      "at": "2026-09-16T12:19:35.553Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "mr-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_006_2",
+      "at": "2026-09-22T12:19:35.553Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "mr-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_006_3",
+      "at": "2026-09-28T12:19:35.553Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "mr-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_006_4",
+      "at": "2026-10-04T12:19:35.553Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "mr-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-10T12:19:35.553Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-09-16T12:19:35.553Z",
+      "interactionId": "SEED_INT_006_1",
+      "field": "objectionHandling",
+      "from": "acknowledge-and-reassure",
+      "to": "data-backed",
+      "reason": "Seller asked for lead counts before discussing an upgrade.",
+      "source": "learned"
+    },
+    {
+      "at": "2026-09-16T12:19:35.553Z",
+      "interactionId": "SEED_INT_006_1",
+      "field": "bestTimeToCall",
+      "from": "unknown",
+      "to": "after 6 PM",
+      "reason": "Seller asked to be called after 6 PM.",
+      "source": "learned"
+    }
+  ]
+}

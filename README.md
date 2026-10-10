@@ -21,23 +21,22 @@ Voice tips: use Chrome/Edge, allow the microphone, and prefer headphones so the 
 
 The app works without any API key:
 
-- **Simulated** calls run fully.
 - **Web voice** calls use the browser's built-in speech engines. Chrome or Edge is recommended.
 - Agent lines in languages other than Hindi and English are only translated when Sarvam is configured. Without it, those lines fall back to English text, and the UI says so.
 
 ## Demo script (about 3 minutes)
 
 1. On the Overview page, search **`90000001` (demo seller)** and click **View Persona**. The persona shows Hindi, a female voice and concise answers, each with its reason, evidence and confidence.
-2. Click **Call Seller**, choose **Simulated**, then **Prepare call**. This runs the pre-call checks: GLID, profile, PNS mapping, persona, interaction ID and provider.
-3. Click **Start**, then turn on **Auto-run scenario**. The scripted seller:
-   - asks for short answers, so response length and explanation detail change
-   - asks for Gujarati, so the agent's language and TTS voice switch mid-call
-   - asks for a male voice, so "Priya" (female) becomes "Rahul" (male)
-   - quotes a price, which is stored as a fact and fills in the missing catalog price
-   - asks for a callback "shaam 5 baje ke baad", which is saved as the best time to call
-4. Post-call processing then shows each profile field that changed and why. `data/sellers/90000001.json` and its `.md` file are regenerated.
-5. Click **Call again**. The new call opens in Gujarati with the male voice and concise style. When the seller asks for "more detail" once, the validator keeps "concise" because it has 3 prior observations. This shows that learning is evidence-based rather than a blind overwrite.
-6. For the live version, choose **Web voice call** and speak as the seller. Try "Tamil mein baat karo", "male voice please", "thoda dheere boliye" or "I'm busy, call me after 6 pm". You can also just start speaking Bengali; the agent mirrors the language.
+2. Click **Call Seller**, then **Start call**. The pre-call checks (GLID, profile, PNS mapping, persona, interaction ID, provider) run silently and the call connects straight away; they're only shown if one fails.
+3. Speak as the seller. Try:
+   - "short mein bataiye", so response length and explanation detail change
+   - "Gujarati mein baat kijiye", so the agent's language and TTS voice switch mid-call
+   - "I don't like your voice, I want to talk to a male", so "Neha" (female) becomes "Rahul" (male); "aapki awaaz achhi nahi" switches to another voice of the same gender
+   - "I'm busy, call me after 6 pm", which is saved as the best time to call
+   - "call cut kar dijiye", which ends the call
+   You can also just start speaking Bengali; the agent mirrors the language.
+4. Post-call processing then shows each profile field that changed and why. `data/sellers/<GLID>.json` and its `.md` file are regenerated.
+5. Click **Call again**. The new call opens with the learned language, voice and style. One contrary request doesn't overwrite a preference backed by several earlier observations — learning is evidence-based rather than a blind overwrite.
 
 ## Architecture
 
@@ -67,4 +66,4 @@ src/app/…                 dashboard pages + API routes
 - **PNS** (Preferred Number Service): the pre-call contact-mapping check. The number is always masked.
 - **Lead Manager**: mentioned in talking points.
 
-**Phone calls (PSTN).** Real outbound phone calls are not wired in. Creating a Sarvam agent does not by itself provide outbound phone calling. The `telephony.ts` adapter is the place to add an Exotel or Twilio bridge without touching the persona engine. Until then, the UI offers clearly labelled Web voice and Simulated modes.
+**Phone calls (PSTN).** Real outbound phone calls are not wired in. Creating a Sarvam agent does not by itself provide outbound phone calling. The `telephony.ts` adapter is the place to add an Exotel or Twilio bridge without touching the persona engine. Until then, calls run as clearly labelled browser (web voice) calls.

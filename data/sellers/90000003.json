@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "glid": "90000003",
+  "isDemo": true,
+  "displayName": "Sri Lakshmi Textiles",
+  "contactPerson": "Lakshmi Narayanan",
+  "companyName": "Sri Lakshmi Textiles",
+  "category": "Cotton Yarn & Grey Fabric",
+  "subCategories": [
+    "Cotton Yarn",
+    "Grey Fabric"
+  ],
+  "city": "Coimbatore",
+  "state": "Tamil Nadu",
+  "membership": "Mini Dynamic Catalog (demo)",
+  "trustSeal": false,
+  "gstVerified": true,
+  "yearEstablished": 2004,
+  "memberSince": "2017-08",
+  "secondaryLanguage": "en-IN",
+  "location": "Coimbatore",
+  "contact": {
+    "pnsMapped": true,
+    "pnsNumberMasked": "+91-80XXXXX733",
+    "registeredNumbers": 1
+  },
+  "catalog": [
+    {
+      "productId": 70000301,
+      "name": "30s Combed Cotton Yarn",
+      "price": 285,
+      "unit": "kg",
+      "moq": "500 kg"
+    },
+    {
+      "productId": 70000302,
+      "name": "Grey Cotton Fabric 60 inch",
+      "price": null,
+      "unit": "meter",
+      "moq": "2000 meter"
+    }
+  ],
+  "buyLeadInterests": [
+    "Garment exporters in Tiruppur",
+    "Bulk weavers"
+  ],
+  "dealsIn": [],
+  "leadCategories": [
+    {
+      "mcatId": 90031,
+      "name": "Cotton Yarn",
+      "count": 7,
+      "grade": "A"
+    },
+    {
+      "mcatId": 90032,
+      "name": "Grey Fabric",
+      "count": 3,
+      "grade": "B"
+    }
+  ],
+  "buyLeads": [
+    {
+      "offerId": 880000021,
+      "title": "Combed cotton yarn 30s, 1 tonne, Tiruppur",
+      "mcatId": 90031,
+      "status": "expired",
+      "consumedAt": "2026-09-22T09:30:00.000Z"
+    },
+    {
+      "offerId": 880000022,
+      "title": "Grey fabric 60 inch, 5000 m, Erode",
+      "mcatId": 90032,
+      "status": "active"
+    }
+  ],
+  "preferences": {
+    "language": {
+      "value": "ta-IN",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "ta-IN": 2
+      },
+      "reason": "Seller replied in Tamil in 2 earlier (synthetic) calls.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_003_1",
+          "at": "2026-09-16T12:19:35.546Z",
+          "note": "Seller replied in Tamil in 2 earlier (synthetic) calls.",
+          "quote": "தமிழ்ல பேசுங்க."
+        },
+        {
+          "interactionId": "SEED_INT_003_2",
+          "at": "2026-09-22T12:19:35.546Z",
+          "note": "Seller replied in Tamil in 2 earlier (synthetic) calls.",
+          "quote": "தமிழ்ல பேசுங்க."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.546Z"
+    },
+    "languageStyle": {
+      "value": "code-mixed",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: B2B sellers usually mix English trade terms (price, MOQ, GST) into their language.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "voiceGender": {
+      "value": "female",
+      "source": "default",
+      "confidence": 0.3,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default agent voice; no stated preference yet.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "tone": {
+      "value": "warm",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: warm and helpful until the seller's style is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "formality": {
+      "value": "formal",
+      "source": "default",
+      "confidence": 0.5,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: respectful address ('aap' / 'ji') for a first conversation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "pace": {
+      "value": "slow",
+      "source": "learned",
+      "confidence": 0.72,
+      "observations": 2,
+      "tally": {
+        "slow": 2
+      },
+      "reason": "Seller asked the agent to speak slowly.",
+      "evidence": [
+        {
+          "interactionId": "SEED_INT_003_1",
+          "at": "2026-09-16T12:19:35.546Z",
+          "note": "Seller asked the agent to speak slowly.",
+          "quote": "Konjam medhuva pesunga."
+        },
+        {
+          "interactionId": "SEED_INT_003_2",
+          "at": "2026-09-22T12:19:35.546Z",
+          "note": "Seller asked the agent to speak slowly.",
+          "quote": "Konjam medhuva pesunga."
+        }
+      ],
+      "updatedAt": "2026-09-22T12:19:35.546Z"
+    },
+    "responseLength": {
+      "value": "balanced",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: 1–2 sentence answers until the seller's preference is known.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "explanationDetail": {
+      "value": "medium",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default level of explanation.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "openingStyle": {
+      "value": "greeting-first",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: greet, introduce, then state purpose.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "objectionHandling": {
+      "value": "acknowledge-and-reassure",
+      "source": "default",
+      "confidence": 0.4,
+      "observations": 0,
+      "tally": {},
+      "reason": "Default: acknowledge the concern, then reassure with one concrete benefit.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    },
+    "bestTimeToCall": {
+      "value": "unknown",
+      "source": "default",
+      "confidence": 0.2,
+      "observations": 0,
+      "tally": {},
+      "reason": "Seller has not told us a preferred calling time.",
+      "evidence": [],
+      "updatedAt": "2026-09-10T12:19:35.546Z"
+    }
+  },
+  "behaviour": {
+    "summary": "Synthetic seed behaviour from 2 prior demo call(s).",
+    "traits": [
+      "Prefers Tamil",
+      "Likes a slower pace",
+      "Relationship-driven"
+    ]
+  },
+  "memory": [
+    {
+      "id": "MEM_MV2D34E2JHJ8O",
+      "at": "2026-09-22T12:19:35.546Z",
+      "category": "business",
+      "fact": "Sells mostly to garment exporters in Tiruppur.",
+      "source": "learned",
+      "interactionId": "SEED_INT_003_1"
+    }
+  ],
+  "status": "Provisional",
+  "interactionCount": 2,
+  "lastInteractionAt": "2026-09-22T12:19:35.546Z",
+  "createdAt": "2026-09-10T12:19:35.546Z",
+  "updatedAt": "2026-09-22T12:19:35.546Z",
+  "history": [
+    {
+      "interactionId": "SEED_INT_003_1",
+      "at": "2026-09-16T12:19:35.546Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "ta-IN"
+      ]
+    },
+    {
+      "interactionId": "SEED_INT_003_2",
+      "at": "2026-09-22T12:19:35.546Z",
+      "mode": "simulated",
+      "outcome": "Synthetic prior call (seed data)",
+      "adaptations": 1,
+      "languagesUsed": [
+        "ta-IN"
+      ]
+    }
+  ],
+  "changeLog": [
+    {
+      "at": "2026-09-10T12:19:35.546Z",
+      "field": "profile",
+      "from": "-",
+      "to": "New",
+      "reason": "Profile created from registry metadata.",
+      "source": "metadata"
+    },
+    {
+      "at": "2026-09-16T12:19:35.546Z",
+      "interactionId": "SEED_INT_003_1",
+      "field": "pace",
+      "from": "normal",
+      "to": "slow",
+      "reason": "Seller asked the agent to speak slowly.",
+      "source": "learned"
+    }
+  ]
+}

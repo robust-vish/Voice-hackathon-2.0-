@@ -78,9 +78,56 @@ export function helpAssistantWording(text: string): string {
     .replace(/\bAI\b/g, "help assistant");
 }
 
-/** The LLM occasionally mangles the brand ("भारतMART", "इंडियामार्ट"). */
+// IndiaMART plan names are proper nouns: in Hindi too it's "IM Leader", never "IM नेता" / "आईएम लीडर".
+const NOT_LETTER_BEFORE = String.raw`(?<![\p{L}\p{M}])`;
+const NOT_LETTER_AFTER = String.raw`(?![\p{L}\p{M}])`;
+const IM = String.raw`${NOT_LETTER_BEFORE}(?:IM|आई\s?एम|आईएम)\s*`;
+const PRO = String.raw`(\s*(?:प्रो|pro)${NOT_LETTER_AFTER})?`;
+const plan = (name: string) => (_m: string, pro?: string) => (pro ? `${name} Pro` : name);
+const PLAN_RULES: [RegExp, string | ((m: string, pro?: string) => string)][] = [
+  [new RegExp(String.raw`${IM}(?:इंडस्ट्री|इण्डस्ट्री|उद्योग|industry)\s*(?:लीडर|नेता|leader)${NOT_LETTER_AFTER}`, "giu"), "IM Industry Leader"],
+  [new RegExp(String.raw`${IM}(?:लीडर|नेता|leader)${PRO}`, "giu"), plan("IM Leader")],
+  [new RegExp(String.raw`${IM}(?:स्टार|सितारा|तारा|star)${PRO}`, "giu"), plan("IM Star")],
+  [new RegExp(String.raw`${NOT_LETTER_BEFORE}(?:मैक्सिमाइज़र|मैक्सिमाइजर|मैक्सिमाइसर|मैक्सिमाइज़ेर|मैक्सीमाइज़र|मैक्सीमाइजर|maximi[sz]er)${PRO}`, "giu"), plan("Maximiser")],
+  [new RegExp(String.raw`${NOT_LETTER_BEFORE}(?:ट्रस्ट\s?सील|ट्रस्ट\s?seal|trust\s?seal|विश्वास\s?(?:मुहर|सील))${NOT_LETTER_AFTER}`, "giu"), "TrustSEAL"],
+];
+
+/** The LLM / translation occasionally mangles the brand ("भारतMART", "इंडियामार्ट") or translates plan names. */
 export function brandName(text: string): string {
-  return text.replace(/भारत\s?MART|इंडिया\s?मार्ट|इंडियामार्ट|India\s+Mart\b|Indiamart\b|INDIAMART\b/g, "IndiaMART");
+  let t = text.replace(/भारत\s?MART|इंडिया\s?मार्ट|इंडियामार्ट|India\s+Mart\b|Indiamart\b|INDIAMART\b/g, "IndiaMART");
+  for (const [re, to] of PLAN_RULES) t = t.replace(re, to as never);
+  return t;
+}
+
+// ---- Acknowledgement fillers ("अच्छा", "हाँ जी") — natural once, robotic when every reply has them ----
+
+// Only interjections followed by punctuation count ("अच्छा, ..."), so "अच्छा लगा" / "जी ज़रूर" are untouched.
+const FILLER = String.raw`(?:अच्छा जी|अच्छा|हाँ जी|हां जी|हाँजी|हांजी|जी हाँ|जी हां|हाँ|हां|जी|ओके|अरे|हम्म|achha|accha|acha|haan ji|haanji|han ji|ji|okay|ok|right|oh|hmm)`;
+const LEADING_FILLERS = new RegExp(String.raw`^\s*(?:${FILLER}\s*[,!।.…]+\s*)+`, "i");
+const FIRST_FILLER = new RegExp(String.raw`^\s*(${FILLER})\s*([,!।.…]+)\s*`, "i");
+// "… है। अच्छा, …" — an interjection that starts a later sentence.
+const MID_FILLER = new RegExp(String.raw`([.!?।]\s+)(?:अच्छा|हाँ जी|हां जी|achha|accha|acha|haan ji|haanji)\s*[,!…]+\s*`, "gi");
+
+export function startsWithFiller(text?: string | null): boolean {
+  return !!text && LEADING_FILLERS.test(text);
+}
+
+/**
+ * Keeps at most one leading acknowledgement, drops interjections that start later sentences, and
+ * (with `dropLeading`) removes the leading one too — used when the previous reply already opened
+ * with one, or a "जी…" clip was just played while the agent was thinking.
+ */
+export function tameFillers(text: string, { dropLeading = false } = {}): string {
+  let t = text.replace(MID_FILLER, "$1");
+  const lead = t.match(LEADING_FILLERS);
+  if (lead) {
+    const rest = t.slice(lead[0].length);
+    if (rest.trim().length >= 8) {
+      const first = t.match(FIRST_FILLER);
+      t = dropLeading || !first ? rest : `${first[1]}${first[2].trim().charAt(0)} ${rest}`;
+    }
+  }
+  return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
 export function polishAgentText(text: string, lang: LanguageCode, gender: VoiceGender): string {

@@ -53,37 +53,39 @@ export function ensureSeeded(force = false) {
   fs.mkdirSync(INTERACTIONS_DIR, { recursive: true });
   writeJsonAtomic(REGISTRY_FILE, { seedVersion: SEED_VERSION, note: "Seller registry (real sellers + synthetic demo sellers). Contains raw mobile numbers — keep private.", sellers: DEMO_REGISTRY });
 
+  for (const glid of SEEDED_PROFILE_GLIDS) seedProfile(glid);
+  seeded = true;
+}
+
+/** Writes the initial profile for a seeded seller (with synthetic prior-call learnings for demo sellers). */
+function seedProfile(glid: string) {
   const base = Date.now() - 1000 * 60 * 60 * 24 * 30;
-  for (const glid of SEEDED_PROFILE_GLIDS) {
-    const entry = DEMO_REGISTRY.find((e) => e.glid === glid)!;
-    const created = new Date(base).toISOString();
-    const p = profileFromRegistry(entry, "New", created);
-    const seed = SEED_LEARNINGS[glid];
-    if (seed) {
-      for (let i = 0; i < seed.interactions; i++) {
-        const at = new Date(base + (i + 1) * 1000 * 60 * 60 * 24 * 6).toISOString();
-        const id = `SEED_INT_${glid.slice(-3)}_${i + 1}`;
-        p.history.push({ interactionId: id, at, mode: "simulated", outcome: "Synthetic prior call (seed data)", adaptations: 1, languagesUsed: [p.preferences.language.value] });
-        p.lastInteractionAt = at;
-      }
-      p.interactionCount = seed.interactions;
-      for (const l of seed.learnings) {
-        for (let k = 0; k < l.observations; k++) {
-          const ref = p.history[Math.min(k, p.history.length - 1)];
-          const r = learnPreference(p, { field: l.field, value: l.value, explicit: true, interactionId: ref.interactionId, note: l.note, quote: l.quote, at: ref.at });
-          if (r.accepted && r.update.from !== r.update.to) {
-            p.changeLog.push({ at: ref.at, interactionId: ref.interactionId, field: l.field, from: r.update.from, to: r.update.to, reason: l.note, source: "learned" });
-          }
+  const entry = DEMO_REGISTRY.find((e) => e.glid === glid)!;
+  const p = profileFromRegistry(entry, "New", new Date(base).toISOString());
+  const seed = SEED_LEARNINGS[glid];
+  if (seed) {
+    for (let i = 0; i < seed.interactions; i++) {
+      const at = new Date(base + (i + 1) * 1000 * 60 * 60 * 24 * 6).toISOString();
+      const id = `SEED_INT_${glid.slice(-3)}_${i + 1}`;
+      p.history.push({ interactionId: id, at, mode: "simulated", outcome: "Synthetic prior call (seed data)", adaptations: 1, languagesUsed: [p.preferences.language.value] });
+      p.lastInteractionAt = at;
+    }
+    p.interactionCount = seed.interactions;
+    for (const l of seed.learnings) {
+      for (let k = 0; k < l.observations; k++) {
+        const ref = p.history[Math.min(k, p.history.length - 1)];
+        const r = learnPreference(p, { field: l.field, value: l.value, explicit: true, interactionId: ref.interactionId, note: l.note, quote: l.quote, at: ref.at });
+        if (r.accepted && r.update.from !== r.update.to) {
+          p.changeLog.push({ at: ref.at, interactionId: ref.interactionId, field: l.field, from: r.update.from, to: r.update.to, reason: l.note, source: "learned" });
         }
       }
-      for (const m of seed.memory) p.memory.push({ id: makeId("MEM"), at: p.lastInteractionAt!, category: m.category, fact: m.fact, source: "learned", interactionId: p.history[0].interactionId });
-      p.behaviour = { summary: `Synthetic seed behaviour from ${seed.interactions} prior demo call(s).`, traits: seed.traits };
-      p.status = computeStatus(p);
-      p.updatedAt = p.lastInteractionAt!;
     }
-    saveProfile(p, { keepUpdatedAt: true });
+    for (const m of seed.memory) p.memory.push({ id: makeId("MEM"), at: p.lastInteractionAt!, category: m.category, fact: m.fact, source: "learned", interactionId: p.history[0].interactionId });
+    p.behaviour = { summary: `Synthetic seed behaviour from ${seed.interactions} prior demo call(s).`, traits: seed.traits };
+    p.status = computeStatus(p);
+    p.updatedAt = p.lastInteractionAt!;
   }
-  seeded = true;
+  saveProfile(p, { keepUpdatedAt: true });
 }
 
 /**
@@ -97,7 +99,13 @@ function syncIdentities() {
   let regChanged = false;
   for (const seed of DEMO_REGISTRY) {
     const e = reg.sellers.find((x) => x.glid === seed.glid);
-    if (!e) continue;
+    if (!e) {
+      // A seller added to seed-data later (e.g. more demo sellers): add it without touching anyone else.
+      reg.sellers.push(seed);
+      regChanged = true;
+      if (!fs.existsSync(sellerJson(seed.glid))) seedProfile(seed.glid);
+      continue;
+    }
     for (const k of ["displayName", "contactPerson", "companyName"] as const) {
       if (seed[k] && e[k] !== seed[k]) { e[k] = seed[k]; regChanged = true; }
     }
